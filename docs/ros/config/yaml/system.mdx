@@ -57,12 +57,20 @@ ros2:
 The **middleware** section defines the which RMW Implementation to use and any related settings. To choose
 which implementation and discovery method is right for your project see [ROS 2 Discovery Configuration](../../networking/ros2_discovery_config.mdx).
 
+:::note
+
+All platforms can use `rmw_fastrtps_cpp`.
+
+Currently only the Husky A200 can use `rmw_zenoh_cpp`. Attempting to use Zenoh on any other platform will result in an error when processing `robot.yaml`.
+
+:::
+
 | Key | Value / Datatype | Description |
 |:---:| :--------------: | ----------- |
-| **implementation** | `rmw_fastrtps_cpp`   | Declares the RMW Implementation to use. Currently only supports `rmw_fastrtps_cpp`. |
-| **discovery**      | `simple` or `server` | Select `simple` for simple discovery and `server` for discovery server. (Defaults to `simple`) |
-| **profile**        | string               | Advanced feature, allows an optional custom XML profile to be provided - RMW Implementation / vendor specific. |
-| **servers**        | list                 | Provides a list of all discovery servers in the system and whether or not the robot should connect to them. |
+| **implementation** | `rmw_fastrtps_cpp`   | Declares the RMW Implementation to use. Currently only supports `rmw_fastrtps_cpp` and `rmw_zenoh_cpp`. |
+| **discovery**      | `simple` or `server` | Select `simple` for simple discovery and `server` for discovery server. (Defaults to `simple`. Ignored if `implementation` is not `rmw_fastrtps_cpp`.) |
+| **profile**        | string               | Advanced feature, allows an optional custom profile to be provided - RMW Implementation / vendor specific. |
+| **servers**        | list                 | Provides a list of all discovery servers in the system and whether or not the robot should connect to them. Ignored if `implementation` is not `rmw_fastrtps_cpp`.|
 
 For example:
 
@@ -71,6 +79,17 @@ middleware:
   implementation: rmw_fastrtps_cpp
   discovery: simple
   profile: path/to/profile.xml
+  servers: # This section is described further below
+    - hostname: cpr-a200-0000
+```
+
+Second example, using Zenoh:
+
+```yaml
+middleware:
+  implementation: rmw_zenoh_cpp
+  profile: /path/to/router_configuration.json5
+
   servers: # This section is described further below
     - hostname: cpr-a200-0000
 ```
