@@ -234,6 +234,34 @@ Refer to the [Mini ITX troubleshooting page](../../../accessories/computers/mini
 
 Refer to the [Mini ITX troubleshooting page](../../../accessories/computers/mini_itx.mdx).
 
+### The 13th-gen Mini ITX computer does not power on and has no output on HDMI
+
+On rare occasions, this can occur if the BIOS gets reset and does not power on the computer by default.
+
+1. Remove the top plate from the robot, then power cycle the robot and check the following.
+   1. Is the CPU fan spinning?
+   1. Are there any beeps at power on?
+1. If the CPU fan is not spinning and there are no beeps at power on, use a paperclip to short
+   the PWRBTN# and GND pins on the PANEL1 header on the motherboard. Remove the paperclip after
+   one second.
+   <center>
+     <figure>
+       <img
+         src="/img/robot_images/husky_a300_images/husky_a300_system_panel_header1.png"
+         width="600"
+       />
+       <img
+         src="/img/robot_images/husky_a300_images/husky_a300_system_panel_header2.png"
+         width="600"
+       />
+       <figcaption>Husky A300 Mini ITX PANEL1 (Position 23)</figcaption>
+     </figure>
+   </center>
+1. If the step above was successful in powering on the computer, reboot the computer, enter
+   the BIOS setup and update the settings so that the computer powers on by default.
+   Specifically, navigate to `Advanced → Chipset Configuration → Restore on AC/Power Loss`
+   and set the value to `Power On`.
+
 ---
 
 ## ROS
