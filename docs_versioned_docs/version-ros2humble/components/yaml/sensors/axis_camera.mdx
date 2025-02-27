@@ -69,9 +69,9 @@ camera:
 </table>
 
 #### Package and Setup
-The Axis cameras use the `axis_camera` ROS 2 driver. The driver is open source, maintained by the ROS Drivers community, and hosted on [GitHub](https://github.com/ros-drivers/axis_camera).
+The Axis cameras use the `axis_camera` ROS 2 driver. The driver is open source, maintained by the ROS Drivers community, and hosted on [GitHub](https://github.com/ros-drivers/axis_camera/tree/humble-devel).
 
-For specifics on the way Clearpath's configuration system launches the camera, see the Axis Camera [launch file](https://github.com/clearpathrobotics/clearpath_robot/blob/main/clearpath_sensors/launch/axis_camera.launch.py) and the [default parameter file](https://github.com/clearpathrobotics/clearpath_robot/blob/main/clearpath_sensors/config/axis_camera.yaml) in `clearpath_sensors`.
+For specifics on the way Clearpath's configuration system launches the camera, see the Axis Camera [launch file](https://github.com/clearpathrobotics/clearpath_robot/blob/humble/clearpath_sensors/launch/axis_camera.launch.py) and the [default parameter file](https://github.com/clearpathrobotics/clearpath_robot/blob/humble/clearpath_sensors/config/axis_camera.yaml) in `clearpath_sensors`.
 
 #### Device Type
 The `device_type` parameter must be set accurately to successfully launch the node. Supported `device_type` values are:

@@ -601,20 +601,20 @@ To reset the stop function:
 - wait 1 second;
 - press and release the black start button on the side of the controller.
 
-The wireless Emergency Stop is asserted automatically if the robot is not able to communicate wirelessly
+The Wireless Emergency Stop is asserted automatically if the robot is not able to communicate wirelessly
 with the controller. This is to ensure that the stop function does not become unexpectedly non-operational as
 a result of robot or operator motion, interference, atmospheric conditions, depleted battery, etc. The
 controller must be powered and within range of the mobile robot to communicate.
 
-The wireless Emergency Stop is intended for use in emergency situations and should
+The Wireless Emergency Stop is intended for use in emergency situations and should
 not be used as the means of controlling robot motion during regular operation.
 
-The wireless Emergency Stop (but not the onboard Emergency Stop buttons) may be disabled by means of
+The Wireless Emergency Stop (but not the onboard Emergency Stop buttons) may be disabled by means of
 a key switch described further at [Wireless Emergency Stop Bypass](#wireless-estop-bypass).
 This is to allow the robot to be operated **at higher risk** while,
 for example, the controller battery is dead, out of range, or not accessible.
 
-Operation of the mobile robot while the wireless Emergency Stop is disabled **is not recommended**.
+Operation of the mobile robot while the Wireless Emergency Stop is disabled **is not recommended**.
 The system deployer/operator assumes all responsibility for injury to persons or animals, or damage to property,
 arising from the inability to remotely stop the motion of the robot due to the use of this override.
 
@@ -814,26 +814,27 @@ In case of a collision:
 | Mass                           | 80 kg                                                                    |
 | Maximum Payload¹               | 100 kg                                                                   |
 | All-terrain Payload²           | 50 kg                                                                    |
-| Speed, Maximum                 | 2.0 m/s                                                                  |
-| Climb Grade³                   | 30 °                                                                     |
+| Speed, Maximum³                | 2.0 m/s                                                                  |
+| Climb Grade⁴                   | 30 °                                                                     |
 | Traversal Grade / Sideslope    | 30 °                                                                     |
-| Operating Temperature⁴         | -20 °C to 40 °C                                                          |
+| Operating Temperature⁵         | -20 °C to 40 °C                                                          |
 | Storage Temperature            | -20 °C to 60 °C                                                          |
 | Operating Relative Humidity    | 0 to 85% non-condensing                                                  |
-| Operating Time, Average⁵       | 4 hours (2-battery) or 8 hours (4-battery) or 12 hours (6-battery) |
+| Operating Time, Average⁶       | 4 hours (2-battery) or 8 hours (4-battery) or 12 hours (6-battery) |
 | Operating Time, Standby        | 12 hours (2-battery) or 24 hours (4-battery) or 36 hours (6-battery) |
 | Battery                        | 40 Ah @ 25.6 V (2-battery) or 80 Ah @ 25.6 V (4-battery) or 120 Ah @ 25.6 V (6-battery), LiFePO<sub>4</sub>   |
 | Standard Battery Charger       | 10 A; short-circuit, over-current, over-voltage and reverse voltage protection |
-| Charge Time⁶                   | 3-4 hours (2-battery) or 7-8 hours (4-battery) or 8-10 hours (6-battery)            |
+| Charge Time⁷                   | 3-4 hours (2-battery) or 7-8 hours (4-battery) or 8-10 hours (6-battery)            |
 | User Power                     | 12 V @ 10 A, 24 V @ 5 A, VBAT @ 5 A<br/>Optional expansion: VBAT @ 40 A |
 | Environmental                  | IP54                                                                     |
 
 _¹ Continuous operation on relatively flat terrain with wide turns._ <br />
 _² Robot climbing 30° grade with high-mounted payload, or turning in place in high-friction conditions._ <br />
-_³ See also [Important System Limits](#important-system-limits) for additional considerations related to slopes._ <br />
-_⁴ Robot must be powered on at a minimum temperature of 0 °C._ <br />
-_⁵ Based on 33% driving at 2 m/s with 50 kg payload on level ground and 67% idle._ <br />
-_⁶ Based on standard battery charger; fast chargers are available._ <br />
+_³ Maximum speed should be limited to 1 m/s in off-road conditions when the payload exceeds 50 kg._ <br />
+_⁴ See also [Important System Limits](#important-system-limits) for additional considerations related to slopes._ <br />
+_⁵ Robot must be powered on at a minimum temperature of 0 °C._ <br />
+_⁶ Based on 33% driving at 2 m/s with 50 kg payload on level ground and 67% idle._ <br />
+_⁷ Based on standard battery charger; fast chargers are available._ <br />
 
 <center>
   <figure>
@@ -958,14 +959,15 @@ the `/a300_00000/platform/cmd_lights` topic (adjusting for your Husky's serial n
 
 | System State (lowest to highest priority) | Light Output | Description |
 | :---------------------------------------- | :----------- | :---------- |
-| Light Control Fault (or bootup)           | Solid red    | The MCU is not in contact with the computer. This condition will be seen briefly on startup while robot's computer is booting up. If it persists, or is seen after initialization, either the base node on the computer has crashed, the network switch has failed, or a serious MCU error has occurred. If you suspect one of these conditions, please contact support. |
+| Light Control Fault (or boot failure)     | <img src="/img/robot_images/common_images/lighting_images/light_control_fault.gif" width="100"/> | The MCU is not in contact with the computer. This condition will be seen briefly on startup while robot's computer is booting up. If it persists, or is seen after initialization, either the base node on the computer has crashed, the network switch has failed, or a serious MCU error has occurred. If you suspect one of these conditions, please contact support. |
 | Battery Fault                             | <img src="/img/robot_images/common_images/lighting_images/battery_fault.gif" width="100"/> | An error has been detected with the battery. Please contact support. |
-| Motor Fault                               | Flashing red at the corner with the motor fault; solid red for the other corners. | An error has been detected with the motor or its controller. Please contact support. |
+| Motor Fault                               | <img src="/img/robot_images/common_images/lighting_images/motor_fault.gif" width="100"/> | An error has been detected a the motor or its controller, with the flashing light corresponding to the motor with the fault (eg. front right motor fault shown). Please contact support. |
+| Motors Overheated                         | <img src="/img/robot_images/common_images/lighting_images/motor_overheated.gif" width="100"/> | One or more motors are overheated. Allow the system to cool down before attempting to drive again. If the issue persists, please contact support. |
+| Motors Throttled                          | <img src="/img/robot_images/common_images/lighting_images/motor_throttled.gif" width="100"/> | Motor output has been reduced as one or more motors are beginning to overheat. Drive at reduced speeds or allow the system to cool down before attempting to drive again. If the issue persists, please contact support. |
 | Charged                                   | <img src="/img/robot_images/common_images/lighting_images/shore_and_charged.gif" width="100"/> | The robot's batteries are charged fully. Shore power is available for the robot to operate (excluding drive motors). |
 | Charging (wired or wireless)              | <img src="/img/robot_images/common_images/lighting_images/shore_and_charging.gif" width="100"/> | The robot's batteries are being charged, either from the wired/manual charger or the wireless charger. This also provides shore power for the robot to operate (excluding drive motors). |
 | Emergency Stop Engaged                    | <img src="/img/robot_images/common_images/lighting_images/stopped.gif" width="100"/> | Emergency Stop mode is engaged. To disengage, twist both red mushroom buttons on the robot to ensure that they are unlatched and press the Safety Restart button. |
 | Needs Safety Restart (after Emergency Stop) | <img src="/img/robot_images/common_images/lighting_images/needs_reset.gif" width="100"/> | The Emergency Stop buttons have been disengaged but the Safety Restart button still needs to be pressed to resume driving. |
-| Motor Protection Engaged                  | Solid magenta | Motor velocity is being limited due to high currents or high temperatures. |
 | Low Battery                               | <img src="/img/robot_images/common_images/lighting_images/low_battery.gif" width="100"/> | The robot's batteries are in a low charge state. Connect the robot to a charger. |
 | Driving                                   | <img src="/img/robot_images/common_images/lighting_images/driving.png" width="100"/> | The robot is driving (normal operation). |
 | Idle                                      | <img src="/img/robot_images/common_images/lighting_images/idle.png" width="100"/> | The robot is idle (normal operation). |
@@ -1075,7 +1077,7 @@ without needing internal access to the robot. These ports are all connected dire
 
 In addition to the Emergency Stop buttons on the robot, if your Husky A300 is equipped with an optional wireless Emergency Stop kit,
 it is possible to disable this function with the override key switch. Refer to [Wireless Emergency Stop](#wireless-estop),
-[Integration](integration_husky#wireless-stop), and the image below for further details.
+[Integration](integration_husky#wireless-stop), and the image below, for further details.
 
 <center>
   <figure>
@@ -1086,6 +1088,21 @@ it is possible to disable this function with the override key switch. Refer to [
     <figcaption>Husky A300 Wireless Emergency Stop Bypass (1 = wireless stop enabled, 2 = wireless stop disabled)</figcaption>
   </figure>
 </center>
+
+:::safety-caution
+
+Only change the key switch position while the robot is powered off. Otherwise, the robot may be in an undefined state.
+
+:::
+
+:::safety-caution
+
+The key for Wireless Emergency Stop Bypass must be stored in a secure location and used only be a trained technician that
+has reviewed the manual and the risk assessment for their workplace. Disabling the Wireless Emergency Stop removes a
+safeguard for the system, which results in increased risk of collisions. The key should not be left in the robot
+during operation.
+
+:::
 
 #### Airflow Intake and Exhaust
 
@@ -1695,6 +1712,14 @@ See [Husky A300 Troubleshooting](troubleshooting_husky) for details on Husky tro
 ---
 
 ## Declarations
+
+:::note
+
+The Husky A300 base configuration meets regulatory requirements as outlined in the manual and as
+marked on the robot (CE marking, FCC / ICES, etc). Additions to the robot outside the marked version
+invalidate the markings and may require additional conformity assessments.
+
+:::
 
 ### FCC Supplier's Declaration of Conformity
 
