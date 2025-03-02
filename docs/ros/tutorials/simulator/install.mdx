@@ -50,7 +50,7 @@ mkdir ~/clearpath_ws/src -p
 source /opt/ros/jazzy/setup.bash
 sudo apt install python3-vcstool
 cd ~/clearpath_ws
-wget https://raw.githubusercontent.com/clearpathrobotics/clearpath_simulator/main/dependencies.repos
+wget https://raw.githubusercontent.com/clearpathrobotics/clearpath_simulator/jazzy/dependencies.repos
 vcs import src < dependencies.repos
 rosdep install -r --from-paths src -i -y
 ```
