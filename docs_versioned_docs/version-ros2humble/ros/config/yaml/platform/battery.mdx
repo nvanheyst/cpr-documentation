@@ -13,7 +13,7 @@ many batteries the robot has in series and parallel.A configuration of S2P1 indi
 indicates that there are 3 parallel rows of 4 batteries in series, for a total of 12 batteries.
 
 Some robots support "smart" batteries which have built in battery management system (BMS). If these batteries are specified, a corresponding driver node will
-be launched as part of the platform service. For batteries without a BMS, the [battery state estimator](https://github.com/clearpathrobotics/clearpath_robot/blob/main/clearpath_diagnostics/clearpath_diagnostics/battery_state/battery_state_estimator)
+be launched as part of the platform service. For batteries without a BMS, the [battery state estimator](https://github.com/clearpathrobotics/clearpath_robot/blob/humble/clearpath_diagnostics/clearpath_diagnostics/battery_state/battery_state_estimator)
 node will be launched. This node will interpolate the state of charge of the robot from measured battery voltages.
 
 The battery state of the platform is available on the `platform/bms/state` topic.

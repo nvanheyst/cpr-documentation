@@ -48,7 +48,7 @@ ros2 run spinnaker_camera_driver linux_setup_flir
 
 Or, manually by following the [instructions on the GitHub README](https://github.com/ros-drivers/flir_camera_driver/blob/humble-devel/spinnaker_camera_driver/docs/linux_setup_flir.md).
 
-For specifics on the way Clearpath's configuration system launches the camera, see the Flir Blackfly [launch file](https://github.com/clearpathrobotics/clearpath_robot/blob/main/clearpath_sensors/launch/flir_blackfly.launch.py) and the [default parameter file](https://github.com/clearpathrobotics/clearpath_robot/blob/main/clearpath_sensors/config/flir_blackfly.yaml) in `clearpath_sensors`.
+For specifics on the way Clearpath's configuration system launches the camera, see the Flir Blackfly [launch file](https://github.com/clearpathrobotics/clearpath_robot/blob/humble/clearpath_sensors/launch/flir_blackfly.launch.py) and the [default parameter file](https://github.com/clearpathrobotics/clearpath_robot/blob/humble/clearpath_sensors/config/flir_blackfly.yaml) in `clearpath_sensors`.
 
 #### Serial Number
 The `serial_number` parameter must be set to successfully launch the node. The serial number can be found on the label on the camera. However, if this label is not available and the camera is a USB camera, connect the camera to the computer and use `lsusb` to its three digit `Bus` and `Device` number. Then, find the serial number using the following command, replacing `BUS` and `DEV` with the three digit numbers found in the previous step:
