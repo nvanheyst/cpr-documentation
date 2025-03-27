@@ -45,6 +45,15 @@ each new sensor of that type that is added. Internal sensors such as IMU's will 
 | sensors/imu\_#/data     | [sensor_msgs/Imu](https://github.com/ros2/common_interfaces/blob/jazzy/sensor_msgs/msg/Imu.msg)                     | Filtered IMU orientation, angular velocity, and linear acceleration data | [System Default](overview.mdx#system-default) |
 | sensors/imu\_#/mag      | [sensor_msgs/MagneticField](https://github.com/ros2/common_interfaces/blob/jazzy/sensor_msgs/msg/MagneticField.msg) | IMU magnetic field data                                                  | [System Default](overview.mdx#system-default) |
 
+## INS topics
+
+| Topic                     | Message type                                                                                                | Description                                                              | QoS                                     |
+| :------------------------ | :---------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------- | :-------------------------------------- |
+| sensors/ins\_#/imu_0/data | [sensor_msgs/Imu](https://github.com/ros2/common_interfaces/blob/jazzy/sensor_msgs/msg/Imu.msg)             | Raw IMU orientation, angular velocity, and linear acceleration data      | [Sensor Data](overview.mdx#sensor-data) |
+| sensors/ins\_#/gps_0/fix  | [sensor_msgs/NavSatFix](https://github.com/ros2/common_interfaces/blob/jazzy/sensor_msgs/msg/NavSatFix.msg) | Navsat Fix information from the first receiver (if present)              | [Sensor Data](overview.mdx#sensor-data) |
+| sensors/ins\_#/gps_1/fix  | [sensor_msgs/NavSatFix](https://github.com/ros2/common_interfaces/blob/jazzy/sensor_msgs/msg/NavSatFix.msg) | Navsat Fix information from the second receiver (if present)             | [Sensor Data](overview.mdx#sensor-data) |
+| sensors/ins\_#/odom       | [nav_msgs/Odometry](https://github.com/ros2/common_interfaces/blob/jazzy/nav_msgs/msg/Odometry.msg)         | Odometry data derived from all inputs to the INS                         | [Sensor Data](overview.mdx#sensor-data) |
+
 ## GPS topics
 
 | Topic              | Message type                                                                                                 | Description            | QoS                                           |
