@@ -14,7 +14,7 @@ import ComponentSafetyWarning from "/components/safety_warning.mdx";
 
 <ComponentIntroductionHusky />
 
-## Important SAFETY INFORMATION
+## Important SAFETY INFORMATION  {#important-safety-information}
 
 :::safety-danger
 
@@ -807,10 +807,10 @@ In case of a collision:
 | :----------------------------- | :----------------------------------------------------------------------- |
 | Dimension, Length              | 990 mm                                                                   |
 | Dimension, Width               | 698 mm                                                                   |
-| Dimension, Height              | 381 mm                                                                   |
-| Track Width                    | 562 mm                                                                   |
+| Dimension, Height              | 372 mm                                                                   |
+| Track Width                    | 566 mm                                                                   |
 | Wheelbase Length               | 512 mm                                                                   |
-| Ground Clearance               | 139 mm                                                                   |
+| Ground Clearance               | 130 mm                                                                   |
 | Mass                           | 80 kg                                                                    |
 | Maximum Payload¹               | 100 kg                                                                   |
 | All-terrain Payload²           | 50 kg                                                                    |
@@ -964,8 +964,8 @@ the `/a300_00000/platform/cmd_lights` topic (adjusting for your Husky's serial n
 | Motor Fault                               | <img src="/img/robot_images/common_images/lighting_images/motor_fault.gif" width="100"/> | An error has been detected a the motor or its controller, with the flashing light corresponding to the motor with the fault (eg. front right motor fault shown). Please contact support. |
 | Motors Overheated                         | <img src="/img/robot_images/common_images/lighting_images/motor_overheated.gif" width="100"/> | One or more motors are overheated. Allow the system to cool down before attempting to drive again. If the issue persists, please contact support. |
 | Motors Throttled                          | <img src="/img/robot_images/common_images/lighting_images/motor_throttled.gif" width="100"/> | Motor output has been reduced as one or more motors are beginning to overheat. Drive at reduced speeds or allow the system to cool down before attempting to drive again. If the issue persists, please contact support. |
-| Charged                                   | <img src="/img/robot_images/common_images/lighting_images/shore_and_charged.gif" width="100"/> | The robot's batteries are charged fully. Shore power is available for the robot to operate (excluding drive motors). |
-| Charging (wired or wireless)              | <img src="/img/robot_images/common_images/lighting_images/shore_and_charging.gif" width="100"/> | The robot's batteries are being charged, either from the wired/manual charger or the wireless charger. This also provides shore power for the robot to operate (excluding drive motors). |
+| Charged                                   | <img src="/img/robot_images/common_images/lighting_images/charged.png" width="100"/> | The robot's batteries are charged fully. Shore power is available for the robot to operate (excluding drive motors). |
+| Charging (wired or wireless)              | <img src="/img/robot_images/common_images/lighting_images/charging.gif" width="100"/> | The robot's batteries are being charged, either from the wired/manual charger or the wireless charger. This also provides shore power for the robot to operate (excluding drive motors). |
 | Emergency Stop Engaged                    | <img src="/img/robot_images/common_images/lighting_images/stopped.gif" width="100"/> | Emergency Stop mode is engaged. To disengage, twist both red mushroom buttons on the robot to ensure that they are unlatched and press the Safety Restart button. |
 | Needs Safety Restart (after Emergency Stop) | <img src="/img/robot_images/common_images/lighting_images/needs_reset.gif" width="100"/> | The Emergency Stop buttons have been disengaged but the Safety Restart button still needs to be pressed to resume driving. |
 | Low Battery                               | <img src="/img/robot_images/common_images/lighting_images/low_battery.gif" width="100"/> | The robot's batteries are in a low charge state. Connect the robot to a charger. |
@@ -1094,6 +1094,8 @@ it is possible to disable this function with the override key switch. Refer to [
 Only change the key switch position while the robot is powered off. Otherwise, the robot may be in an undefined state.
 
 :::
+
+<br/>
 
 :::safety-caution
 
@@ -1260,7 +1262,7 @@ Your Husky A300 base platform shipment contains the following:
 If you purchased the AMP variant, standard payload modules or custom integration services with Husky, then additional equipment
 will be included per your specific configuration, plus further documentation as required.
 
-### Unboxing the Husky A300
+### Unboxing the Husky A300  {#unboxing-a300}
 
 Follow the steps below to remove Husky A300 from its crate.
 
@@ -1359,7 +1361,7 @@ The robot may move unexpectedly.
   </figure>
 </center>
 
-### Starting Up
+### Starting Up  {#starting-up}
 
 Before turning on Husky the first time, place Husky "up on blocks", making sure that the wheels are clear
 of the ground. This reduces hazards while becoming familiar with how the various subsystems work.
@@ -1676,7 +1678,7 @@ In slow mode, the maximum robot speed is 0.3 m/s; in fast mode, the maximum robo
   </figure>
 </center>
 
-### Using ROS
+### Using ROS  {#using-ros}
 
 Robot Operating System (ROS) is an extensible framework for controlling and working with robotic systems.
 Clearpath Robotics recommends using ROS with your robot. If this is your first time using ROS, it is strongly
