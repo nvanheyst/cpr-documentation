@@ -247,7 +247,7 @@ Husky A300 may move unexpectedly.
 
 **Always wear hearing protection while near Husky A300.**
 
-Husky A300 may emit noise up to 80 dB.
+Husky A300 may emit noise up to 80 dBA at a distance of 10 cm from the robot.
 
 :::
 
@@ -755,7 +755,7 @@ will affect the terminal speed of the robot when the Emergency Stop is engaged.
 The performance values outlined below can be affected by various environmental factors such as
 terrain type and should be treated as a reference only. Exact limits should be determined by the
 user in the target operating environment. It is the responsibility of the user
-to ensure that no hazards are present in the the target operating environment.
+to ensure that no hazards are present in the target operating environment.
 
 :::
 
@@ -767,6 +767,37 @@ to ensure that no hazards are present in the the target operating environment.
 | 100 kg       | 0°       | 0 m/s |
 | 0 kg         | 15°      | 0.5 m/s or less |
 | 100 kg       | 15°      | 1.25 m/s or less |
+
+##### Stopping Distances
+
+:::safety-warning
+
+**Always confirm stopping distances in the target environment.**
+
+The performance values outlined below can be affected by various environmental factors
+(terrain type, wet/icy surfaces, etc) and should be treated as a reference only.
+Exact limits should be determined by the user in the target operating environment.
+It is the responsibility of the user to ensure that no hazards are present in the
+target operating environment.
+
+:::
+
+<br/>
+
+:::note
+
+The report stopping distances are based on the default deceleration settings.
+This setting is configurable (see [ROS Parameters](/docs/ros/config/yaml/platform/extras)
+for details).
+
+:::
+
+| Payload Mass | Incline  | Surface Type  | Stopping Distance  | 
+| :----------- | :------- | :------------ | :------------------|
+| 0 kg         | 0°       | High friction | 0.5 m |
+| 100 kg       | 0°       | High friction | 0.7 m |
+| 0 kg         | 15°      | High friction | 0.5 m |
+| 100 kg       | 15°      | High friction | 1.0 m |
 
 ### Recommended Safe Work Procedures
 
@@ -829,7 +860,7 @@ In case of a collision:
 | Environmental                  | IP54                                                                     |
 
 _¹ Continuous operation on relatively flat terrain with wide turns._ <br />
-_² Robot climbing 30° grade with high-mounted payload, or turning in place in high-friction conditions._ <br />
+_² Robot climbing 30° grade with high-mounted payload, or turning in place in high-friction conditions such as asphalt, concrete, and carpet._ <br />
 _³ Maximum speed should be limited to 1 m/s in off-road conditions when the payload exceeds 50 kg._ <br />
 _⁴ See also [Important System Limits](#important-system-limits) for additional considerations related to slopes._ <br />
 _⁵ Robot must be powered on at a minimum temperature of 0 °C._ <br />
@@ -1146,7 +1177,7 @@ and 6-battery configurations.
 
 #### Computer
 
-Husky is equipped with an Intel-based computer in a Mini-ITX form factor. Several SKUs are possible
+Husky A300 is equipped with an Intel-based computer in a Mini-ITX form factor. Several SKUs are possible
 depending on the desired performance of the system. 
 
 #### GPU (Optional)
@@ -1172,6 +1203,11 @@ connection. See also [Husky Networking](#husky-networking).
 
 Husky can be equipped with two, four, or six batteries. These batteries are not hot-swappable.
 Refer to [Maintenance](maintenance_husky) for details on battery maintenance.
+
+#### USB Hub (Optional, not shown)
+
+An optional USB hub can be added and connected to the computer to increase the number of USB
+ports available. 
 
 ### Autonomous Mobile Platform (AMP) Kit
 
