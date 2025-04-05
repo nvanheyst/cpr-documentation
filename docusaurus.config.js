@@ -49,6 +49,9 @@ const config = {
         rehypePlugins: [rehypeKatex],
         showLastUpdateTime: true,
         versions: {
+          ros2jazzy: {
+            label: 'ROS 2 Jazzy',
+          },
           ros2humble: {
             label: 'ROS 2 Humble',
           },
@@ -56,7 +59,23 @@ const config = {
             label: 'ROS 1 Noetic',
           }
         },
-        includeCurrentVersion: true,
+        includeCurrentVersion: false,
+        admonitions: {
+          keywords: ['safety-danger', 'safety-warning', 'safety-caution'],
+          extendDefaults: true,
+        },
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "docs_robots",
+        path: "docs_robots",
+        routeBasePath: "docs_robots",
+        sidebarPath: require.resolve("./sidebars.js"),
+        remarkPlugins: [remarkMath],
+        rehypePlugins: [rehypeKatex],
+        showLastUpdateTime: true,
         admonitions: {
           keywords: ['safety-danger', 'safety-warning', 'safety-caution'],
           extendDefaults: true,
@@ -106,11 +125,11 @@ const config = {
         },
         items: [
           {
-            type: "docsVersion",
-            to: "/docs/robots/",
+            type: "doc",
+            docId: "robots",
             label: "Robots",
             position: "left",
-            docsPluginId: "docs",
+            docsPluginId: "docs_robots",
           },
           {
             type: "docsVersion",
