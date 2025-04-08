@@ -133,6 +133,20 @@ Husky's top plate for external payloads.
 The System Interface Assembly is a circuit board that includes power supplies, lighting controllers, motor controllers, and the Husky's microcontroller.
 This circuit board has connectors for: power, fans, relays, GPIOs, auxiliary inputs, auxiliary outputs, and Emergency Stop devices.
 
+| Purpose                                                      | Label on the circuit board   | Connector on the circuit board | Mating connector | Mating connector's crimp                                                               | Crimping tool    |
+| :----------------------------------------------------------- | :--------------------------- | :----------------------------- | :--------------- | :------------------------------------------------------------------------------------- | :--------------- |
+| <a href="#user-power-connections">User Power Connections</a> | USER 1 - USER 8              | Molex 0039296088               | Molex 0039012080 | Molex 0039000140 <em>(AWG 22-28)</em><br/>Or<br/>Molex 0039000073 <em>(AWG 18-24)</em> | Molex 0638191000 |
+|                                                              | EXP 1 - EXP 2                | Molex 1720650202               | Molex 1700010102 | Molex 1720630311 <em>(AWG 14-16)</em><br />Or<br/>Molex 1720630312 <em>(AWG 12)</em>   | Molex 2238631200 |
+|                                                              | EXP CTRL                     | TE 3-794682-8                  | TE 794617-8      | TE 1-794606-1 <em>(AWG 20-24)</em><br/>Or<br/>TE 1-794607-1 <em>(AWG 26-30)</em>       | TE 91391-1       |
+| <a href="#aux-inputs">AUX Inputs</a>                         | AUX1 IN, AUX2 IN, AUX3 IN    | TE 3-794682-6                  | TE 794617-6      | TE 1-794606-1 <em>(AWG 20-24)</em><br/>Or<br/>TE 1-794607-1 <em>(AWG 26-30)</em>       | TE 91391-1       |
+| <a href="#aux-outputs">AUX Outputs</a>                       | AUX1 OUT, AUX2 OUT, AUX3 OUT | TE 3-794682-8                  | TE 794617-8      | TE 1-794606-1 <em>(AWG 20-24)</em><br/>Or<br/>TE 1-794607-1 <em>(AWG 26-30)</em>       | TE 91391-1       |
+| <a href="#gpio">GPIO</a>                                     | GPIO                         | TE 4-794680-6                  | TE 1-794617-6    | TE 1-794606-1 <em>(AWG 20-24)</em><br/>Or<br/>TE 1-794607-1 <em>(AWG 26-30)</em>       | TE 91391-1       |
+| <a href="#fan-expansion">Fans</a>                            | FAN 5 - FAN 8                | Molex 0705430003               | Molex 0050579404 | Molex 0016020103 <em>(AWG 22-24)</em>                                                  | Molex 0638118700 |
+| <a href="#wireless-stop">Wireless Emergency Stop</a>         | W ES (Wireless E-Stop)       | TE 4-794682-0                  | TE 1-794617-0    | TE 1-794606-1 <em>(AWG 20-24)</em><br/>Or<br/>TE 1-794607-1 <em>(AWG 26-30)</em>       | TE 91391-1       |
+| <a href="#husky_external_stop">Emergency Stop Buttons</a>    | ES 3 - ES 8 (E-Stop)         | TE 3-794682-4                  | TE 794617-4      | TE 1-794606-1 <em>(AWG 20-24)</em><br/>Or<br/>TE 1-794607-1 <em>(AWG 26-30)</em>       | TE 91391-1       |
+| <a href="#computer-power">Computer Power</a>                 | SYS1 - SYS 2                 | Molex 1720650204               | Molex 1700010104 | Molex 1720630311 <em>(AWG 14-16)</em><br/>Or<br/>Molex 1720630312 <em>(AWG 12)</em>    | Molex 2238631200 |
+| <a href="#graphics-card-power">Graphics Card Power</a>       | SYS3                         | Molex 1720650206               | Molex 1700010106 | Molex 1720630311 <em>(AWG 14-16)</em><br/>Or<br/>Molex 1720630312 <em>(AWG 12)</em>    | Molex 2238631200 |
+| <a href="#network-switch-power">Network Switch Power</a>     | SYS4                         | Molex 0039281023               | Molex 0039012020 | Molex 0039000140 <em>(AWG 22-28)</em><br/>Or<br/>Molex 0039000073 <em>(AWG 18-24)</em> | Molex 0638191000 |
 
 ### Power Connections
 
@@ -333,7 +347,7 @@ The user must enable the output, via the ROS topic above, each time after the sy
 
 :::
 
-### AUX Inputs
+### AUX Inputs {#aux-inputs}
 
 The Main circuit board provides 3 auxilliary inputs (AUX1 IN, AUX2 IN, AUX3 IN) that
 allow external payloads to provide inputs to the robot. Each of the three auxilliary
@@ -399,7 +413,7 @@ connected to pin 3.
 | Turn the 12 V supply on               | 4 (8b00000100) | '1' since button is not pressed | '0' since 12 V supply is on | '0' 24 V supply is on |
 | Press and hold the button             | 0 (8b00000000) | '0' since button is pressed | '0' since 12 V supply is on | '0' 24 V supply is on |
 
-### AUX Outputs
+### AUX Outputs {#aux-outputs}
 
 The Main circuit board includes three user-controlled outputs (AUX1 OUT, AUX2 OUT, AUX3 OUT)
 that can be controlled by publishing to the `/a300_#####/platform/mcu/cmd_aux_outputs` ROS topic.
@@ -412,7 +426,7 @@ The AUX outputs are mapped to the ROS message bits as follows:
 - AUX2 OUT: bit 1
 - AUX3 OUT: bit 2
 
-#### Aux Output Examples
+#### AUX Output Examples
 
 To disable all AUX outputs:
 
@@ -432,7 +446,7 @@ To enable just the AUX3 output:
 rostopic pub /a300_#####/platform/mcu/cmd_aux_outputs std_msgs/UInt8 "data: 4"
 ```
 
-#### Aux Output Pin Mapping
+#### AUX Output Pin Mapping
 
 Each of the AUX outputs is an 8-pin connector with pin mapping as outlined below. The output
 value is available in several modes:
@@ -452,7 +466,7 @@ value is available in several modes:
 | 7 (AUX_RELAY_NO)      | Normally open relay pin | Floating | Connected to AUX_RELAY_COMMON |
 | 8 (AUX_MOSFET1)       | MOSFET #1 DRAIN | GND | Floating |
 
-### General Purpose Inputs and Outputs (GPIO)
+### General Purpose Inputs and Outputs (GPIO) {#gpio}
 
 The Main circuit board includes four general purpose inputs and four general purpose
 outputs, which are all connected to the 16-pin GPIO connector. All GPIOs are at the
@@ -486,7 +500,7 @@ Publishing to the ROS `/a300_#####/platform/mcu/cmd_gp_outputs` topic controls t
 | 11 | GND | N/A | GND | GND |
 | 12 | GND | N/A | GND | GND |
 
-### Fan Expansion
+### Fan Expansion {#fan-expansion}
 
 The Main circuit board has support for four additional 12 V brushless 4-wire PWM fans,
 one fan at each of FAN 5, FAN 6, FAN 7, and FAN 8. (FAN 1, FAN 2, FAN 3, and FAN 4 are
@@ -585,7 +599,7 @@ The pinout for ES3 - ES8 is shown below.
 Three connectors are provided for powering computers, including GPUs: SYS1, SYS2, and SYS3. Collectively,
 they provide up to 400 W of power at 12 V.
 
-#### SYS1 / SYS2 Pinouts
+#### SYS1 / SYS2 Pinouts For Computers {#computer-power}
 
 | Pin | Function / Value |
 | :-- | :--------------- |
@@ -594,7 +608,7 @@ they provide up to 400 W of power at 12 V.
 | 3   | GND              |
 | 4   | GND              |
 
-#### SYS3 Pinouts
+#### SYS3 Pinout For A Graphics Card {#graphics-card-power}
 
 | Pin | Function / Value |
 | :-- | :--------------- |
@@ -605,7 +619,7 @@ they provide up to 400 W of power at 12 V.
 | 5   | GND              |
 | 6   | GND              |
 
-### Other System Power
+#### SYS4 System Power For A Network Switch {#network-switch-power}
 
 SYS4 is used to power the internal network switch and
 provides up to 60 W of power at 12 V.
