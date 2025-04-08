@@ -21,7 +21,7 @@ Generator scripts do not need to be modified by the user. Rather the user should
 
 ### Bash
 
-The main bash script that needs to be generated is the `setup.bash` file. This file will source the Humble `setup.bash`, as well as any
+The main bash script that needs to be generated is the `setup.bash` file. This file will source the Jazzy `setup.bash`, as well as any
 additional workspaces. It will also contain environment variables for setting up ROS 2. This file will be sourced by the `robot_upstart` job, as well
 as the user terminal. This way we can ensure that the bash environment of the upstart jobs matches the user's.
 
@@ -37,7 +37,7 @@ The semantic description generator will generate a `robot.srdf.xacro` and `robot
 
 ### Launch
 
-The launch generator creates ROS 2 [python launch files](https://docs.ros.org/en/humble/Tutorials/Intermediate/Launch/Creating-Launch-Files.html). It will create both the platform and sensor launch files by parsing the robot config. Typically, the generated launch file will include a default launch file, and pass in launch arguments as appropriate. Python classes have been defined for adding other launch files, nodes, and processes to the generated launch file, making it intuitive to use.
+The launch generator creates ROS 2 [python launch files](https://docs.ros.org/en/jazzy/Tutorials/Intermediate/Launch/Creating-Launch-Files.html). It will create both the platform and sensor launch files by parsing the robot config. Typically, the generated launch file will include a default launch file, and pass in launch arguments as appropriate. Python classes have been defined for adding other launch files, nodes, and processes to the generated launch file, making it intuitive to use.
 
 ### Parameter
 
@@ -65,10 +65,10 @@ By running the **bash**, **description**, **launch**, and **parameter** generato
       %% Robot Yaml
       yaml(((robot.yaml)))
       %% Generators
-      g_bash{{<a href='https://github.com/clearpathrobotics/clearpath_common/blob/humble/clearpath_generator_common/clearpath_generator_common/bash/generator.py'><b>Bash Generator</b></a>}}
-      g_urdf{{<a href='https://github.com/clearpathrobotics/clearpath_common/blob/humble/clearpath_generator_common/clearpath_generator_common/description/generator.py'><b>Description Generator</b></a>}}
+      g_bash{{<a href='https://github.com/clearpathrobotics/clearpath_common/blob/jazzy/clearpath_generator_common/clearpath_generator_common/bash/generator.py'><b>Bash Generator</b></a>}}
+      g_urdf{{<a href='https://github.com/clearpathrobotics/clearpath_common/blob/jazzy/clearpath_generator_common/clearpath_generator_common/description/generator.py'><b>Description Generator</b></a>}}
       g_launch{{<a href='https://github.com/clearpathrobotics/clearpath_robot/blob/jazzy/clearpath_generator_robot/clearpath_generator_robot/launch/generator.py'><b>Launch Generator</b></a>}}
-      g_param{{<a href='https://github.com/clearpathrobotics/clearpath_common/blob/humble/clearpath_generator_common/clearpath_generator_common/param/generator.py'><b>Parameter Generator</b></a>}}
+      g_param{{<a href='https://github.com/clearpathrobotics/clearpath_common/blob/jazzy/clearpath_generator_common/clearpath_generator_common/param/generator.py'><b>Parameter Generator</b></a>}}
       %% Generated Files
       bash([<div><b>setup.bash</b></div><div>/etc/clearpath/setup.bash</div>])
       urdf([<div><b>robot.urdf.xacro</b></div><div>/etc/clearpath/robot.urdf.xacro</div>])
@@ -100,6 +100,50 @@ By running the **bash**, **description**, **launch**, and **parameter** generato
   `}
 />
 
+### Platform Extras
+By running the **launch** generator, the launch file to run the user-specified extra platform nodes is created in the directory **/etc/clearpath/platform-extras**.
+The top level launch file to start all platform related nodes is the **platform-extras-service.launch.py**, which is generated in the **/etc/clearpath/platform-extras/launch**
+directory by the **launch** generator.
+
+<Mermaid
+  value={`
+    %%{ \
+      init: { \
+        'themeVariables': { \
+          'fontSize': '16px' \
+        }, \
+        'flowchart':  { \
+          'curve': 'stepAfter', \
+          'rankSpacing': 20 , \
+          'nodeSpacing': 50, \
+          'diagramPadding': 0 \
+        } \
+      } \
+    }%%
+    flowchart LR
+      %% Robot Yaml
+      yaml(((robot.yaml)))
+      %% Generators
+      g_bash{{<a href='https://github.com/clearpathrobotics/clearpath_common/blob/jazzy/clearpath_generator_common/clearpath_generator_common/bash/generator.py'><b>Bash Generator</b></a>}}
+      g_launch{{<a href='https://github.com/clearpathrobotics/clearpath_robot/blob/jazzy/clearpath_generator_robot/clearpath_generator_robot/launch/generator.py'><b>Launch Generator</b></a>}}
+      %% Generated Files
+      bash([<div><b>setup.bash</b></div><div>/etc/clearpath/setup.bash</div>])
+      launch[[<div><b>platform-extras-service.launch.py</b></div><div>/etc/clearpath/platform-extras/launch/platform-extras-service.launch.py</div>]]
+      subgraph Clearpath Generators
+        yaml-.-g_bash
+        yaml-.-g_launch
+      end
+      g_bash-->bash
+      g_launch-->launch
+      subgraph Clearpath Platform Extras Service
+        bash-.->launch
+      end
+      classDef generator stroke-width:4px
+      class g_bash generator
+      class g_launch generator
+  `}
+/>
+
 ### Sensors Generation
 Using the **parameter** and **launch** file generators, a pair of files is created for each sensor defined in the configuration file. Each sensor is enumerated given its order in sensor section of the **robot.yaml**. For example, if two cameras are added, then the first will be named **camera_0** and the second **camera_1**, irrespective of the model of camera. Each sensor launch file generated is included in the top level **sensors-service.launch.py** which is ran by the service.
 <Mermaid
@@ -122,7 +166,7 @@ Using the **parameter** and **launch** file generators, a pair of files is creat
       yaml(((robot.yaml)))
       %% Generators
       g_launch{{<a href='https://github.com/clearpathrobotics/clearpath_robot/blob/jazzy/clearpath_generator_robot/clearpath_generator_robot/launch/generator.py'><b>Launch Generator</b></a>}}
-      g_param{{<a href='https://github.com/clearpathrobotics/clearpath_common/blob/humble/clearpath_generator_common/clearpath_generator_common/param/generator.py'><b>Parameter Generator</b></a>}}
+      g_param{{<a href='https://github.com/clearpathrobotics/clearpath_common/blob/jazzy/clearpath_generator_common/clearpath_generator_common/param/generator.py'><b>Parameter Generator</b></a>}}
       %% Generated Launch Files
       sensor_launch[[<div><b>sensor-service.launch.py</b></div><div>/etc/clearpath/sensors/launch/sensors-service.launch.py</div>]]
       camera_launch[[<div><b>camera_0.launch.py</b></div><div>/etc/clearpath/sensors/launch/camera_0.launch.py</div>]]
@@ -130,7 +174,6 @@ Using the **parameter** and **launch** file generators, a pair of files is creat
       imu_launch[[<div><b>imu_0.launch.py</b></div><div>/etc/clearpath/sensors/launch/imu_0.launch.py</div>]]
       lidar2d_launch[[<div><b>lidar2d_0.launch.py</b></div><div>/etc/clearpath/sensors/launch/lidar2d_0.launch.py</div>]]
       lidar3d_launch[[<div><b>lidar3d_0.launch.py</b></div><div>/etc/clearpath/sensors/launch/lidar3d_0.launch.py</div>]]
-      extras_launch[[<div><i>extras</i><b>.launch.py</b></div><div>package://<i>extras_package</i>/<i>extras_path</i>/<i>extras</i>.launch.py</div>]]
       %% Generated Parameter Files
       camera_param([<div><b>camera_0.yaml</b></div><div>/etc/clearpath/sensors/config/camera_0.yaml</div>])
       gps_param([<div><b>gps_0.yaml</b></div><div>/etc/clearpath/sensors/config/gps_0.yaml</div>])
@@ -163,7 +206,6 @@ Using the **parameter** and **launch** file generators, a pair of files is creat
         imu_launch-.-sensor_launch
         lidar2d_launch-.-sensor_launch
         lidar3d_launch-.-sensor_launch
-        extras_launch-.-sensor_launch
       end
       classDef generator stroke-width:4px
       class g_bash generator
@@ -195,15 +237,15 @@ Using the **semantic_description**, **launch**, and **parameter** file generator
     %% Robot YAML
     yaml(((robot.yaml)))
     %% Generators
-    g_semantic_description{{<a href='https://github.com/clearpathrobotics/clearpath_common/blob/humble/clearpath_generator_common/clearpath_generator_common/semantic_description/generator.py'><b>Semantic Description Generator</b></a>}}
+    g_semantic_description{{<a href='https://github.com/clearpathrobotics/clearpath_common/blob/jazzy/clearpath_generator_common/clearpath_generator_common/semantic_description/generator.py'><b>Semantic Description Generator</b></a>}}
     g_launch{{<a href='https://github.com/clearpathrobotics/clearpath_robot/blob/jazzy/clearpath_generator_robot/clearpath_generator_robot/launch/generator.py'><b>Launch Generator</b></a>}}
-    g_param{{<a href='https://github.com/clearpathrobotics/clearpath_common/blob/humble/clearpath_generator_common/clearpath_generator_common/param/generator.py'><b>Parameter Generator</b></a>}}
-    g_collision{{<a href='https://github.com/clearpathrobotics/clearpath_common/blob/humble/clearpath_generator_common/src/moveit_collision_updater.cpp'><b>Collision Updater</b></a>}}
+    g_param{{<a href='https://github.com/clearpathrobotics/clearpath_common/blob/jazzy/clearpath_generator_common/clearpath_generator_common/param/generator.py'><b>Parameter Generator</b></a>}}
+    g_collision{{<a href='https://github.com/clearpathrobotics/clearpath_common/blob/jazzy/clearpath_generator_common/src/moveit_collision_updater.cpp'><b>Collision Updater</b></a>}}
     %% Default Parameter Files
-    d_cartesian([<a href='https://github.com/clearpathrobotics/clearpath_common/blob/humble/clearpath_manipulators/config/cartesian_limits.yaml'><b>Default Cartesian Limits</b></a>])
-    d_control([<a href='https://github.com/clearpathrobotics/clearpath_common/blob/humble/clearpath_manipulators/config/control.yaml'><b>Default Control</b></a>])
-    d_scene([<a href='https://github.com/clearpathrobotics/clearpath_common/blob/humble/clearpath_manipulators/config/planning_scene.yaml'><b>Default Planning Scene</b></a>])
-    d_trajexec([<a href='https://github.com/clearpathrobotics/clearpath_common/blob/humble/clearpath_manipulators/config/trajectory_execution.yaml'><b>Default Trajectory Execution</b></a>])
+    d_cartesian([<a href='https://github.com/clearpathrobotics/clearpath_common/blob/jazzy/clearpath_manipulators/config/cartesian_limits.yaml'><b>Default Cartesian Limits</b></a>])
+    d_control([<a href='https://github.com/clearpathrobotics/clearpath_common/blob/jazzy/clearpath_manipulators/config/control.yaml'><b>Default Control</b></a>])
+    d_scene([<a href='https://github.com/clearpathrobotics/clearpath_common/blob/jazzy/clearpath_manipulators/config/planning_scene.yaml'><b>Default Planning Scene</b></a>])
+    d_trajexec([<a href='https://github.com/clearpathrobotics/clearpath_common/blob/jazzy/clearpath_manipulators/config/trajectory_execution.yaml'><b>Default Trajectory Execution</b></a>])
     urdf([<div><b>robot.urdf.xacro</b></div><div>/etc/clearpath/robot.urdf.xacro</div>])
     yaml-.-g_semantic_description
     yaml-.-g_launch
