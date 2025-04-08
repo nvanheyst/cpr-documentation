@@ -152,11 +152,13 @@ This circuit board has connectors for: power, fans, relays, GPIOs, auxiliary inp
 
 #### User Power Connections  {#user-power-connections}
 
-The Main circuit board provides eight connectors, labelled USER 1 through USER 8, for user power. 
+The System Interface circuit board provides eight User Power connectors, labelled USER 1 through USER 8. 
 
 User power is divided into four power rails and the power for each rail is shared
 across each of the 8 connectors. The maximum (aggregate) current available on each power rail is
 outlined in the table below.
+These circuits are protected with self resetting fuses.
+These circuits can also be toggled on and off through ROS.
 
 | User Power Rail             | Maximum (Aggregate) Current |
 | :-------------------------- | :-------------------------- |
