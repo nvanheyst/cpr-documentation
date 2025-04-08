@@ -121,11 +121,13 @@ Husky's top plate for external payloads.
 
 ### Data Connections
 
-Data connections (USB and Ethernet) are made to the Husky computer mounted inside the chassis.
-These may be direct connections to the computer where ports are available or through USB hubs
-and network switches where expansion is required.
+| Data Bus                      | Clearpath's suggestion for connecting devices to the Husky's computer:                                                                |
+| :---------------------------- | :------------------------------------------------------------------------------------------------------------------------------------ |
+| USB                           | Direct connection to the robot's computer, or add a USB hub.                                                                          |
+| Ethernet                      | Connect to the robot's 2.5 Gbit/s Ethernet Switch, which is inside the chassis.                                                       |
+| Serial RS-232, RS-422, RS-485 | Add a USB converter, such as a FTDI cable. Most computers have Serial ports, but these take more time to configure than a FTDI cable. |
+| CAN                           | Add a USB converter, such as a PEAK System PCAN-USB.                                                                                  |
 
-### Main Circuit Board Connector Summary
 
 The Main circuit board provides a number of connections for power, fans, relays, GPIOs, auxiliary
 inputs and auxiliary outputs. These are summarized in the following table and described in more
