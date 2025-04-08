@@ -128,25 +128,11 @@ Husky's top plate for external payloads.
 | Serial RS-232, RS-422, RS-485 | Add a USB converter, such as a FTDI cable. Most computers have Serial ports, but these take more time to configure than a FTDI cable. |
 | CAN                           | Add a USB converter, such as a PEAK System PCAN-USB.                                                                                  |
 
+### System Interface Connector Summary
 
-The Main circuit board provides a number of connections for power, fans, relays, GPIOs, auxiliary
-inputs and auxiliary outputs. These are summarized in the following table and described in more
-detail in the following sections.
+The System Interface Assembly is a circuit board that includes power supplies, lighting controllers, motor controllers, and the Husky's microcontroller.
+This circuit board has connectors for: power, fans, relays, GPIOs, auxiliary inputs, auxiliary outputs, and Emergency Stop devices.
 
-| MCU board label              | MCU board connector                 | Mating connector                                          | Crimp terminals                                              | Crimping tool    |
-| :--------------------------- | :---------------------------------- | :-------------------------------------------------------- | :----------------------------------------------------------- | :--------------- |
-| USER 1 - USER 8              | Molex 0039296088 | Molex 0039012080 | Molex 0039000140 (AWG 22-28) or Molex 0039000073 (AWG 18-24) | Molex 0638191000 |
-| EXP 1 - EXP 2                | Molex 1720650202 | Molex 1700010102 | Molex 1720630311 (AWG 14-16) or Molex 1720630312 (AWG 12) | Molex 2238631200 |
-| EXP CTRL                     | TE 3-794682-8    | TE 794617-8      | TE 1-794606-1 (AWG 20-24) or TE 1-794607-1 (AWG 26-30)    | TE 91391-1 |
-| AUX1 IN, AUX2 IN, AUX3 IN    | TE 3-794682-6    | TE 794617-6      | TE 1-794606-1 (AWG 20-24) or TE 1-794607-1 (AWG 26-30)    | TE 91391-1 |
-| AUX1 OUT, AUX2 OUT, AUX3 OUT | TE 3-794682-8    | TE 794617-8      | TE 1-794606-1 (AWG 20-24) or TE 1-794607-1 (AWG 26-30)    | TE 91391-1 |
-| GPIO                         | TE 4-794680-6    | TE 1-794617-6    | TE 1-794606-1 (AWG 20-24) or TE 1-794607-1 (AWG 26-30)    | TE 91391-1 |
-| FAN 5 - FAN 8                | Molex 0705430003 | Molex 0050579404 | Molex 0016020103 (AWG 22-24)                              | Molex 0638118700 |
-| W ES (Wireless E-Stop)       | TE 4-794682-0    | TE 1-794617-0    | TE 1-794606-1 (AWG 20-24) or TE 1-794607-1 (AWG 26-30)    | TE 91391-1 |
-| ES 3 - ES 8 (E-Stop)         | TE 3-794682-4    | TE 794617-4      | TE 1-794606-1 (AWG 20-24) or TE 1-794607-1 (AWG 26-30)    | TE 91391-1 |
-| SYS1 - SYS 2                 | Molex 1720650204 | Molex 1700010104 | Molex 1720630311 (AWG 14-16) or Molex 1720630312 (AWG 12) | Molex 2238631200 |
-| SYS3                         | Molex 1720650206 | Molex 1700010106 | Molex 1720630311 (AWG 14-16) or Molex 1720630312 (AWG 12) | Molex 2238631200 |
-| SYS4                         | Molex 0039281023 | Molex 0039012020 | Molex 0039000140 (AWG 22-28) or Molex 0039000073 (AWG 18-24) | Molex 0638191000 |
 
 ### Power Connections
 
