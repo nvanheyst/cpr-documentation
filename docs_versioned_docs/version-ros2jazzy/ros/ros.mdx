@@ -70,11 +70,21 @@ of ROS 2 topics and services defined by Clearpath which are used by all supporte
  - Create Error Screen Drawing Function for A300 FW
  - Made fan commands a hidden topic for A300 FW
  - Switch aux output pins to default to high on boot for A300 FW
+ - Added inventus diagnostics
+ - Automatically rerun install script on package update
+ - Move symlinks into `clearpath-robot.service.wants` instead of `multi-user.target.wants`
+ - Add `clearpath_tests` as dependency for metapackage
+ - Reduced Puma feedback frequency to 20hz
+ - Added lynx firmware update process diagnostics
+ - Added user fan control and hysteresis when leaving a warning/error state
+ - Added diagnostic categories
+ - Add UR socat tool communication script
 
 #### Fixed
  - Updated the A300's default IMU location
  - Handle empty namespace
  - Stop clearpath platform service before flashing over ethernet
+ - Updated diagnostic for changes to MCU status message.
 
 
 ### [2.0] 2025-02-28
