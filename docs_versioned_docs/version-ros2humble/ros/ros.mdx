@@ -32,6 +32,21 @@ of ROS 2 topics and services defined by Clearpath which are used by all supporte
 
 ## Changelog
 
+### [1.3] 2025-04-15
+
+### New Features
+ - Added delay to manipulator controller
+ - Added Manipulator URDF Parameters
+ - Add UR socat tool communication script
+ - Add argument to disable generation in simulation
+
+### Fixed
+ - Fixed how NMEA sentences are formed on J100 MCU
+ - Do not check battery status on D100 MCU
+ - Check init functions for errors on all MCUs
+ - Configure MCU service fix for all MCUs
+
+
 ### [1.2] 2025-03-12
 
 ### New Features
@@ -42,7 +57,7 @@ of ROS 2 topics and services defined by Clearpath which are used by all supporte
  - Added Franka Manipulator
  - Added IMU filter to IMU entries
 
-#### Fixed
+### Fixed
  - Fixed Isolate Universal Robots driver and client library dependencies
  - Fixed dependency on SRDF plugins
  - Changed sensor package location
