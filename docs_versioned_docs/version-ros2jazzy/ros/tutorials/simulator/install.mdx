@@ -16,15 +16,22 @@ It is highly recommended to install the simulator on a computer with a dedicated
 
 Follow the [Offboard Computer](../../installation/offboard_pc.mdx) setup guide.
 
-### Installing Gazebo Fortress
+### Installing Gazebo Harmonic
 
-Run the following commands in your terminal:
+:::note
+
+See Gazebo's [installation instructions](https://gazebosim.org/docs/harmonic/install_ubuntu/) for
+more information on installing and uninstalling Gazebo Harmonic.
+
+:::
+
+ROS provides a "vendor" package to install the default ROS/Gazebo pairing (e.g. ROS 2 Jazzy with
+Gazebo Harmonic). This package is normally installed as a dependency of the Clearpath simulator
+(see [below](#installing-clearpath-simulator)), but you can install it manually by running this
+command in your terminal:
 
 ```
-sudo apt-get update && sudo apt-get install wget
-sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
-wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
-sudo apt-get update && sudo apt-get install ignition-fortress
+sudo apt-get install ros-jazzy-ros-gz
 ```
 
 ### Installing Clearpath Simulator

@@ -38,7 +38,34 @@ of ROS 2 topics and services defined by Clearpath which are used by all supporte
 
 ## Changelog
 
-### [2.3] 2025-05-11
+### [2.4] 2025-04-30
+
+#### New Features
+ - Added pinout messages
+ - Moved clearpath_tests into clearpath_robot
+ - Added a software based low voltage cut-off for the A300
+ - Added pinout control node for the A300
+ - Update Nav2 configuration files for Jazzy
+ - Added motor voltage monitoring for A300
+ - Added config bits and revision bits to status message for A300
+ - Detect if there is low voltage on power rails which have a fuse for A300
+ - Added shutdown service to micro-ros for A300
+ - Bootloader improvements
+ - Added user power for A300
+ - Added errors for power good signals and user power contactors for A300
+ - Added Fan Speed Monitoring for A300
+ - Added Error Reporting API for A300
+
+
+#### Fixed
+ - Fixed the Husky A300 serial sample to match the real serial
+ - Updated Ridgeback R100 raiser height to 0.07m from 0.055m
+ - Removed duplicate and incorrect current / voltage labels
+ - Fixed debian post-install permissions
+ - Fixed event flag wait timeout in power task shutdown handling for A300
+
+
+### [2.3] 2025-04-11
 
 #### New Features
  - Added temperature indices for all platforms

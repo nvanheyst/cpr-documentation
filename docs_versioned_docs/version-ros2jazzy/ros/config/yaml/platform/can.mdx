@@ -1,0 +1,131 @@
+---
+title: CAN Adapters
+sidebar_label: CAN Adapters
+sidebar_position: 6
+toc_min_heading_level: 2
+toc_max_heading_level: 5
+---
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+On some Clearpath robot platforms, a CAN bus is used to communicate and control motors, battery systems, safety rated controllers, e-stop receivers, and more. Using the Clearpath configuration file, it is possible to define of a CAN-to-UDP, CAN-to-Serial, or CAN-to-USB adapter. At run time, these adapters are brought up and configured with the defined parameters.
+
+# Baud Rates
+In the parameters, the baud rates should be set as speeds in `slcand`:
+| Speed | Baud Rate |
+| :-: | :-: |
+| **s0** | 10 Kbit/s |
+| **s1** | 20 Kbit/s |
+| **s2** | 50 Kbit/s |
+| **s3** | 100 Kbit/s |
+| **s4** | 125 Kbit/s |
+| **s5** | 250 Kbit/s |
+| **s6** | 500 Kbit/s |
+| **s7** | 800 Kbit/s |
+| **s8** | 1000 Kbit/s |
+
+# Virtual CAN Adapters
+By default, the A300 Husky, DD100-D0150 Dingo series, and R100 Ridgeback use CAN to communicate with the motor drivers. However, the physical CAN bus is connected to the MCU and bridged over UDP to the robot computer.
+
+To establish this bridge from the computer side, a `socat` command needs to be issued to create a virtual serial device. Using the virtual serial device, the `slcand` command is used to create a virtual CAN device. Then, the virtual CAN device can be configured using `ip link` and brought up.
+
+If every robot platform had the same CAN bus requirements, this process could be automated by a simple bash script. However, the baud-rate, ports, and number of CAN buses may vary between platform. For example, a second bus is required on the A300 Husky to establish communication with the batteries.
+
+Fields required for a virtual CAN adapter:
+- **type**: Must be set to *virutal*
+- **can_dev**: The name of the CAN interface to be created.
+- **port**: The port number of the socket on the MCU.
+- **serial_dev**: The serial device that will be created to bridge the UDP serial data.
+- **baud**: The baud rate of the CAN interface. See above for list.
+
+Below are the default configurations for each robot platform. If the `can_adapters` entry is left empty, these are configurations that will be applied. If a `can_adapter` entry with the same `can_dev`, CAN device name, is passed in as one of the defaults, it will override them.
+<Tabs groupId="platform">
+  <TabItem value="A300" label="A300" default>
+The default A300 Husky CAN adapter configuration requires two CAN buses bridged over UDP. Therefore, these are both set to type `virtual`.
+
+For example, the first, `vcan0`, is set to bridge a UDP serial using port `11412` and create a virtual serial device `/dev/ttycan0`. Then, it will create a virtual CAN device using with baud rate `s8`, 1 megabaud and will be named `vcan0`.
+
+```yaml
+platform:
+  can_adapters:
+    - can_dev: vcan0
+      type: virtual
+      port: 11412
+      serial_dev: /dev/ttycan0
+      baud: s8
+    - can_dev: vcan1
+      type: virtual
+      port: 11413
+      serial_dev: /dev/ttycan1
+      baud: s5
+```
+
+  </TabItem>
+
+  <TabItem value="DD100-DO150" label="DD100-DO150" default>
+The default DD100-DO150 Dingo CAN adapter configuration requires one CAN bus bridged over UDP.
+
+```yaml
+platform:
+  can_adapters:
+    - can_dev: vcan0
+      type: virtual
+      port: 11412
+      serial_dev: /dev/ttycan0
+      baud: s8
+```
+  </TabItem>
+
+  <TabItem value="R100" label="R100" default>
+The default R100 Dingo CAN adapter configuration requires one CAN bus bridged over UDP.
+
+```yaml
+platform:
+  can_adapters:
+    - can_dev: vcan0
+      type: virtual
+      port: 11412
+      serial_dev: /dev/ttycan0
+      baud: s8
+```
+  </TabItem>
+</Tabs>
+
+# Serial CAN Adapters
+In the event that it is required to integrate a CAN device on the robot, it is possible to use a USB CAN-to-Serial adapter. These adapters are easy to acquire and trivial to setup. However, these devices still require the `slcand` command to create the virtual CAN device with the appropriate baud rate. The virtual CAN device will also need to be configured using `ip link` and brought up.
+
+Fields required for a serial CAN adapter:
+- **type**: Must be set to *serial*
+- **can_dev**: The name of the CAN interface to be created.
+- **serial_dev**: The path to the serial device.
+- **baud**: The baud rate of the CAN interface. See above for list.
+
+To define a serial CAN adapter in the robot configuration YAML, use type `serial`, define the `serial_dev` that the device is registered as, define the baud rate, and the name of the virtual `can_dev` to create.
+
+```yaml
+platform:
+  can_adapters:
+    - can_dev: usbcan0
+      type: serial
+      serial_dev: /dev/ttyUSB0
+      baud: s8
+```
+
+
+# Physical USB CAN Adapters
+Just as the serial CAN adapters, USB physical CAN adapters are trivial to setup, but are generally harder to obtain. Out of the three options, these adapters are the easiest to setup as they only need the `ip link` command to bring up.
+
+Fields required for a physical CAN adapter:
+- **type**: Must be set to *physical*
+- **can_dev**: The name of the physical interface.
+- **baud**: The baud rate of the CAN interface. See above for list.
+
+To define a physical USB CAN adapter in the robot configuration YAML, use the type `physical` that the physical CAN is registered as and the baud rate.
+
+```yaml
+platform:
+  can_adapters:
+    - can_dev: can0
+      type: physical
+      baud: s8
+```
