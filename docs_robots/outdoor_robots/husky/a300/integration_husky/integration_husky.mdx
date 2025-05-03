@@ -290,18 +290,18 @@ please visit the
 
 ##### Software Control of User Power Rails {#user_power_control}
 
-User power can be enabled or disabled through ROS by publishing to `/a300_#####/platform/mcu/cmd_user_power` ROS topic.
+User power can be enabled or disabled by calling the `/a300_XXXXX/platform/pinout/user_pwr_ctrl` ROS service.
 
 To disable user power, run:
 
 ```
-ros2 topic pub --once /a300_#####/platform/mcu/cmd_user_power std_msgs/msg/Bool '{data: false}'
+ros2 service call /a300_XXXXX/platform/pinout/user_pwr_ctrl std_srvs/srv/SetBool "{data: false}"
 ```
 
 To enable user power, run:
 
 ```
-ros2 topic pub --once /a300_#####/platform/mcu/cmd_user_power std_msgs/msg/Bool '{data: true}'
+ros2 service call /a300_XXXXX/platform/pinout/user_pwr_ctrl std_srvs/srv/SetBool "{data: true}"
 ```
 
 :::note
@@ -414,18 +414,20 @@ inputs can be driven by one of the following:
 - a 24 V input
 - a push button or switch
 
-In turn, the state of the input can be read from the ROS topic `/a300_#####/platform/mcu/status/aux_inputs`.
-The AUX inputs are active low and are mapped to the ROS message bits as follows:
+In turn, the state of the inputs can be read from the ROS topic `/a300_#####/platform/mcu/status/pinout`.
+Refer to the [MCU API](/docs/ros/api/mcu_api) for full API details.
 
-- AUX1 IN: bit 0
-- AUX2 IN: bit 1
-- AUX3 IN: bit 2
+The AUX inputs are active low and are mapped to the ROS topic as follows:
 
-| AUX Input            | Payload State                                                                         | `/a300_#####/platform/mcu/status/aux_inputs` Value  |
-| :------------------- | :------------------------------------------------------------------------------------ | :---------------------------------------- |
-| AUX1 IN              | 24 V on OR 12 V on OR button pressed<br/>24 V off AND 12 V off AND button not pressed | bit 0 reads as '0'<br/>bit 0 reads as '1' |
-| AUX2 IN              | 24 V on OR 12 V on OR button pressed<br/>24 V off AND 12 V off AND button not pressed | bit 1 reads as '0'<br/>bit 1 reads as '1' |
-| AUX3 IN              | 24 V on OR 12 V on OR button pressed<br/>24 V off AND 12 V off AND button not pressed | bit 2 reads as '0'<br/>bit 2 reads as '1' |
+- AUX1 IN: pinout.inputs[0]
+- AUX2 IN: pinout.inputs[1]
+- AUX3 IN: pinout.inputs[2]
+
+| AUX Input            | Payload State                                                                         | `/a300_#####/platform/mcu/status/pinout` Value  |
+| :------------------- | :------------------------------------------------------------------------------------ | :----------------------------------------- |
+| AUX1 IN              | 24 V on OR 12 V on OR button pressed<br/>24 V off AND 12 V off AND button not pressed | `inputs[0]: true`<br/>`inputs[0]: false` |
+| AUX2 IN              | 24 V on OR 12 V on OR button pressed<br/>24 V off AND 12 V off AND button not pressed | `inputs[1]: true`<br/>`inputs[1]: false` |
+| AUX3 IN              | 24 V on OR 12 V on OR button pressed<br/>24 V off AND 12 V off AND button not pressed | `inputs[2]: true`<br/>`inputs[2]: false` |
 
 #### AUX Input Pin Mapping
 
@@ -448,59 +450,59 @@ with the remaining pins unconnected.
 Monitor the input reading in ROS.
 
 ```
-ros2 topic echo /a300_#####/platform/mcu/status/aux_inputs
+ros2 topic echo --once /a300_#####/platform/mcu/status/pinout
 ```
 
-| Action | `/a300_#####/platform/mcu/status/aux_inputs` value | Bit 2 Explanation | Bit 1 Explanation | Bit 0 Explanation |
-| :----- | :------------ | :---------------- | :---------------- | :---------------- |
-| Begin with the 12 V supply turned off | 7 (8b00000111) | '1' since AUX3 IN is not connected | '1' since 12 V supply is off | '1' since AUX1 IN is not connected |
-| Turn the 12 V power supply on         | 5 (8b00000101) | '1' since AUX3 IN is not connected | '0' since 12 V supply is on  | '1' since AUX1 IN is not connected |
-| Turn the 12 V supply off              | 7 (8b00000111) | '1' since AUX3 IN is not connected | '1' since 12 V supply is off | '1' since AUX1 IN is not connected |
-
-#### AUX Input Example #2
-
-Consider the example where AUX1 IN has a 24 V supply connected to pins 1 and 4,
-AUX2 IN has a 12 V supply connected to pins 2 and 5, and AUX3 IN has a push button
-connected to pin 3.
-
-| Action | `/a300_#####/platform/mcu/status/aux_inputs` value | Bit 2 Explanation | Bit 1 Explanation | Bit 0 Explanation |
-| :----- | :------------ | :---------------- | :---------------- | :---------------- |
-| Begin with 12 V supply turned off, the 24 V supply off, and the button not pressed | 7 (8b00000111) | '1' since button is not pressed | '1' since 12 V supply is off | '1' since 24 V supply is off |
-| Turn the 24 V power supply on         | 6 (8b00000110) | '1' since button is not pressed | '1' since 12 V supply is off | '0' since 24 V supply is on |
-| Turn the 12 V supply on               | 4 (8b00000100) | '1' since button is not pressed | '0' since 12 V supply is on | '0' 24 V supply is on |
-| Press and hold the button             | 0 (8b00000000) | '0' since button is pressed | '0' since 12 V supply is on | '0' 24 V supply is on |
+| Action | `/a300_#####/platform/mcu/status/pinout` value     |
+| :------------------------------------ | :------------------ |
+| Begin with the 12 V supply turned off | `inputs[1]: false` |
+| Turn the 12 V power supply on         | `inputs[1]: true`  |
+| Turn the 12 V supply off              | `inputs[1]: false` |
 
 ### AUX Outputs {#aux-outputs}
 
 The Main circuit board includes three user-controlled outputs (AUX1 OUT, AUX2 OUT, AUX3 OUT)
-that can be controlled by publishing to the `/a300_#####/platform/mcu/cmd_aux_outputs` ROS topic.
-To enable the AUX outputs, simply
-publish a single message with the appropriate bits set to 1 to turn the output on and 0 to turn
-it off. The state does not persist so new commands will need to keep the bit enabled as well.
-The AUX outputs are mapped to the ROS message bits as follows:
+that can be controlled by calling the ROS services using the service names listed below 
+and the 
+[clearpath_platform_msgs/SetPinout](https://github.com/clearpathrobotics/clearpath_msgs/blob/jazzy/clearpath_platform_msgs/srv/SetPinout.srv)
+service type.
 
-- AUX1 OUT: bit 0
-- AUX2 OUT: bit 1
-- AUX3 OUT: bit 2
+- `/a300_#####/platform/pinout/aux_1`
+- `/a300_#####/platform/pinout/aux_2`
+- `/a300_#####/platform/pinout/aux_3`
+
+Refer to [Platform Services](/docs/ros/api/platform_api#platform-services) for the API.
 
 #### AUX Output Examples
 
-To disable all AUX outputs:
+To enable AUX1 OUT:
 
 ```
-rostopic pub /a300_#####/platform/mcu/cmd_aux_outputs std_msgs/UInt8 "data: 0"
+ros2 service call /a300_XXXXX/platform/pinout/aux_1 clearpath_platform_msgs/srv/SetPinout "{state: true, toggle_period: 0}"
 ```
 
-To enable all AUX outputs:
+To disable AUX1 OUT:
 
 ```
-rostopic pub /a300_#####/platform/mcu/cmd_aux_outputs std_msgs/UInt8 "data: 7"
+ros2 service call /a300_XXXXX/platform/pinout/aux_1 clearpath_platform_msgs/srv/SetPinout "{state: false, toggle_period: 0}"
 ```
 
-To enable just the AUX3 output:
+To enable AUX2 OUT and have toggle between on and off every 500 ms:
 
 ```
-rostopic pub /a300_#####/platform/mcu/cmd_aux_outputs std_msgs/UInt8 "data: 4"
+ros2 service call /a300_XXXXX/platform/pinout/aux_2 clearpath_platform_msgs/srv/SetPinout "{state: true, toggle_period: 500}"
+```
+
+To disable AUX2 OUT:
+
+```
+ros2 service call /a300_XXXXX/platform/pinout/aux_2 clearpath_platform_msgs/srv/SetPinout "{state: false, toggle_period: 0}"
+```
+
+To check the status of the AUX1 OUT pin, run the following command and check `outputs[0]`:
+
+```
+ros2 topic echo --once /a300_#####/platform/mcu/status/pinout
 ```
 
 #### AUX Output Pin Mapping
@@ -512,7 +514,7 @@ value is available in several modes:
 - Normally open relay
 - Normally closed relay
 
-| AUX OUT connector pin | Function | Output when corresponding `cmd_aux_outputs` bit is '0' | Output when corresponding `cmd_aux_outputs` bit is '1' | 
+| AUX OUT connector pin | Function | Output when corresponding `outputs[N]` field is `false` | Output when corresponding `outputs[N]` field is `true` | 
 | :-------------------- | :------- | :------------------------------------------- | :------------------------------------------- |
 | 1 (AUX_24V)           | 24 V output, fused at 3 A, available for use with relay | 24 V | 24 V
 | 2 (GND)               | GND | GND | GND |
@@ -527,18 +529,43 @@ value is available in several modes:
 
 The Main circuit board includes four general purpose inputs and four general purpose
 outputs, which are all connected to the 16-pin GPIO connector. All GPIOs are at the
-3.3 V logic level. General purpose inputs are readable from the
-`/a300_#####/platform/mcu/status/gp_inputs` ROS topic.
-Publishing to the ROS `/a300_#####/platform/mcu/cmd_gp_outputs` topic controls the general purpose outputs.
+3.3 V logic level.
+
+General purpose inputs are readable from the ROS topic `/a300_#####/platform/mcu/status/pinout`,
+specifically:
+
+- GP IN 1: `pinout.inputs[3]`
+- GP IN 2: `pinout.inputs[4]`
+- GP IN 3: `pinout.inputs[5]`
+- GP IN 4: `pinout.inputs[6]`
+
+Refer to the [MCU API](/docs/ros/api/mcu_api) for full API details.
+
+General purpose outputs can be controlled by calling the ROS services using the service names listed below 
+and the 
+[clearpath_platform_msgs/SetPinout](https://github.com/clearpathrobotics/clearpath_msgs/blob/jazzy/clearpath_platform_msgs/srv/SetPinout.srv)
+service type.
+
+- `/a300_#####/platform/pinout/gpo_1`
+- `/a300_#####/platform/pinout/gpo_2`
+- `/a300_#####/platform/pinout/gpo_3`
+- `/a300_#####/platform/pinout/gpo_4`
+
+Refer to [Platform Services](/docs/ros/api/platform_api#platform-services) for the API.
+As an example, to enable GP Out 3:
+
+```
+ros2 service call /a300_XXXXX/platform/pinout/gpo_3 clearpath_platform_msgs/srv/SetPinout "{state: true, toggle_period: 0}"
+```
 
 #### General Purpose Input Pin Mapping
 
-| GPIO connector pin | Function | `gp_inputs` value when driven at 0 V | `gp_inputs` value when driven at 3.3 V |
+| GPIO connector pin | Function | `pinout.inputs[]` value when driven at 0 V | `pinout.inputs[]` value when driven at 3.3 V |
 | :----------------- | :------- | :----------------------------- | :------------------------------- |
-| 5 | GP In 1 | Bit 0 is '0' | Bit 0 is '1' |
-| 6 | GP In 2 | Bit 1 is '0' | Bit 1 is '1' |
-| 7 | GP In 3 | Bit 2 is '0' | Bit 2 is '1' |
-| 8 | GP In 4 | Bit 3 is '0' | Bit 3 is '1' |
+| 5 | GP In 1 | `inputs[3]: false` | `inputs[3]: true` |
+| 6 | GP In 2 | `inputs[4]: false` | `inputs[4]: true` |
+| 7 | GP In 3 | `inputs[5]: false` | `inputs[5]: true` |
+| 8 | GP In 4 | `inputs[6]: false` | `inputs[6]: true` |
 | 13 | GND | N/A | N/A |
 | 14 | GND | N/A | N/A |
 | 15 | GND | N/A | N/A |
@@ -546,12 +573,12 @@ Publishing to the ROS `/a300_#####/platform/mcu/cmd_gp_outputs` topic controls t
 
 #### General Purpose Output Pin Mapping
 
-| GPIO connector pin | Function | Corresponding bit in `cmd_gp_outputs` | Output value when set to '0' | Output value when set to '1' |
+| GPIO connector pin | Function | Service Name | Output value when `state` set to `false` | Output value when `state` set to `true` |
 | :----------------- | :------- | :--------------------------- | :--------------------------- | :--------------------------- |
-| 1 | GP Out 1 | 0 | 0 V | 3.3 V |
-| 2 | GP Out 2 | 1 | 0 V | 3.3 V |
-| 3 | GP Out 3 | 2 | 0 V | 3.3 V |
-| 4 | GP Out 4 | 3 | 0 V | 3.3 V |
+| 1 | GP Out 1 | `gpo_0` | 0 V | 3.3 V |
+| 2 | GP Out 2 | `gpo_1` | 0 V | 3.3 V |
+| 3 | GP Out 3 | `gpo_2` | 0 V | 3.3 V |
+| 4 | GP Out 4 | `gpo_3` | 0 V | 3.3 V |
 | 9 | GND | N/A | GND | GND |
 | 10 | GND | N/A | GND | GND |
 | 11 | GND | N/A | GND | GND |
