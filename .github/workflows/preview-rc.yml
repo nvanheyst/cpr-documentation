@@ -12,7 +12,6 @@ jobs:
   deploy-on-create:
     if: github.event_name == 'create'
     runs-on: ubuntu-latest
-    continue-on-error: true
     permissions:
       id-token: write
     steps:
@@ -38,7 +37,6 @@ jobs:
   cleanup-on-delete:
     if: github.event_name == 'delete'
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - name: Get ref for pull_request
         run: |
