@@ -31,4 +31,3 @@ jobs:
           AmplifyAppId: ${{ secrets.AMPLIFY_APP_ID }}
           AWS_REGION: 'us-east-2'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          EnvironmentVariables: 'SITE_URL=https://${{ github.head_ref }}.${{ secrets.AMPLIFY_APP_ID }}.amplifyapp.com'
