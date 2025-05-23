@@ -18,7 +18,7 @@ jobs:
           role-to-assume: ${{ secrets.AWS_GITHUB_ACTIONS_ROLE }}
           output-credentials: true
       - name: cleanup PR preview branch
-        uses: yinlinchen/amplify-preview-actions@v1.2
+        uses: mikehosmar/amplify-preview-actions@sed-replace-all
         with:
           branch_name: ${{ github.head_ref }}
           amplify_command: delete
