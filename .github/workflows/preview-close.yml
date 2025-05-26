@@ -1,4 +1,4 @@
-name: 'Amplify PR Closed'
+name: 'Manual Amplify Preview Closed'
 on:
   pull_request_target:
     types: [closed]

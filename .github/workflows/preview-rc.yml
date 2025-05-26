@@ -1,11 +1,12 @@
-name: Amplify Preview Enable
+name: Amplify Branch Management
+description: 'Adds(or removes) branch to Amplify with preview enabled'
 
 on:
   create:
   delete:
 
 jobs:
-  deploy-on-create:
+  deploy-to-amplify:
     if: github.event_name == 'create' && startsWith(github.event.ref, 'rc/')
     runs-on: ubuntu-latest
     permissions:
@@ -18,7 +19,7 @@ jobs:
           aws-region: us-east-2
           role-to-assume: ${{ secrets.AWS_GITHUB_ACTIONS_ROLE }}
           output-credentials: true
-      - name: Enable Amplify Preview
+      - name: Enable Amplify Branch With Preview
         uses: clearpathrobotics/amplify-preview-actions@sed-replace-all
         with:
           branch_name: ${{ github.event.ref }}
@@ -30,7 +31,7 @@ jobs:
           EnablePreview: true
           AWS_REGION: 'us-east-2'
 
-  cleanup-on-delete:
+  remove-from-amplify:
     if: github.event_name == 'delete' && (startsWith(github.event.ref, 'rc/') || startsWith(github.head_ref, 'rc/'))
     runs-on: ubuntu-latest
     permissions:
@@ -51,7 +52,7 @@ jobs:
           aws-region: us-east-2
           role-to-assume: ${{ secrets.AWS_GITHUB_ACTIONS_ROLE }}
           output-credentials: true
-      - name: cleanup PR preview branch
+      - name: Remove Branch From Amplify
         uses: clearpathrobotics/amplify-preview-actions@sed-replace-all
         with:
           branch_name: ${{ env.BRANCH_NAME }}

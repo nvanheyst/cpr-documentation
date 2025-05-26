@@ -1,4 +1,4 @@
-name: Amplify Preview
+name: Manual Amplify Preview
 
 on:
   pull_request:
