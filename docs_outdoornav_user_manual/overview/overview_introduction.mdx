@@ -14,14 +14,14 @@ Vehicles (UGVs) in outdoor environments.
 
 <center>
   <figure>
-    <img src="/img/outdoornav_images/ui_waypoint_panel.png" />
+    <img src="/img/outdoornav_images/ui_mission_view_2_0_0.png" />
     <figcaption>Web UI Mission Planning View</figcaption>
   </figure>
 </center>
 
 <center>
   <figure>
-    <img src="/img/outdoornav_images/ui_front_camera-0_8_0.png" />
+    <img src="/img/outdoornav_images/ui_front_camera_view_2_0_0.png" />
     <figcaption>Web UI Front Camera View</figcaption>
   </figure>
 </center>
@@ -36,22 +36,15 @@ and
 [Warthog](https://clearpathrobotics.com/warthog-unmanned-ground-vehicle-robot/)),
 it has been designed so that it can be added easily to third-party UGVs.
 
-<center>
-  <figure>
-    <img src="/img/outdoornav_images/outdoornav-package.png" />
-    <figcaption>Clearpath Robotics Warthog UGV with navigation equipment and operator control unit</figcaption>
-  </figure>
-</center>
-
 ## Key Features
 
 Key features of OutdoorNav Software include:
 
 -   Mission Planning and Autonomous Navigation
 
-    -   Robust GPS-based localization with sensor fusion of IMU, LiDAR
+    -   Robust GPS-based localization with sensor fusion of camera, IMU, LiDAR
         and platform odometry
-    -   Autonomous path following via waypoints
+    -   Autonomous path following through a network of paths
     -   Obstacle Detection and Avoidance: Stop and wait or
         autonomously plan a collision-free path around obstacles
         without the need to stop
@@ -61,7 +54,7 @@ Key features of OutdoorNav Software include:
     -   Operate the robot remotely using an on-screen or physical
         joystick
     -   Visualize what the robot sees by displaying its network
-        cameras and LiDAR data
+        cameras
 
 -   Web User Interface (Web UI)
 
@@ -77,17 +70,10 @@ Key features of OutdoorNav Software include:
 
     -   Build your own application and UI by accessing the navigation
         API to control the UGV through software or implement fleet
-        management by accessing the mission API
-
--   Simulation
-
-    -   Begin development of your application prior to purchasing
-        licenses or commissioning hardware with OutdoorNav software and
-        the ROS Gazebo simulator
+        management by accessing the autonomy API
 
 -   Third Party Integration
 
     -   The Web UI and API can be accessed through a network connection;
         cloud-based services are available from third parties to
         facilitate remote connections and networking to robot hardware
-        such as Formant.io and Freedom Robotics
