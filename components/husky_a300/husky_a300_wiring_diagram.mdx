@@ -1,0 +1,28 @@
+import Admonition from "@theme/Admonition";
+import ButtonDownloadWiringDiagram from "/components/button_download_wiring_diagram.tsx";
+
+### Wiring Diagram {#wiring-diagram}
+
+<center>
+  <figure>
+    <img
+      src="/img/robot_images/husky_a300_images/husky_a300_wiring_diagram_example.png"
+      width="700"
+    />
+    <figcaption>Snippet Of The Husky's Wiring Diagram, Showing The Optional 120 Ah Battery</figcaption>
+  </figure>
+</center>
+
+<ButtonDownloadWiringDiagram filePath={"/assets/pdf/clearpath_robotics_032188.pdf"} />
+
+Wiring diagrams help diagnose the cause of issues, such as damaged cables or loose connections.
+This wiring diagram lists Clearpath's 6 digit item numbers for circuit boards and cables.
+The diagram does not include pinouts for individual cables.
+
+<Admonition type='note'> 
+  Please contact our [Support Team](#support) if you need more debugging information, or want a replacement cable.
+</Admonition>
+
+{((props.robotModel == "AMP") || (props.robotModel == "Observer")) && <Admonition type="info" title="Husky AMP & Husky Observer">
+  Refer to the <a href="#wiring-diagram-amp">Husky AMP's wiring diagram</a> for details about the additional wiring added for AMP and Observer.
+</Admonition>}

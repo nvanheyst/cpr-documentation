@@ -13,6 +13,9 @@ import ComponentUsingRos from "/components/using_ros.mdx";
 import ComponentCommonSafeWorkProcedures from "/components/common_safe_work_procedures.mdx";
 import ComponentSafetyWarning from "/components/safety_warning.mdx";
 import ComponentUnboxingTheHuskyA300 from "/components/husky_a300/husky_a300_unboxing.mdx";
+import ComponentNetworkConnection from "/components/husky_a300/husky_a300_network_connection.mdx";
+import ComponentIntendedUse from "/components/husky_a300/husky_a300_intended_use.mdx";
+import ComponentTechnicalSpecifications from "/components/husky_a300/husky_a300_technical_specifications.mdx";
 
 <ComponentIntroductionHusky />
 
@@ -483,24 +486,7 @@ contact [Support](#support).
 
 ---
 
-## Intended Use
-
-Husky A300 is intended for use in:
-
-- indoor and outdoor research laboratories and light industrial environments for inspection, materials transport, and manipulation;
-- environments free of vertical drops greater than 150 mm;
-- environments free of fast-moving people or vehicles;
-- environments free of glass or transparent plastic floors or walls;
-- temperatures between -20°C and +40°C;
-- environments free of open water or other liquids deeper than 130 mm;
-- environments free of grades greater than 15°.
-
-The system is intended to be operated by trained personnel familiar with mobile robotic technology.
-It is intended to be monitored constantly by those personnel during operation.
-
-The system is intended to be operated around trained personnel familiar with the hazards that the system presents.
-
-The system is intended to be operated in the as-furnished condition, without additional equipment, payload or passengers.
+<ComponentIntendedUse />
 
 ---
 
@@ -511,7 +497,7 @@ rapid prototyping, and deployments.
 It is available both as a base platform and as an autonomous mobile platform (AMP).
 
 - Read all instructions before using this product.
-- Familiarize yourself with the [System Specifications](#system-specifications).
+- Familiarize yourself with the [Technical Specifications](#technical-specifications).
 
 <center>
   <figure>
@@ -549,7 +535,7 @@ Husky A300 is equipped with three safety functions to reduce the system risk:
 1. When the rear debug panel door is opened, it triggers an emergency stop (PLc per ISO 13849); this
    prevents the robot from moving while connected to a charger.
 1. The robot is equipped with an electrical braking system that reduces the speed of
-   the robot when the Emergency Stop is engaged (PLb per ISO 13849).
+   the robot when the Emergency Stop is engaged (PLa per ISO 13849).
 
 The safety of each Clearpath Robotics robot needs to be evaluated in the context of the installation where it is used.
 Environmental and process factors in each installation will ultimately govern the risk of injury resulting from
@@ -703,15 +689,39 @@ other components.
 
 ¹ Adjust the `/a300_00000` field with the serial number of your robot.
 
-##### Current Output Limits
+##### Current Limits
 
-The maximum current draw of the system is limited by the output of the batteries. The maximum
-continuous output for the 2-battery, 4-battery, and 6-battery configurations is 60 A, 120 A, and 150 A, respectively.
-Higher outputs are possible for short periods of time.
+<div class="table-container-for-centering">
+  <table class="centred-table">
+    <tr>
+      <td>&nbsp;</td>
+      <td><b>Husky A300,<br/>40 Ah</b></td>
+      <td><b>Husky A300,<br/>80 Ah</b></td>
+      <td><b>Husky A300,<br/>120 Ah</b></td>
+    </tr>
+    <tr>
+      <td>Battery Continuous Current Output</td>
+      <td><center>60 A</center></td>
+      <td><center>120 A</center></td>
+      <td><center>150 A</center></td>
+    </tr>
+    <tr>
+      <td>Circuit Breaker Value</td>
+      <td colspan="3"><center>100 A</center></td>
+    </tr>
+    <tr>
+      <td>Motor Continuous Output<sup>1</sup></td>
+      <td colspan="3"><center>17 A <em>(Per Motor)</em></center></td>
+    </tr>
+  </table>
+</div>
 
-Husky A300's motors are rated to draw 17 A continuous, but they will spike to several times higher
-than this, particularly when traversing rough terrain and when turning on the spot.
+:::note Current Limits Footnotes
+
+<sup>1</sup> &ensp; Husky A300's motors are rated to draw 17 A continuous, but they will spike to several times higher than this, particularly when traversing rough terrain and when turning on the spot.
 To reduce current draw, consider commanding wider-radius turns from your control software.
+
+:::
 
 ##### Regenerative Current Limits
 
@@ -751,7 +761,7 @@ target environment (based on slopes, terrains, etc).
 To ensure safe operation in the target environment, suitable safety margin should be applied
 to the minimum limits outlined below.
 
-When no payload is present, refer to the [System Specifications](#system-specifications) for
+When no payload is present, refer to the [Technical Specifications](#technical-specifications) for
 the safe operating limits.
 
 :::
@@ -828,8 +838,8 @@ to ensure that no hazards are present in the target operating environment.
 | :----------- | :------- | :------------------|
 | 0 kg         | 0°       | 0 m/s |
 | 100 kg       | 0°       | 0 m/s |
-| 0 kg         | 15°      | 0.5 m/s or less |
-| 100 kg       | 15°      | 1.25 m/s or less |
+| 0 kg         | 15°      | 0.75 m/s or less |
+| 100 kg       | 15°      | 1.5 m/s or less |
 
 ##### Stopping Distances
 
@@ -923,40 +933,7 @@ In case of a collision:
 
 ## System Overview
 
-### System Specifications  {#system-specifications}
-
-| Specification                  | Measurement                                                              |
-| :----------------------------- | :----------------------------------------------------------------------- |
-| Dimension, Length              | 990 mm                                                                   |
-| Dimension, Width               | 698 mm                                                                   |
-| Dimension, Height              | 372 mm                                                                   |
-| Track Width                    | 566 mm                                                                   |
-| Wheelbase Length               | 512 mm                                                                   |
-| Ground Clearance               | 130 mm                                                                   |
-| Mass                           | 80 kg                                                                    |
-| Maximum Payload¹               | 100 kg                                                                   |
-| All-terrain Payload²           | 50 kg                                                                    |
-| Speed, Maximum³                | 2.0 m/s                                                                  |
-| Climb Grade⁴                   | 30 °                                                                     |
-| Traversal Grade / Sideslope    | 30 °                                                                     |
-| Operating Temperature⁵         | -20 °C to 40 °C                                                          |
-| Storage Temperature            | -20 °C to 60 °C                                                          |
-| Operating Relative Humidity    | 0 to 85% non-condensing                                                  |
-| Operating Time, Average⁶       | 4 hours (2-battery) or 8 hours (4-battery) or 12 hours (6-battery) |
-| Operating Time, Standby        | 12 hours (2-battery) or 24 hours (4-battery) or 36 hours (6-battery) |
-| Battery                        | 40 Ah @ 25.6 V (2-battery) or 80 Ah @ 25.6 V (4-battery) or 120 Ah @ 25.6 V (6-battery), LiFePO<sub>4</sub>   |
-| Standard Battery Charger       | 10 A; short-circuit, over-current, over-voltage and reverse voltage protection |
-| Charge Time⁷                   | 3-4 hours (2-battery) or 7-8 hours (4-battery) or 8-10 hours (6-battery)            |
-| User Power                     | 12 V @ 10 A, 24 V @ 5 A, VBAT @ 5 A<br/>Optional expansion: VBAT @ 40 A |
-| Environmental                  | IP54                                                                     |
-
-_¹ Continuous operation on relatively flat terrain with wide turns. See also [Important System Limits](#important-system-limits)_ <br />
-_² Robot climbing 30° grade with high-mounted payload, or turning in place in high-friction conditions such as asphalt, concrete, and carpet. See also [Important System Limits](#important-system-limits)._ <br />
-_³ Maximum speed should be reduced in off-road conditions. See also [Important System Limits](#important-system-limits)._ <br />
-_⁴ See also [Important System Limits](#important-system-limits) for additional considerations related to slopes._ <br />
-_⁵ Robot must be powered on at a minimum temperature of 0 °C._ <br />
-_⁶ Based on 33% driving at 2 m/s with 50 kg payload on level ground and 67% idle._ <br />
-_⁷ Based on standard battery charger; fast chargers are available._ <br />
+<ComponentTechnicalSpecifications robotModel={robotModel}/>
 
 <center>
   <figure>
@@ -990,7 +967,7 @@ The base Husky exterior is shown below and includes:
 - 6: Status lights
 - 7.1: Power Button
 - 7.2: Emergency Stop Restart Button
-- 8: Protected Access Panel (Battery Breaker, battery charge port, HDMI/USB/Ethernet debug ports, wireless Emergency Stop bypass)
+- 8: Rear Charge Port Door (Battery Breaker, battery charge port, HDMI/USB/Ethernet debug ports, wireless Emergency Stop bypass)
 - 9: Airflow intake (front) and exhaust (rear)
 
 <center>
@@ -1092,11 +1069,12 @@ the button will cause the robot to power on. From the "ON" state, pressing the b
 Note that the Power button has no effect when the Battery Breaker is in the "OFF" position, unless
 a charger is connected to the robot.
 
-#### Protected Access Panel
+#### Rear Charge Port Door
 
-The rear of the robot has an access panel, protected by a Lock-Out, that contains the Battery Charge Port, Battery Breaker,
-Debug Ports, and Wireless Emergency Stop Bypass. Opening the access panel cover puts the robot into a stop condition to
-prevent the robot from driving while cables may be connected. To clear the stop condition, close the access panel cover
+The rear of the robot contains the Battery Charge Port, Battery Breaker, Debug Ports, and Wireless Emergency Stop Bypass,
+all of which are covered by the Rear Charge Port Door and protected by a Lock-Out.
+Opening the Rear Charge Port Door puts the robot into a stop condition to
+prevent the robot from driving while cables may be connected. To clear the stop condition, close the Rear Charge Port Door
 and press the Safety Restart Button.
 
 <center>
@@ -1105,14 +1083,14 @@ and press the Safety Restart Button.
       src="/img/robot_images/husky_a300_images/husky_a300_access_panel_closed.png"
       width="600"
     />
-    <figcaption>Husky A300 Protected Access Panel, Closed</figcaption>
+    <figcaption>Husky A300 Rear Charge Port Door, Closed</figcaption>
   </figure>
   <figure>
     <img
       src="/img/robot_images/husky_a300_images/husky_a300_access_panel_open.png"
       width="600"
     />
-    <figcaption>Husky A300 Protected Access Panel, Open</figcaption>
+    <figcaption>Husky A300 Rear Charge Port Door, Open</figcaption>
   </figure>
 </center>
 
@@ -1263,7 +1241,7 @@ Refer to [User Power Connections](integration_husky#user-power-connections) and
 #### Network Switch
 
 Husky includes a network switch, which allows additional payloads to be integrated with an Ethernet
-connection. See also [Husky Networking](#husky-networking).
+connection. See also [Robot Network Connection](#network-connection).
 
 #### Batteries
 
@@ -1343,7 +1321,7 @@ $W$ is the effective track of the robot, 0.562 m.
 This section outlines how to power up and drive the robot. For more details on these steps,
 refer to [Basic Usage](#basic-usage).
 
-1. Open the Access Panel cover, set the Battery Breaker to the "ON" position, and close the Access Panel cover.
+1. Open the Rear Charge Port Door, set the Battery Breaker to the "ON" position, and close the Rear Charge Port Door.
 1. Press and hold the Power Button for one second and then release it.
 1. Wait one minute for the robot to initialize fully.
    Once initialized, the front lights should be solid white and the rear lights should be solid red.
@@ -1401,8 +1379,8 @@ The robot may move unexpectedly.
 1. Press and hold the Power Button for one second, then release it.
 1. Wait until all lights on Husky have turned off (up to 10 seconds). This indicates that all electronics have
    powered off.
-1. Open the Access Panel cover, set the Battery Breaker to the "OFF" position, and close the Access Panel cover.
-1. Clamp the Lock-Out Tag-Out lock to prevent the Access Panel cover from being opened.
+1. Open the Rear Charge Port Door, set the Battery Breaker to the "OFF" position, and close the Rear Charge Port Door.
+1. Clamp the Lock-Out Tag-Out lock to prevent the Rear Charge Port Door from being opened.
 
 <center>
   <figure>
@@ -1421,7 +1399,7 @@ of the ground. This reduces hazards while becoming familiar with how the various
 
 To power on Husky:
 
-1. Open the Access Panel cover, set the Battery Breaker to the "ON" position, and close the Access Panel cover.
+1. Open the Rear Charge Port Door, set the Battery Breaker to the "ON" position, and close the Rear Charge Port Door.
 1. Press and hold the Power Button for one second and then release it.
 1. Wait one minute for the robot to initialize fully. During startup, the Status Lights will be solid red.
    Once initialized, the front lights should be solid white and the rear lights should be solid red.
@@ -1464,20 +1442,33 @@ may be charged with the standard manual/wired charger or with the optional wirel
 #### Manual/Wired Charging
 
 A manual (wired) charger can be used to charge the Husky batteries by following the steps outlined below.
-Two manual chargers are supported with Husky A300:
+The following manual chargers are supported with Husky A300.
 
-- Husky A300 Standard Manual Charger (Henryuan Model PSY27710000): 277 W, indoor use only
-- Husky A300 High Power Manual Chargers
-   - Robots with 2 batteries: Delta-Q Model IC650: 650W, indoor or outdoor use (IP66)
-   - Robots with 4 or 6 batteries: Delta-Q Model IC1200: 1200 W, indoor or outdoor use (IP66)
+| Charger | Vendor / Model | Power | Voltage | Current | Operating Environment |
+| :------ | :------------- | :---- | :------ | :------ | :-------------------- |
+| Standard Manual Charger, North America | Henryuan PSY27710000 | 277 W | 27.7 V | 10.0 A | Indoor use only |
+| Standard Manual Charger, Europe | Mean Well NPB-240-24TB | 222 W | 27.7 V | 8.0 A | Indoor use only |
+| Upgraded Charger, 650 W | Delta-Q IC650 | 650 W | 27.7 V | 23.5 A | Indoor or outdoor use (IP66) |
+| Upgraded Charger, 1200 W | Delta-Q IC1200 | 650 W | 27.7 V | 43.3 A | Indoor or outdoor use (IP66) |
 
 :::safety-caution
 
-**Never use the Husky A300 Standard Manual Charger in outdoor environments.**
+**Never use the Husky A300 Standard Manual Chargers in outdoor environments.**
 
 This charger is for indoor use only. Only use this charger when the
 robot is inside and after it has been dried. Otherwise, electric shock
 may occur.
+
+:::
+
+<br/>
+
+:::note
+
+Only the following Manual Chargers have been validated against the IEC 61010-1 standard
+for use with Husky A300:
+
+- Mean Well NPB-240-24TB
 
 :::
 
@@ -1490,7 +1481,7 @@ robot is powered off.
 
 :::
 
-1.  Open the Access Panel cover to expose the Battery Charger Port.
+1.  Open the Rear Charge Port Door to expose the Battery Charger Port.
 1.  Connect the DC output cable from the Standard Charger to the battery terminal connector (red-to-red, black-to-black).
 1.  Plug the Standard Charger power cord into the Standard Charger and then into a wall receptacle.
     The LED on the Standard Charger will illuminate red and Husky's [Status Lights](#status-lights) will pulse yellow/green
@@ -1499,7 +1490,7 @@ robot is powered off.
     Alternatively, if the robot is powered on the LED on the Standard Charger will remain red and Husky's [Status Lights](#status-lights)
     will pulse blue/green.
 1.  Unplug the Standard Charger from the wall and then disconnect it from the Battery Charger Port.
-1.  Close the Access Panel cover.
+1.  Close the Rear Charge Port Door.
 
 #### Wireless Charging _(Add-on Kit)_
 
@@ -1577,7 +1568,7 @@ Husky has a robust structure that allows it to be picked up or reoriented by han
 the use of lifting machinery such as a crane, using lifting straps on the bottom of the robot. When using
 lifting straps, they should be positioned as shown in the images below. The lifting equipment and straps used
 shall be rated to minimum weight equal to the weight of Husky, including any mounted payloads.
-See [System Specifications](#system-specifications) for the weight of Husky and its maximum payload.
+See [Technical Specifications](#technical-specifications) for the weight of Husky and its maximum payload.
 
 <center>
   <figure>
@@ -1649,67 +1640,9 @@ once every three months, its battery levels checked, and if the reported charge 
 should be charged back up to at least 50% before returning it to extended storage.
 
 Husky and any spare batteries outside of the vehicle should be stored within the
-temperature range outlined in [System Specifications](#system-specifications).
+temperature range outlined in [Technical Specifications](#technical-specifications).
 
-### Husky Networking  {#husky-networking}
-
-Husky provides both Ethernet and Wi-Fi network connection options. The details below outline
-the configuration for the different options.
-
-#### Connecting to Husky over an Ethernet Connection  {#ethernet-connection}
-
-Regardless of the Wi-Fi mode, Husky can always be accessed over an Ethernet connection. Follow
-the steps below to connect to Husky over an Ethernet connection.
-
-1. Open the Access Panel cover on Husky to expose the debug Ethernet port.
-1. Connect an Ethernet cable from Husky's debug Ethernet port to a computer.
-1. Set the computer's IP address and netmask as shown below.
-   - **IP Address**: 192.168.131.100
-   - **Netmask**: 255.255.255.0
-1. Confirm that you can ping Husky from the computer's terminal window in Linux or the
-   command prompt in Windows by entering the following command:
-   ```ping 192.168.131.1```
-   The output should be similar to the following.
-   ```
-   Pinging 192.168.131.1 with 32 bytes of data:
-   Reply from 192.168.131.1: bytes=32 time<1ms TTL=128
-   Reply from 192.168.131.1: bytes=32 time<1ms TTL=128
-   Reply from 192.168.131.1: bytes=32 time<1ms TTL=128
-   Reply from 192.168.131.1: bytes=32 time<1ms TTL=128
-
-   Ping statistics for 192.168.131.1:
-       Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
-   Approximate round trip times in milli-seconds:
-       Minimum = 0ms, Maximum = 0ms, Average = 0ms
-   ```
-1. Connect to your robot via SSH. To do so, execute the following in a terminal window:
-   ```
-   ssh robot@192.168.131.1
-   ```
-   You will be promoted to enter a password. The default password is `clearpath`.
-   :::note
-   All Clearpath robots ship from the factory with their login password set to `clearpath`.
-   Upon receipt of your robot we recommend changing the password. To change the password,
-   run the following command on the robot:
-   ```
-   passwd
-   ```
-   This will prompt you to enter the current password, followed by the new password twice.
-   While typing the passwords in the `passwd` prompt there will be no visual feedback
-   (e.g. "*" characters).
-   :::
-
-#### Husky Wi-Fi Network Configuration
-
-Husky can be configured to connect to an existing Wi-Fi network.
-
-##### Connecting Husky to a Network over Wi-Fi  {#wifi-client-setup}
-
-To get Husky connected to your local Wi-Fi network, follow the setup below.
-
-1. Follow the steps for [Connecting to Husky over an Ethernet Connection](#ethernet-connection).
-1. Follow the [Wi-Fi connection](/docs/ros/networking/computer_setup#netplan-wifi)
-   instructions for setting up the Wi-Fi network.
+<ComponentNetworkConnection  robotModel={robotModel}/>
 
 ### Connecting and Using the Controller {#controller}
 
