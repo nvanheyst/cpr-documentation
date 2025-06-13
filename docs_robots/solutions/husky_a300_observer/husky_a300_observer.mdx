@@ -84,6 +84,10 @@ import ComponentInterfaceControlDrawing from "/components/husky_a300/husky_a300_
 import ComponentAluminumExtrusions from "/components/husky_a300/husky_a300_amp_aluminum_extrusions.mdx";
 import ComponentLargeIntegration from "/components/husky_a300/husky_a300_large_integration.mdx";
 import ComponentCommonSoftwareIntegration from "/components/common_software_integration.mdx";
+import ComponentNetworkConnection from "/components/husky_a300/husky_a300_network_connection.mdx";
+import ComponentNetworkBasic from "/components/husky_a300/husky_a300_amp_networking_basic.mdx";
+import ComponentSensorChecks from "/components/husky_a300/husky_a300_amp_check_sensors.mdx";
+import ComponentOutdoorNavChecks from "/components/husky_a300/husky_a300_amp_outdoornav_checks.mdx";
 import ComponentWiringDiagram from "/components/husky_a300/husky_a300_wiring_diagram.mdx";
 import ComponentWiringDiagramAMP from "/components/husky_a300/husky_a300_wiring_diagram_amp.mdx";
 import ComponentReplacingFusesBoardMount from "/components/husky_a300/husky_a300_replacing_fuses_board_mount.mdx";
@@ -136,9 +140,14 @@ import ComponentReplacingFusesBf1 from "/components/husky_a300/husky_a300_replac
   <ComponentConnectingWirelessJoystick />
   <ComponentInCaseOfCollision />
   <ComponentIssuesAfterGettingStarted />
+  <ComponentNetworkBasic />
+  <ComponentSensorChecks />
+  <ComponentOutdoorNavChecks />
+  <ComponentIssuesAfterGettingStarted />
 
 ## Operating The Robot {#operating-the-robot}
   <ComponentPreOperationInspection />
+  <ComponentNetworkConnection robotModel={robotModel}/>
   <ComponentMobilityControlOptions />
   <ComponentOrientationReferences />
   <ComponentChargingTheRobot robotModel={robotModel}/>
