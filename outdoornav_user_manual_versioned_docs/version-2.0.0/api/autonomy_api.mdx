@@ -1,0 +1,54 @@
+---
+title: Autonomy API
+sidebar_label: Autonomy API
+sidebar_position: 2
+toc_min_heading_level: 2
+toc_max_heading_level: 4
+---
+
+:::note
+
+All nodes, topics, and services are namespace prefixed with the robot 
+
+:::
+
+
+# Topic Subscribers
+
+| Topic                   | Message type                                                                                                 | Description     | QoS                                           |
+| :---------------------- | :----------------------------------------------------------------------------------------------------------- | :-------------- | :-------------------------------------------- |
+| platform/cmd_vel_out | [geometry_msgs/msg/TwistStamped](https://github.com/ros2/common_interfaces/blob/jazzy/geometry_msgs/msg/TwistStamped.msg) |  | [System Default](/docs/ros/api/overview#system-default)  |
+| platform/odom | [nav_msgs/msg/Odometry](https://github.com/ros2/common_interfaces/blob/jazzy/nav_msgs/msg/Odometry.msg) | Platform wheel odometry | [System Default](/docs/ros/api/overview#system-default)  |
+| joy_teleop/cmd_vel | [geometry_msgs/msg/TwistStamped](https://github.com/ros2/common_interfaces/blob/jazzy/geometry_msgs/msg/TwistStamped.msg) | Velocity commands from joystick inputs | [System Default](/docs/ros/api/overview#system-default)  |
+
+
+# Topic Publishers
+
+
+| Topic                   | Message type                                                                                                 | Description     | QoS                                           |
+| :---------------------- | :----------------------------------------------------------------------------------------------------------- | :-------------- | :-------------------------------------------- |
+| autonomy/config | [clearpath_navigation_msgs/msg/AutonomyConfig](pathname:///api/html/clearpath_navigation_msgs/msg/AutonomyConfig.html) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
+| autonomy/initial_path | [nav_msgs/msg/Path](https://github.com/ros2/common_interfaces/blob/jazzy/nav_msgs/msg/Path.msg) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
+| autonomy/status | [clearpath_navigation_msgs/msg/AutonomyStatus](pathname:///api/html/clearpath_navigation_msgs/msg/AutonomyStatus.html) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
+| control_selection/current_mode | [clearpath_control_msgs/msg/ControlMode](pathname:///api/html/clearpath_control_msgs/msg/ControlMode.html) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
+| control_selection/current_state | [clearpath_control_msgs/msg/ControlSelectionState](pathname:///api/html/clearpath_control_msgs/msg/ControlSelectionState.html) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
+| goto/preview | [clearpath_navigation_msgs/msg/GoToPreview](pathname:///api/html/clearpath_navigation_msgs/msg/GoToPreview.html) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
+| localization/datum | [sensor_msgs/msg/NavSatFix](https://github.com/ros2/common_interfaces/blob/jazzy/sensor_msgs/msg/NavSatFix.msg) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
+| localization/fix | [sensor_msgs/msg/NavSatFix](https://github.com/ros2/common_interfaces/blob/jazzy/sensor_msgs/msg/NavSatFix.msg) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
+| localization/odom | [nav_msgs/msg/Odometry](https://github.com/ros2/common_interfaces/blob/jazzy/nav_msgs/msg/Odometry.msg) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
+| mission/preview | [clearpath_navigation_msgs/msg/MissionPreview](pathname:///api/html/clearpath_navigation_msgs/msg/MissionPreview.html) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
+| mission_manager/state | [clearpath_mission_manager_msgs/msg/StorageState](pathname:///api/html/clearpath_navigation_msgs/msg/StorageState.html) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
+| mission_manager/network_maps_validity | [clearpath_mission_manager_msgs/msg/NetworkMapValidityState](pathname:///api/html/clearpath_navigation_msgs/msg/NetworkMapValidityState.html) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
+
+[change to navigation/speed_limit]: # 
+| speed_limit | [clearpath_navigation_msgs/msg/GoToPreview](pathname:///api/html/clearpath_navigation_msgs/msg/GoToPreview.html) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
+
+
+
+
+| Topic                   | Message type                                                                                                 | Description     | QoS                                           |
+| :---------------------- | :----------------------------------------------------------------------------------------------------------- | :-------------- | :-------------------------------------------- |
+| ui/heartbeat | [geometry_msgs/msg/TwistStamped](https://github.com/ros2/common_interfaces/blob/jazzy/geometry_msgs/msg/TwistStamped.msg) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
+| ui_teleop/cmd_vel | [geometry_msgs/msg/TwistStamped](https://github.com/ros2/common_interfaces/blob/jazzy/geometry_msgs/msg/TwistStamped.msg) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
+
+
