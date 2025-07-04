@@ -62,21 +62,34 @@ mkdir config launch
 
 For the final step, modify the `CMakeLists.txt` files in both packages to ensure that the description and bringup files are installed to the workspace.
 
-Add the following entry to the `project_description/CMakeLists.txt` file.
+Add the following entry to the `project_description/CMakeLists.txt` file. Add these lines after the `find_package()` command but before the `ament_package()`.
 ```CMake
 install(DIRECTORY meshes urdf
   DESTINATION share/${PROJECT_NAME}
 )
 ```
 
-And, add the following entry to the `project_bringup/CMakeLists.txt` file.
+And, add the following entry to the `project_bringup/CMakeLists.txt` file. Add these lines after the `find_package()` command but before the `ament_package()`.
 ```CMake
 install(DIRECTORY config launch
   DESTINATION share/${PROJECT_NAME}
 )
 ```
 
-Now, all added files to the `meshes`, `urdf`, `config`, and `launch` directories will be installed to the `colcon_ws/install` directory, such that all other nodes will have access to these. Therefore, create
+Now, all added files to the `meshes`, `urdf`, `config`, and `launch` directories will be installed to the `colcon_ws/install` directory, such that all other nodes will have access to these.
+
+>> As long as these directories exist, even if empty, the package will build. However, if any of these directories to `install` is deleted `colcon build` will fail.
+
+#### Create a URDF
+If custom meshes are required, create a URDF Xacro file in the `urdf` directory named `project_description.urdf.xacro` (swap `project` for the name of the project). By default, use the following skeleton to define the `xml` and `xacro` versions:
+```xml
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Put your custom URDF entries here -->
+
+</robot>
+```
 
 ## Include Package Description and Bringup in Configuration
 Once the packages have been setup and all customization files have been created and installed, it is possible to include these into the configuration file. By including these descriptions and bringups, the Clearpath configuration system will generate holistic, amalgamated files that will at launched at start-up.
