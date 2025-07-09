@@ -21,13 +21,14 @@ computer; the firmware is ROS-distribution-specific, and must have a version com
 One significant change between ROS 1 and ROS 2 is that Clearpath robots using ROS 2 Humble or Jazzy
 have their MCUs boot to a reset state. To establish communication between the robot's primary computer
 you must press a button on the robot:
+
 - on Ridgeback or Husky A300 press the e-stop reset button located on the rear of the robot
 - on Jackal or Dingo, press the MCU disconnect (<img src="/img/robot_images/dingo_images/icon-motor.png" width="24"/>) button
 
 ## Robot's COMM light is off after upgrading to ROS 2
 
 Most Clearpath robots have an MCU that must also be updated. Ensure you have installed the correct
-MCU firmware for your ROS distribution.  Refer to your robot's [user manual](/docs_robots/robots)
+MCU firmware for your ROS distribution. Refer to your robot's [user manual](/docs_robots/robots)
 for instructions on updating the MCU firmware.
 
 USB or serial-based MCUs require [`udev` rules](https://github.com/clearpathrobotics/clearpath_robot/blob/jazzy/clearpath_robot/debian/udev)
@@ -36,6 +37,7 @@ to be installed on the robot.
 If you have installed the ROS 2 packages as `.deb` packages (using the `apt` or `apt-get` command)
 these udev rules will be installed automatically. Verify that `/usr/lib/udev/rules.d/60-ros-jazzy-clearpath-robot.rules`
 exists in your system. If it does not, try reinstalling the `clearpath_robot` ROS package:
+
 ```bash
 sudo apt-get update
 sudo apt-get install --reinstall ros-jazzy-clearpath-robot
@@ -43,6 +45,7 @@ sudo apt-get install --reinstall ros-jazzy-clearpath-robot
 
 If you have installed the packages from source (i.e. they are built in a `colcon` workspace), make
 sure you have installed the udev rules by running these commands:
+
 ```
 sudo cp /path/to/colcon_ws/src/clearpath_robot/clearpath_robot/debian/udev /etc/udev/rules.d/60-clearpath-robot.rules
 sudo udevadm control --reload-rules
@@ -54,17 +57,22 @@ sudo udevadm trigger
 The command to install the firmware will exit normally if the firmware is successfully installed.
 If you do not see any error messages then the program finished normally. To double-check,
 _immediately after_ running the firmware installation command you can run
+
 ```bash
 echo $?
 ```
+
 to print the exit code of the previous command. If this prints `0` then the previous command
 finished normally.
 
 To verify that the version of the MCU firmware running on your robot, run
+
 ```bash
 ros2 topic echo /a300_00000/platform/mcu/status --once
 ```
+
 (replacing `a300_00000` with your robot's root namespace). The result will look something like this:
+
 ```yaml
 header:
   stamp:
@@ -81,12 +89,16 @@ connection_uptime:
   nanosec: 338000000
 ---
 ```
+
 The `firmware_version` field shows the MCU firmware version currently running. Ensure that this
 matches the version you just installed:
+
 ```
 ros2 pkg xml clearpath_firmware
 ```
+
 This command will print the `clearpath_firmware` package's meta-data:
+
 ```xml
 <package format="3">
   <name>clearpath_firmware</name>
@@ -114,6 +126,7 @@ This command will print the `clearpath_firmware` package's meta-data:
   </export>
 </package>
 ```
+
 The `version` tag near the top should match the `firmware_version` field of the MCU status message.
 In this case, both are `2.4.1`, indicating the latest firmware is installed.
 
@@ -122,6 +135,7 @@ In this case, both are `2.4.1`, indicating the latest firmware is installed.
 An invalid `robot.yaml` file may result in one or more of the `clearpath-*` systemd jobs to crash
 or for the simulation to fail to start. Check the ROS output for errors errors with any of the
 following prefixes:
+
 - `generate_description`
 - `clearpath_config`
 - `clearpath_config_live`
@@ -194,3 +208,9 @@ names in common.
 
 See [ROS 2 communication](networking/ros2_networking/ros2_communication) for more information about
 configuring domain IDs.
+
+## Mixing ROS 2 Humble and Jazzy
+
+Communication between Humble and Jazzy devices is not supported due to differences in middleware versions. Attempting to communicate with a Humble robot using a Jazzy computer or vice versa will trigger errors such as `eprosima::fastcdr::exception::NotEnoughMemoryException`, causing nodes and services to fail.
+
+It is recommended that all ROS 2 devices on a network use the same ROS 2 distribution and middleware.
