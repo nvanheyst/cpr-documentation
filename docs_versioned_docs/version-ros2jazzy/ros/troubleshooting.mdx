@@ -211,6 +211,18 @@ configuring domain IDs.
 
 ## Mixing ROS 2 Humble and Jazzy
 
-Communication between Humble and Jazzy devices is not supported due to differences in middleware versions. Attempting to communicate with a Humble robot using a Jazzy computer or vice versa will trigger errors such as `eprosima::fastcdr::exception::NotEnoughMemoryException`, causing nodes and services to fail.
+Communication between Humble and Jazzy devices is not supported due to differences in middleware versions. Attempting to discover or communicate with a Humble robot using a Jazzy computer, or vice versa, will cause nodes and services to fail. In this failure mode, you may see one or more of the following errors:
+
+```
+eprosima::fastcdr::exception::NotEnoughMemoryException
+```
+
+```
+'Bad alloc' exception deserializing message of type rmw_dds_common::msg::dds_::ParticipantEntitiesInfo_., at ./src/type_support_common.cpp:123
+```
+
+```
+Fast CDR exception deserializing message of type rmw_dds_common::msg::dds_::ParticipantEntitiesInfo_., at ./src/type_support_common.cpp:118
+```
 
 It is recommended that all ROS 2 devices on a network use the same ROS 2 distribution and middleware.
