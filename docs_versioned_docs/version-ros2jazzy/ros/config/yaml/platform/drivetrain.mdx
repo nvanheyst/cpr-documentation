@@ -1,0 +1,99 @@
+---
+title: Drivetrain
+sidebar_label: Drivetrain
+sidebar_position: 2
+toc_min_heading_level: 2
+toc_max_heading_level: 5
+---
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+Each platform comes with a default drivetrain controller and set of wheels. Some platforms support different controllers, and some support multiple wheel types. The `drivetrain` section determines which velocity controller to load, and which wheels to define in the robot description.
+
+The following drivetrain controllers are supported:
+- `diff_4wd`: Differential four-wheel drive
+- `diff_fwd`: Differential front-wheel drive
+- `diff_rwd`: Differential rear-wheel drive
+- `omni_4wd`: Omnidirectional four-wheel drive
+
+:::note
+
+The control type is determined by which wheels are controlled, not how many motors a platform has. An A200 has one motor per side which control two motors each, so it can only be `diff_4wd`.
+
+:::
+
+The following wheel types are supported:
+- `outdoor`: Rugged outdoor wheels
+- `indoor`: Smooth indoor wheels
+- `mecanum`: Roller wheels for omnidirectional control
+- `tracks`: Continuous track system
+- `caster`: Uncontrolled caster wheels
+
+The `drivetrain` section defines the keys `control` and `wheels` to set these parameters. Under `wheel`, the `front` and `rear` wheels are set separately. Some example configurations are shown below.
+
+<Tabs groupId="control">
+  <TabItem value="diff_4wd" label="diff_4wd" default>
+```
+drivetrain:
+  control: diff_4wd
+  wheels:
+    front: outdoor
+    rear: outdoor
+```
+  </TabItem>
+
+  <TabItem value="omni_4wd" label="omni_4wd" default>
+```
+drivetrain:
+  control: omni_4wd
+  wheels:
+    front: mecanum
+    rear: meceanum
+```
+  </TabItem>
+<TabItem value="diff_fwd" label="diff_fwd" default>
+```
+drivetrain:
+  control: diff_fwd
+  wheels:
+    front: indoor
+    rear: caster
+```
+  </TabItem>
+<TabItem value="diff_rwd" label="diff_rwd" default>
+```
+drivetrain:
+  control: diff_rwd
+  wheels:
+    front: caster
+    rear: outdoor
+```
+  </TabItem>
+</Tabs>
+
+:::note
+
+Not all configurations are valid. For example, an `omni_4wd` controller must be matched with four `mecanum` wheels. Also, `caster` wheels cannot be attached to wheels which are controlled.
+
+:::
+
+
+## Supported controllers and wheels
+
+| Platform |                             Control                             |                Front Wheels                |                Rear Wheels                 |
+| :------: | :-------------------------------------------------------------: | :----------------------------------------: | :----------------------------------------: |
+|   A200   |                          [`diff_4wd`]                           |         [`outdoor`] <br/> `indoor`         |         [`outdoor`] <br/> `indoor`         |
+|   A300   | [`diff_4wd`] <br/> `diff_fwd` <br/> `diff_rwd` <br/> `omni_4wd` | [`outdoor`] <br/> `mecanum` <br/> `caster` | [`outdoor`] <br/> `mecanum` <br/> `caster` |
+|   J100   |                          [`diff_4wd`]                           |                [`outdoor`]                 |                [`outdoor`]                 |
+|   W200   |                          [`diff_4wd`]                           |         [`outdoor`] <br/> `tracks`         |         [`outdoor`] <br/> `tracks`         |
+|  DD100   |                          [`diff_fwd`]                           |                 [`indoor`]                 |                 [`caster`]                 |
+|  DO100   |                 [`omni_4wd`] <br/>   `diff_4wd`                 |                [`mecanum`]                 |                [`mecanum`]                 |
+|  DD150   |                          [`diff_fwd`]                           |                 [`indoor`]                 |                 [`caster`]                 |
+|  DO150   |                 [`omni_4wd`] <br/>   `diff_4wd`                 |                [`mecanum`]                 |                [`mecanum`]                 |
+|   R100   |                 [`omni_4wd`] <br/>   `diff_4wd`                 |                [`mecanum`]                 |                [`mecanum`]                 |
+
+:::note
+
+Default configurations are noted with square brackets.
+
+:::
