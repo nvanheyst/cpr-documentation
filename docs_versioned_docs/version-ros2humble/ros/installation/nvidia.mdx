@@ -1,0 +1,264 @@
+---
+title: Nvidia Jetson Installation
+sidebar_label: Nvidia Jetson Installation
+sidebar_position: 3
+toc_min_heading_level: 2
+toc_max_heading_level: 4
+---
+
+:::note
+
+This page explains how to install Ubuntu 22.04 and ROS 2 Humble on an Nvidia Jetson computer.
+
+For installation instructions on a standard `amd64` computer, see [Robot Installation](robot.mdx)
+
+Nvidia Jetson computers can only be used as the primary computer in Jackal, Dingo, and Ridgeback platforms.
+
+:::
+
+## Install SDK Manager
+
+To install the OS on Nvidia Jetson computers, download Nvidia's [SDK Manager](https://developer.nvidia.com/sdk-manager)
+program. This program is available for Ubuntu (as a `.deb` package), Windows (as a `.exe`), and in a Docker container.
+
+Download and install the appropriate version for your desktop from [Nvidia's website](https://developer.nvidia.com/sdk-manager).
+
+## Install JetPack 6.2 and SDKs
+
+Follow the instructions for your Jetson computer to power it on and connect it via USB to your desktop. Open SDK Manager.
+
+<center>
+  <figure>
+    <img
+      src={require("./img/jetpack_detect_board.png").default}
+      width="900"
+    />
+  </figure>
+</center>
+
+### Select harget hardware
+
+Ensure the **Jetson** category at the top of the window is checked and that the **Target Hardware** matches your
+model of Jetson computer. If the board is not detected, refer to the instructions provided with your Jetson computer
+for any additional steps that may be be needed, such as entering bootloader mode.
+
+### Select SDK version
+
+Select SDK version `6.2.x` (`6.2.1` is the latest at the time of writing).
+
+### Additional SDKs
+
+If desired, you may install additional SDKs. These are not required for ROS 2 Humble, but may be needed for specific
+applications you intend to run on your robot.
+
+### Start the installer
+
+After selecting the appropriate options, click the green **Continue** button in the lower right of the window.
+
+## Details and license
+
+Review the selected components. You may customize which specific components will be installed by checking or
+unchecking them.
+
+<center>
+  <figure>
+    <img
+      src={require("./img/jetpack_details.png").default}
+      width="900"
+    />
+  </figure>
+</center>
+
+Check the license agreement at the bottom of the window and click the green **Continue** button.
+
+If the **Download folder** and **SDKs install folder** specified at the bottom of the window do not already exist on
+your computer you will be prompted to create them. If this happens, click the green **Create** button.
+
+<center>
+  <figure>
+    <img
+      src={require("./img/jetpack_create.png").default}
+      width="400"
+    />
+  </figure>
+</center>
+
+If you are running on Ubuntu you may be asked to enter your password to run some commands as `root`.
+
+### Wait for the download and installation to progress
+
+Wait for JetPack to downloading and install. Depending on your internet connection speed this may take some
+time.
+
+<center>
+  <figure>
+    <img
+      src={require("./img/jetpack_progress.png").default}
+      width="900"
+    />
+  </figure>
+</center>
+
+The download and installation progress is shown at the bottom of the screen. If you need to pause the process, you can
+press the green **Pause** button and resume the installation at a later time.
+
+## Flash the Jetson
+
+:::note
+
+Some Jetson computers skip this step. Please refer to the instructions for your specific computer.
+
+For example, **Forcecr** boards use a different set of steps, [documented here](https://www.forecr.io/blogs/installation/jetpack-6-x-installation-for-dsboard-ornx).
+
+:::
+
+After the download has proceeded sufficiently, SDK Manager will prompt you to flash your Jetson computer.
+
+<center>
+  <figure>
+    <img
+      src={require("./img/jetpack_flash.png").default}
+      width="900"
+    />
+  </figure>
+</center>
+
+Enter the username and password you intend to use to log into the Jetson computer. By default Clearpath Robotics uses
+the username `administrator` and the password `clearpath`.
+
+When ready, click the green **Flash** button at the bottom of the window.
+
+## Post-installation configuration
+
+:::note
+
+See Clearpath's [computer Jetson setup script documentation](https://github.com/clearpathrobotics/clearpath_computer_installer/blob/jetson-setup/README.md)
+for mode details on post-installation configuration.
+
+:::
+
+Once the core OS and Jetson APIs are installed the next step is to install the necessary ROS components to allow the
+computer to control your robot.
+
+Connect the Jetson to the internet, log in, and run the following command to download and run Clearpath's
+Jetson setup script:
+
+```bash
+wget -c https://raw.githubusercontent.com/clearpathrobotics/clearpath_computer_installer/refs/heads/jetson-setup/jetson-humble-setup.bash && bash -e jetson-humble-setup.bash
+```
+
+This script will:
+- (re-)configure `apt` with addional sources;
+- install additional `apt` and `pip` packages needed for Clearpath robots;
+- install core ROS components;
+- create and build a ROS workspace (`$HOME/colcon_ws`);
+- install additional Linux kernel modules;
+- configure your robot's initial `/etc/clearpath/robot.yaml` file; and
+- optionally reconfigure carrier board USB connections to enable bluetooth (required for teleop).
+
+### Missing ROS dependencies
+
+Manually running `rosdep install` in the generated workspace will result in warnings about some missing dependencies.
+This is normal; the missing dependencies are for Clearpath platforms that are not supported on Jetson computers.
+
+If you see warnings about the following dependencies being uninstallable, you may safely ignore them:
+
+| ROS Package           | Debian Package                   | Notes                                                                                                            |
+|:--------------------- |:-------------------------------- |:---------------------------------------------------------------------------------------------------------------- |
+| `gazebo_ros2_control` | `ros-humble-gazebo-ros2-control` | Needed for simulation support by `ros2_kortex` (Kinova manipulator driver). Not currently available for ARM CPUs |
+| `sevcon_traction`     | `ros-humble-sevcon-traction`     | Needed by Warthog W200, which cannot use an Nvidia Jetson as its primary computer                                |
+| `valence_bms_driver`  | `ros-humble-valence-bms-driver`  | Needed for Valence batteries, which are not used in Jackal, Dingo, nor Ridgeback                                 |
+
+## Building additional kernel modules
+
+At the time of writing, JetPack 6.1 installs the kernel `5.15.148-tegra`. This kernel by default does not include the
+`uinput` and `slcan` modules. Clearpath has [pre-built copies](https://github.com/clearpathrobotics/clearpath_computer_installer/tree/jetson-setup)
+of these modules for kernel `5.15.148-tegra`.
+
+If you have a different kernel, or want to build these modules yourself, follow
+[Nvidia's developer guide](https://docs.nvidia.com/jetson/archives/r36.4.4/DeveloperGuide/SD/Kernel/KernelCustomization.html).
+The essential steps are summarized below, but refer to Nvidia's kernel customization guide for more details.
+
+:::note
+
+The following instructions assume you are building the kernel and modules directly on the Jetson. To cross-compile,
+refer to Nvidia's developer guide.
+
+:::
+
+### Install prerequisites
+
+Run the following command:
+
+```bash
+sudo apt-get install build-essential bc flex bison libssl-dev zstd
+```
+
+### Download and extract the kernel sources
+
+:::note
+
+At the time of writing, the latest kernel sources are available at https://developer.nvidia.com/embedded/jetson-linux-r3644
+
+:::
+
+Run the following commands:
+
+```bash
+cd $HOME
+wget https://developer.nvidia.com/downloads/embedded/l4t/r36_release_v4.4/sources/public_sources.tbz2
+tar xf public_sources.tbz2
+cd Linux_for_Tegra/source
+tar xf kernel_src.tbz2
+```
+
+### Customize the kernel modules
+
+To enable the `slcan` and `uinput` modules you must edit the kernel configuration file.
+
+```bash
+echo "CONFIG_CAN_SLCAN=m" >> $HOME/Linux_for_Tegra/source/kernel/kernel-jammy-src/arch/arm64/configs/defconfig
+echo "CONFIG_INPUT_UINPUT=m" >> $HOME/Linux_for_Tegra/source/kernel/kernel-jammy-src/arch/arm64/configs/defconfig
+```
+
+### Build the kernel and modules
+
+:::note
+
+This step can take some time. Be patient.
+
+:::
+
+Run the following commands to build the kernel and modules:
+
+```bash
+cd $HOME/Linux_for_Tegra/source
+mkdir kernel_out
+./nvbuild.sh
+```
+
+### Install the modules
+
+After the build finishes, run the following commands to install the new modules:
+
+```bash
+cd $HOME/Linux_for_Tegra/source/kernel_out/kernel/kernel-jammy-src
+sudo cp drivers/net/can/socat.ko /lib/modules/$(uname -r)/kernel/drivers/net/can/
+sudo cp drivers/input/misc/uinput.ko /lib/modules/$(uname -r)/kernel/drivers/input/misc/
+sudo depmod
+sudo modprobe slcan
+sudo modprobe uinput
+```
+
+## Installing firmware updates
+
+If you need to [install firmware updates](robot#firmware-update) for your robot, you must install the
+`clearpath_firmware` package on an `amd64` [offboard computer](offboard_pc); the
+`clearpath_firmware` package is not available for ARM processors as a debian package.
+
+Connect the robot's MCU directly to the offboard computer (using either ethernet or USB, as appropriate for your
+model of robot) and run
+```bash
+ros2 run clearpath_firmware flash
+```
+on the offboard computer to update the firmware.
