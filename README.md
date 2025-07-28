@@ -63,12 +63,14 @@
       You can fix the errors by running Prettier on a single file, with `npx prettier --write <FILE PATH>`.
       For example, you can run the command `npx prettier --write README.md` to format this README.
 
+      If you have added a new folder and need to format all files within it you can use the `*` wildcard, for example" `npx prettier --write folder/*`
+
       - Refer to the _package.json_ to understand what this script calls.
       - Refer to the _.prettierrc.json_ to understand the rules Prettier is using when checking files.
 
       Note, we used to suggest the command `npm run format-write` to update all the files in this repository.
       We don't suggest this command anymore, since it is then difficult for reviewers of Pull Requests to find the intended content changes.
-      If you do continue to use this entire repositry command, you may see files that claim to be updated in Source Control, but don't have any visible changes.
+      If you do continue to use this entire repository command, you may see files that claim to be updated in Source Control, but don't have any visible changes.
       If so, you should run these commands in your terminal to prevent Git from noting these types of changes:
 
       git config --global core.filemode false
@@ -254,7 +256,7 @@ This helps Users know where they downloaded the file from later, as the asset is
     In an `img/` folder next to the markdown files where it will be used.
 
 6.  Files larger than 100 MB
-    
+
     Files added to GitHub must be smaller than 100 MB—_(at time of writing in 2025-04)_.
     You will be able to commit a large file locally, but the push to GitHub will fail.
     We are storing large files in an Amazon S3 Bucket, rather than the cpr-documentation repository's `/static/assets` directory.
@@ -262,13 +264,12 @@ This helps Users know where they downloaded the file from later, as the asset is
 
     To add a file:
 
-    * Sign into https://us-east-2.console.aws.amazon.com/s3/ .
-    * Navigate to the S3 Bucket `cpr-documentation-large-files `.
-    * Select the `Upload` button, and choose your local file.
-    * After the file has been uploaded, click on the new object, and copy its `Object URL`.
+    - Sign into https://us-east-2.console.aws.amazon.com/s3/ .
+    - Navigate to the S3 Bucket `cpr-documentation-large-files `.
+    - Select the `Upload` button, and choose your local file.
+    - After the file has been uploaded, click on the new object, and copy its `Object URL`.
       This is the public URL to access the file you uploaded.
       Note that this S3 Bucket is configured so all files' permissions are automatically set to public access.
-    
 
 ## How to merge branches into the Production branch?
 

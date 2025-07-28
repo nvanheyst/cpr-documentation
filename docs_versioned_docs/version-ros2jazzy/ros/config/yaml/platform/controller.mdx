@@ -1,10 +1,12 @@
 ---
 title: Controller
 sidebar_label: Controller
-sidebar_position: 4
+sidebar_position: 5
 toc_min_heading_level: 2
 toc_max_heading_level: 5
 ---
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 We support the following types of controllers on all platforms:
   - **ps4**: standard Playstation4 controller (bluetooth).
@@ -17,6 +19,51 @@ Switching between each is done by setting the `controller` parameter under the `
 ```yaml
 controller: ps4 # one of ps4, ps5, logitech, xbox
 ```
+
+## Default Button Mappings
+
+By default, Clearpath platforms use the left and right triggers (typically buttons L1, R1) as the normal deadman and turbo deadman buttons respectively. The vertical axis of the left joystick will control linear speed in the X direction, and the horizontal axis controls angular speed. For omnidirectional robots,
+the horizontal axis of the right joystick will control linear speed in the Y direction.
+
+### Changing Button Mappings
+
+If you wish to change the default button mappings, this can be modified by using the
+[`extras.ros_parameters`](extras) field in `robot.yaml`. First, find the [default configuration](https://github.com/clearpathrobotics/clearpath_common/tree/jazzy/clearpath_control/config/generic) file for your controller.
+The comments at the top of the file will describe the axis mappings relative to the controller buttons. This varies between controllers.
+
+Next, modify the `teleop_twist_joy_node` parameters with your updated button mappings. Here are some examples:
+
+<Tabs groupId="controller">
+  <TabItem value="right_hand_control" label="Right Hand Differential control (PS4)" default>
+```yaml
+extras:
+  ros_parameters:
+    teleop_twist_joy_node:
+      axis_linear.x: 4
+      axis_angular.yaw: 3
+      enable_button: 5
+      enable_turbo_button: 4
+```
+  </TabItem>
+  <TabItem value="omni_swap_horizontal" label="Swap linear Y and angular Yaw axes (PS4)" default>
+```yaml
+extras:
+  ros_parameters:
+    teleop_twist_joy_node:
+      axis_linear.y: 0
+      axis_angular.yaw: 3
+```
+  </TabItem>
+<TabItem value="deadman_l2_r2" label="Deadman buttons on L2 and R2 (PS4)" default>
+```yaml
+extras:
+  ros_parameters:
+    teleop_twist_joy_node:
+      enable_button: 6
+      enable_turbo_button: 7
+```
+  </TabItem>
+</Tabs>
 
 ## Teleop Speeds
 
@@ -52,12 +99,12 @@ extras:
 
 **Normal speed parameters**
 - `scale_linear.x` sets the maximum forward/reverse velocity
-- `scale_linear.y` sets the maximum left/right velocity (Dingo-O and Ridgeback only)
+- `scale_linear.y` sets the maximum left/right velocity (Omnidirectional control only)
 - `scale_angular.z` sets the maximum angular velocity
 
 **Turbo speed parameters**
 - `scale_linear_turbo.x` sets the maximum forward/reverse velocity
-- `scale_linear_turbo.y` sets the maximum left/right velocity (Dingo-O and Ridgeback only)
+- `scale_linear_turbo.y` sets the maximum left/right velocity (Omnidirectional control only)
 - `scale_angular_turbo.z` sets the maximum angular velocity
 
 :::warning
@@ -67,3 +114,25 @@ may make the robot difficult to control. The robot will not exceed its maximum s
 on the joystick may result in awkward clipping, causing teleoperation to be jerky.
 
 :::
+
+## Changing the `joy` device
+
+By default the `joy_node` will open one of the following devices, created by a `udev` rule included in
+the `clearpath_robot` package:
+
+| Controller type | Linux `joy` device |
+|:--------------- |:------------------ |
+| `ps4`           | `/dev/input/ps4`   |
+| `ps5`           | `/dev/input/ps5`   |
+| `xbox`          | `/dev/input/xbox`  |
+| `logitech`      | `/dev/input/f710`  |
+
+To manually specify a different device file or symlink, use the [`extras.ros_parameters`](extras) field in
+`robot.yaml`, for example:
+
+```yaml
+extras:
+  ros_parameters:
+    joy_node:
+      dev: /dev/input/js0
+```
