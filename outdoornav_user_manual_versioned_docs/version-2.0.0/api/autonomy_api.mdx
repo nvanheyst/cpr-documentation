@@ -8,7 +8,7 @@ toc_max_heading_level: 4
 
 :::note
 
-All nodes, topics, and services are namespace prefixed with the robot 
+All nodes, topics, and services are namespace prefixed with the robot serial number.
 
 :::
 
@@ -32,6 +32,8 @@ All nodes, topics, and services are namespace prefixed with the robot
 | autonomy/status | [clearpath_navigation_msgs/msg/AutonomyStatus](pathname:///api/html/clearpath_navigation_msgs/msg/AutonomyStatus.html) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
 | control_selection/current_mode | [clearpath_control_msgs/msg/ControlMode](pathname:///api/html/clearpath_control_msgs/msg/ControlMode.html) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
 | control_selection/current_state | [clearpath_control_msgs/msg/ControlSelectionState](pathname:///api/html/clearpath_control_msgs/msg/ControlSelectionState.html) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
+| docking/docking_server/path | [nav_msgs/msg/Path](https://github.com/ros2/common_interfaces/blob/jazzy/nav_msgs/msg/Path.msg) | Lidar scan data |
+| docking/undocking_server/path | [nav_msgs/msg/Path](https://github.com/ros2/common_interfaces/blob/jazzy/nav_msgs/msg/Path.msg) | Lidar scan data |
 | goto/preview | [clearpath_navigation_msgs/msg/GoToPreview](pathname:///api/html/clearpath_navigation_msgs/msg/GoToPreview.html) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
 | localization/datum | [sensor_msgs/msg/NavSatFix](https://github.com/ros2/common_interfaces/blob/jazzy/sensor_msgs/msg/NavSatFix.msg) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
 | localization/fix | [sensor_msgs/msg/NavSatFix](https://github.com/ros2/common_interfaces/blob/jazzy/sensor_msgs/msg/NavSatFix.msg) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
@@ -39,16 +41,109 @@ All nodes, topics, and services are namespace prefixed with the robot
 | mission/preview | [clearpath_navigation_msgs/msg/MissionPreview](pathname:///api/html/clearpath_navigation_msgs/msg/MissionPreview.html) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
 | mission_manager/state | [clearpath_mission_manager_msgs/msg/StorageState](pathname:///api/html/clearpath_navigation_msgs/msg/StorageState.html) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
 | mission_manager/network_maps_validity | [clearpath_mission_manager_msgs/msg/NetworkMapValidityState](pathname:///api/html/clearpath_navigation_msgs/msg/NetworkMapValidityState.html) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
-
-[change to navigation/speed_limit]: # 
-| speed_limit | [clearpath_navigation_msgs/msg/GoToPreview](pathname:///api/html/clearpath_navigation_msgs/msg/GoToPreview.html) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
-
-
-
-
-| Topic                   | Message type                                                                                                 | Description     | QoS                                           |
-| :---------------------- | :----------------------------------------------------------------------------------------------------------- | :-------------- | :-------------------------------------------- |
+| speed_limit | [clearpath_navigation_msgs/msg/GoToPreview](https://github.com/ros-navigation/navigation2/blob/main/nav2_msgs/msg/SpeedLimit.msg) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
 | ui/heartbeat | [geometry_msgs/msg/TwistStamped](https://github.com/ros2/common_interfaces/blob/jazzy/geometry_msgs/msg/TwistStamped.msg) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
 | ui_teleop/cmd_vel | [geometry_msgs/msg/TwistStamped](https://github.com/ros2/common_interfaces/blob/jazzy/geometry_msgs/msg/TwistStamped.msg) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
 
+# Services
 
+| Service                   | Service type                                                                                                 | Description     |
+| :---------------------- | :----------------------------------------------------------------------------------------------------------- | :-------------- |
+| control_selection/set_mode | [clearpath_control_msgs/srv/SetControlMode](pathname:///api/html/clearpath_control_msgs/srv/SetControlMode.html) | Lidar scan data |
+| control_selection/pause | [std_srvs/srv/SetBool](https://docs.ros2.org/foxy/api/std_srvs/srv/SetBool.html) | Lidar scan data |
+| control_selection/resume | [std_srvs/srv/SetBool](https://docs.ros2.org/foxy/api/std_srvs/srv/SetBool.html) | Lidar scan data |
+| docking/docking_server/dock | [std_srvs/srv/Trigger](https://docs.ros2.org/foxy/api/std_srvs/srv/Trigger.html) | Lidar scan data |
+| docking/docking_server/run_docking | [clearpath_dock_msgs/srv/RunDocking](pathname:///api/html/clearpath_dock_msgs/srv/RunDocking.html) | Lidar scan data |
+| docking/undocking_server/undock | [std_srvs/srv/Trigger](https://docs.ros2.org/foxy/api/std_srvs/srv/Trigger.html) | Lidar scan data |
+| docking/undocking_server/run_undocking | [clearpath_dock_msgs/srv/RunUndocking](pathname:///api/html/clearpath_dock_msgs/srv/RunUndocking.html) | Lidar scan data |
+| docking/dock_manager/add_dock | [clearpath_dock_msgs/srv/AddDock](pathname:///api/html/clearpath_dock_msgs/srv/AddDock.html) |  |
+| docking/dock_manager/clear_data | [std_srvs/srv/Trigger](https://docs.ros2.org/foxy/api/std_srvs/srv/Trigger.html) |  |
+| docking/dock_manager/delete_dock | [clearpath_dock_msgs/srv/DeleteDock](pathname:///api/html/clearpath_dock_msgs/srv/DeleteDock.html) |  |
+| docking/dock_manager/export | [clearpath_dock_msgs/srv/ExportData](pathname:///api/html/clearpath_dock_msgs/srv/ExportData.html) |  |
+| docking/dock_manager/get_database | [clearpath_dock_msgs/srv/GetDockDatabase](pathname:///api/html/clearpath_dock_msgs/srv/GetDockDatabase.html) |  |
+| docking/dock_manager/get_dock | [clearpath_dock_msgs/srv/GetDock](pathname:///api/html/clearpath_dock_msgs/srv/GetDock.html) |  |
+| docking/dock_manager/import | [clearpath_dock_msgs/srv/ImportData](pathname:///api/html/clearpath_dock_msgs/srv/ImportData.html) |  |
+| docking/dock_manager/update_dock | [clearpath_dock_msgs/srv/UpdateDock](pathname:///api/html/clearpath_dock_msgs/srv/UpdateDock.html) |  |
+| docking/dock_localizer/add_dock_current_pose| [clearpath_dock_msgs/srv/AddDockCurrentPose](pathname:///api/html/clearpath_dock_msgs/srv/AddDockCurrentPose.html) |  |
+| docking/dock_localizer/get_dock_poses| [clearpath_dock_msgs/srv/GetDockPoses](pathname:///api/html/clearpath_dock_msgs/srv/GetDockPoses.html) |  |
+| docking/dock_localizer/survey_dock| [clearpath_dock_msgs/srv/SurveyDock](pathname:///api/html/clearpath_dock_msgs/srv/SurveyDock.html) |  |
+| localization/lat_lon_to_xy | [clearpath_localization_msgs/srv/ConvertLatLonToCartesian](pathname:///api/html/clearpath_localization_msgs/srv/ConvertLatLonToCartesian.html) |  |
+| localization/lat_lon_to_xy_array | [clearpath_localization_msgs/srv/ConvertLatLonToCartesianArray](pathname:///api/html/clearpath_localization_msgs/srv/ConvertLatLonToCartesianArray.html)) |  |
+| localization/set_datum | [clearpath_localization_msgs/srv/SetDatum](pathname:///api/html/clearpath_localization_msgs/srv/SetDatum.html)) |  |
+| localization/xy_to_lat_lon | [clearpath_localization_msgs/srv/ConvertCartesianToLatLon](pathname:///api/html/clearpath_localization_msgs/srv/ConvertCartesianToLatLon.html)) |  |
+| localization/xy_to_lat_lon_array | [clearpath_localization_msgs/srv/ConvertCartesianToLatLonArray](pathname:///api/html/clearpath_localization_msgs/srv/ConvertCartesianToLatLonArray.html)) |  |
+| log_manager/delete_log | [clearpath_logger_msgs/srv/DeleteLog](pathname:///api/html/clearpath_logger_msgs/srv/DeleteLog.html) |  |
+| log_manager/start_recording | [std_srvs/srv/Trigger](https://docs.ros2.org/foxy/api/std_srvs/srv/Trigger.html) |  |
+| log_manager/stop_recording | [std_srvs/srv/Trigger](https://docs.ros2.org/foxy/api/std_srvs/srv/Trigger.html) |  |
+| mission_manager/add_network_edge | [clearpath_mission_manager_msgs/srv/AddNetworkEdge](pathname:///api/html/clearpath_mission_manager_msgs/srv/AddNetworkEdge.html) | |
+| mission_manager/add_network_path | [clearpath_mission_manager_msgs/srv/AddNetworkPath](pathname:///api/html/clearpath_mission_manager_msgs/srv/AddNetworkPath.html) | |
+| mission_manager/add_network_point | [clearpath_mission_manager_msgs/srv/AddNetworkPoint](pathname:///api/html/clearpath_mission_manager_msgs/srv/AddNetworkPoint.html) | |
+| mission_manager/add_tag | [clearpath_mission_manager_msgs/srv/AddRemoveTag](pathname:///api/html/clearpath_mission_manager_msgs/srv/AddRemoveTag.html) | |
+| mission_manager/add_task_to_start | [clearpath_mission_manager_msgs/srv/AddRemoveById](pathname:///api/html/clearpath_mission_manager_msgs/srv/AddRemoveById.html) | |
+| mission_manager/add_task_to_stop | [clearpath_mission_manager_msgs/srv/AddRemoveById](pathname:///api/html/clearpath_mission_manager_msgs/srv/AddRemoveById.html) | |
+| mission_manager/add_task_to_waypoint | [clearpath_mission_manager_msgs/srv/AddRemoveById](pathname:///api/html/clearpath_mission_manager_msgs/srv/AddRemoveById.html) | |
+| mission_manager/add_waypoint_to_mission | [clearpath_mission_manager_msgs/srv/AddRemoveById](pathname:///api/html/clearpath_mission_manager_msgs/srv/AddRemoveById.html) | |
+| mission_manager/clone_mission | [clearpath_mission_manager_msgs/srv/CloneMission](pathname:///api/html/clearpath_mission_manager_msgs/srv/CloneMission.html) | |
+| mission_manager/clone_network_map | [clearpath_mission_manager_msgs/srv/CloneNetworkMap](pathname:///api/html/clearpath_mission_manager_msgs/srv/CloneNetworkMap.html) | |
+| mission_manager/clone_network_mission | [clearpath_mission_manager_msgs/srv/CloneNetworkMission](pathname:///api/html/clearpath_mission_manager_msgs/srv/CloneNetworkMission.html) | |
+| mission_manager/clone_point_of_interest | [clearpath_mission_manager_msgs/srv/ClonePointOfInterest](pathname:///api/html/clearpath_mission_manager_msgs/srv/ClonePointOfInterest.html) | |
+| mission_manager/clone_task | [clearpath_mission_manager_msgs/srv/GetTask](pathname:///api/html/clearpath_mission_manager_msgs/srv/GetTask.html) | |
+| mission_manager/clone_waypoint | [clearpath_mission_manager_msgs/srv/GetWaypoint](pathname:///api/html/clearpath_mission_manager_msgs/srv/GetWaypoint.html) | |
+| mission_manager/create_mission | [clearpath_mission_manager_msgs/srv/CreateMission](pathname:///api/html/clearpath_mission_manager_msgs/srv/CreateMission.html) | |
+| mission_manager/create_network_map | [clearpath_mission_manager_msgs/srv/CreateNetworkMap](pathname:///api/html/clearpath_mission_manager_msgs/srv/CreateNetworkMap.html) | |
+| mission_manager/create_network_mission | [clearpath_mission_manager_msgs/srv/CreateNetworkMission](pathname:///api/html/clearpath_mission_manager_msgs/srv/CreateNetworkMission.html) | |
+| mission_manager/create_point_of_interest | [clearpath_mission_manager_msgs/srv/CreatePointOfInterest](pathname:///api/html/clearpath_mission_manager_msgs/srv/CreatePointOfInterest.html) | |
+| mission_manager/create_task | [clearpath_mission_manager_msgs/srv/CreateTask](pathname:///api/html/clearpath_mission_manager_msgs/srv/CreateTask.html) | |
+| mission_manager/create_waypoint | [clearpath_mission_manager_msgs/srv/CreateWaypoint](pathname:///api/html/clearpath_mission_manager_msgs/srv/CreateWaypoint.html) | |
+| mission_manager/create_waypoint_from_poi | [clearpath_mission_manager_msgs/srv/CreateWaypointFromPoi](pathname:///api/html/clearpath_mission_manager_msgs/srv/CreateWaypointFromPoi.html) | |
+| mission_manager/delete_all | [clearpath_mission_manager_msgs/srv/DeleteEverything](pathname:///api/html/clearpath_mission_manager_msgs/srv/DeleteEverything.html) | |
+| mission_manager/delete_mission | [clearpath_mission_manager_msgs/srv/DeleteById](pathname:///api/html/clearpath_mission_manager_msgs/srv/DeleteById.html) | |
+| mission_manager/delete_missions | [clearpath_mission_manager_msgs/srv/DeleteMultiple](pathname:///api/html/clearpath_mission_manager_msgs/srv/DeleteMultiple.html) | |
+| mission_manager/delete_network_edge | [clearpath_mission_manager_msgs/srv/AddRemoveById](pathname:///api/html/clearpath_mission_manager_msgs/srv/AddRemoveById.html) | |
+| mission_manager/delete_network_edges | [clearpath_mission_manager_msgs/srv/DeleteMultiple](pathname:///api/html/clearpath_mission_manager_msgs/srv/DeleteMultiple.html) | |
+| mission_manager/delete_network_map | [clearpath_mission_manager_msgs/srv/DeleteById](pathname:///api/html/clearpath_mission_manager_msgs/srv/DeleteById.html) | |
+| mission_manager/delete_network_mission | [clearpath_mission_manager_msgs/srv/DeleteById](pathname:///api/html/clearpath_mission_manager_msgs/srv/DeleteById.html) | |
+| mission_manager/delete_network_point | [clearpath_mission_manager_msgs/srv/AddRemoveById](pathname:///api/html/clearpath_mission_manager_msgs/srv/AddRemoveById.html) | |
+| mission_manager/delete_network_points | [clearpath_mission_manager_msgs/srv/DeleteMultiple](pathname:///api/html/clearpath_mission_manager_msgs/srv/DeleteMultiple.html) | |
+| mission_manager/delete_orphan_objects | [clearpath_mission_manager_msgs/srv/DeleteEverything](pathname:///api/html/clearpath_mission_manager_msgs/srv/DeleteEverything.html) | |
+| mission_manager/delete_point_of_interest | [clearpath_mission_manager_msgs/srv/DeleteById](pathname:///api/html/clearpath_mission_manager_msgs/srv/DeleteById.html) | |
+| mission_manager/delete_task | [clearpath_mission_manager_msgs/srv/DeleteById](pathname:///api/html/clearpath_mission_manager_msgs/srv/DeleteById.html) | |
+| mission_manager/delete_tasks | [clearpath_mission_manager_msgs/srv/DeleteMultiple](pathname:///api/html/clearpath_mission_manager_msgs/srv/DeleteMultiple.html) | |
+| mission_manager/delete_waypoint | [clearpath_mission_manager_msgs/srv/DeleteById](pathname:///api/html/clearpath_mission_manager_msgs/srv/DeleteById.html) | |
+| mission_manager/delete_waypoints | [clearpath_mission_manager_msgs/srv/DeleteMultiple](pathname:///api/html/clearpath_mission_manager_msgs/srv/DeleteMultiple.html) | |
+| mission_manager/remove_tag | [clearpath_mission_manager_msgs/srv/AddRemoveTag](pathname:///api/html/clearpath_mission_manager_msgs/srv/AddRemoveTag.html) | |
+| mission_manager/export | [clearpath_mission_manager_msgs/srv/ExportData](pathname:///api/html/clearpath_mission_manager_msgs/srv/ExportData.html) | |
+| mission_manager/get_all | [clearpath_mission_manager_msgs/srv/GetEverything](pathname:///api/html/clearpath_mission_manager_msgs/srv/GetEverything.html) | |
+| mission_manager/get_all_missions | [clearpath_mission_manager_msgs/srv/GetAllMissions](pathname:///api/html/clearpath_mission_manager_msgs/srv/GetAllMissions.html) | |
+| mission_manager/get_all_network_maps | [clearpath_mission_manager_msgs/srv/GetAllNetworkMaps](pathname:///api/html/clearpath_mission_manager_msgs/srv/GetAllNetworkMaps.html) | |
+| mission_manager/get_all_network_missions | [clearpath_mission_manager_msgs/srv/GetAllNetworkMissions](pathname:///api/html/clearpath_mission_manager_msgs/srv/GetAllNetworkMissions.html) | |
+| mission_manager/get_all_points_of_interest | [clearpath_mission_manager_msgs/srv/GetAllPointsOfInterest](pathname:///api/html/clearpath_mission_manager_msgs/srv/GetAllPointsOfInterest.html) | |
+| mission_manager/get_all_tasks | [clearpath_mission_manager_msgs/srv/GetAllTasks](pathname:///api/html/clearpath_mission_manager_msgs/srv/GetAllTasks.html) | |
+| mission_manager/get_all_waypoints | [clearpath_mission_manager_msgs/srv/GetAllWaypoints](pathname:///api/html/clearpath_mission_manager_msgs/srv/GetAllWaypoints.html) | |
+| mission_manager/get_mission | [clearpath_mission_manager_msgs/srv/GetMission](pathname:///api/html/clearpath_mission_manager_msgs/srv/GetMission.html) | |
+| mission_manager/get_network_map | [clearpath_mission_manager_msgs/srv/GetNetworkMap](pathname:///api/html/clearpath_mission_manager_msgs/srv/GetNetworkMap.html) | |
+| mission_manager/get_network_mission | [clearpath_mission_manager_msgs/srv/GetNetworkMission](pathname:///api/html/clearpath_mission_manager_msgs/srv/GetNetworkMission.html) | |
+| mission_manager/get_point_of_interest | [clearpath_mission_manager_msgs/srv/GetPointOfInterest](pathname:///api/html/clearpath_mission_manager_msgs/srv/GetPointOfInterest.html) | |
+| mission_manager/get_task | [clearpath_mission_manager_msgs/srv/GetTask](pathname:///api/html/clearpath_mission_manager_msgs/srv/GetTask.html) | |
+| mission_manager/get_waypoint | [clearpath_mission_manager_msgs/srv/GetWaypoint](pathname:///api/html/clearpath_mission_manager_msgs/srv/GetWaypoint.html) | |
+| mission_manager/import | [clearpath_mission_manager_msgs/srv/ImportData](pathname:///api/html/clearpath_mission_manager_msgs/srv/ImportData.html) | |
+| mission_manager/import_mission | [clearpath_mission_manager_msgs/srv/ImportMission](pathname:///api/html/clearpath_mission_manager_msgs/srv/ImportMission.html) | |
+| mission_manager/import_network_map | [clearpath_mission_manager_msgs/srv/ImportNetworkMap](pathname:///api/html/clearpath_mission_manager_msgs/srv/ImportNetworkMap.html) | |
+| mission_manager/import_network_mission | [clearpath_mission_manager_msgs/srv/ImportNetworkMission](pathname:///api/html/clearpath_mission_manager_msgs/srv/ImportNetworkMission.html) | |
+| mission_manager/remove_task_from_start | [clearpath_mission_manager_msgs/srv/AddRemoveById](pathname:///api/html/clearpath_mission_manager_msgs/srv/AddRemoveById.html) | |
+| mission_manager/remove_task_from_stop | [clearpath_mission_manager_msgs/srv/AddRemoveById](pathname:///api/html/clearpath_mission_manager_msgs/srv/AddRemoveById.html) | |
+| mission_manager/remove_task_from_waypoint | [clearpath_mission_manager_msgs/srv/AddRemoveById](pathname:///api/html/clearpath_mission_manager_msgs/srv/AddRemoveById.html) | |
+| mission_manager/remove_waypoint_from_mission | [clearpath_mission_manager_msgs/srv/AddRemoveById](pathname:///api/html/clearpath_mission_manager_msgs/srv/AddRemoveById.html) | |
+| mission_manager/restore | [clearpath_mission_manager_msgs/srv/ImportData](pathname:///api/html/clearpath_mission_manager_msgs/srv/ImportData.html) | |
+| mission_manager/split_network_edge | [clearpath_mission_manager_msgs/srv/SplitNetworkEdge](pathname:///api/html/clearpath_mission_manager_msgs/srv/SplitNetworkEdge.html) | |
+| mission_manager/update_mission | [clearpath_mission_manager_msgs/srv/UpdateMission](pathname:///api/html/clearpath_mission_manager_msgs/srv/UpdateMission.html) | |
+| mission_manager/update_network_edge | [clearpath_mission_manager_msgs/srv/UpdateNetworkEdge](pathname:///api/html/clearpath_mission_manager_msgs/srv/UpdateNetworkEdge.html) | |
+| mission_manager/update_network_edges | [clearpath_mission_manager_msgs/srv/UpdateNetworkEdges](pathname:///api/html/clearpath_mission_manager_msgs/srv/UpdateNetworkEdges.html) | |
+| mission_manager/update_network_map | [clearpath_mission_manager_msgs/srv/UpdateNetworkMap](pathname:///api/html/clearpath_mission_manager_msgs/srv/UpdateNetworkMap.html) | |
+| mission_manager/update_network_mission | [clearpath_mission_manager_msgs/srv/UpdateNetworkMission](pathname:///api/html/clearpath_mission_manager_msgs/srv/AdUpdateNetworkMissiondNetworkEdge.html) | |
+| mission_manager/update_network_point | [clearpath_mission_manager_msgs/srv/UpdateNetworkPoint](pathname:///api/html/clearpath_mission_manager_msgs/srv/UpdateNetworkPoint.html) | |
+| mission_manager/update_network_points | [clearpath_mission_manager_msgs/srv/UpdateNetworkPoints](pathname:///api/html/clearpath_mission_manager_msgs/srv/UpdateNetworkPoints.html) | |
+| mission_manager/update_point_of_interest | [clearpath_mission_manager_msgs/srv/UpdatePointOfInterest](pathname:///api/html/clearpath_mission_manager_msgs/srv/UpdatePointOfInterest.html) | |
+| mission_manager/update_task | [clearpath_mission_manager_msgs/srv/UpdateTask](pathname:///api/html/clearpath_mission_manager_msgs/srv/UpdateTask.html) | |
+| mission_manager/update_waypoint | [clearpath_mission_manager_msgs/srv/UpdateWaypoint](pathname:///api/html/clearpath_mission_manager_msgs/srv/UpdateWaypoint.html) | |
+| mission_manager/validate_network_map | [clearpath_mission_manager_msgs/srv/ValidateNetworkMap](pathname:///api/html/clearpath_mission_manager_msgs/srv/ValidateNetworkMap.html) | |
