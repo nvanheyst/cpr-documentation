@@ -18,6 +18,7 @@ All nodes, topics, and services are namespace prefixed with the robot serial num
 ### Localization
 
 Topic: localization/odom
+
 Topic: localization/fix
 
 
@@ -30,76 +31,96 @@ information.
 
 ### Start a mission
 
-action_name: autonomy/network_mission
-
-pkg_name: clearpath_navigation_msgs
-
-action_type: ExecuteNetworkMissionByUuid
+| | |
+| :---------------------- | :--------------|
+| `action_name` | autonomy/network_mission |
+| `pkg_name` | clearpath_navigation_msgs |
+| `action_type` | ExecuteNetworkMissionByUuid |
 
 ### Start a Mission from a specific goal
 
-action_name: autonomy/network_mission_from_goal
+| | |
+| :---------------------- | :--------------|
+| `action_name` | autonomy/network_mission_from_goal |
+| `pkg_name` | clearpath_navigation_msgs |
+| `action_type` | ExecuteNetworkMissionFromGoal |
 
-pkg_name: clearpath_navigation_msgs
 
-action_type: ExecuteNetworkMissionFromGoal
+### Send the robot to a location in the map
 
-### Send the robot to a location in the network
-
-action_name: autonomy/network_goto
-
-pkg_name: clearpath_navigation_msgs
-
-action_type: ExecuteNetworkGoTo
+| | |
+| :---------------------- | :--------------|
+| `action_name` | autonomy/network_goto |
+| `pkg_name` | clearpath_navigation_msgs |
+| `action_type` | ExecuteNetworkGoTo |
 
 ### Send the robot to a point of interest (POI)
 
-action_name: autonomy/network_goto_poi
-
-pkg_name: clearpath_navigation_msgs
-
-action_type: ExecuteNetworkGoToPOI
-
-### Pause navigation
-
-Service: control_selection/pause
-
-### Resume navigation
-
-Service: control_selection/resume
-
-### Stop all autonomy actions
-
-Service: autonomy/stop
-
+| | |
+| :---------------------- | :--------------|
+| `action_name` | autonomy/network_goto_poi |
+| `pkg_name` | clearpath_navigation_msgs |
+| `action_type` | ExecuteNetworkGoToPOI |
 
 ## Docking the robot
 
 ### Local docking
 
-action_name: autonomy/local_dock
-
-pkg_name: clearpath_dock_msgs
-
-action_type: Dock
+| | |
+| :---------------------- | :--------------|
+| `action_name` | autonomy/local_dock |
+| `pkg_name` | clearpath_navigation_msgs |
+| `action_type` | Dock |
 
 ### Local undocking
 
-action_name: autonomy/local_undock
+| | |
+| :---------------------- | :--------------|
+| `action_name` | autonomy/local_undock |
+| `pkg_name` | clearpath_navigation_msgs |
+| `action_type` | Undock |
 
-pkg_name: clearpath_dock_msgs
+`action_name`: autonomy/local_undock
 
-action_type: Undock
+`pkg_name`: clearpath_dock_msgs
+
+`action_type`: Undock
 
 ### Network docking
 
-action_name: autonomy/network_dock
+| | |
+| :---------------------- | :--------------|
+| `action_name` | autonomy/network_dock |
+| `pkg_name` | clearpath_navigation_msgs |
+| `action_type` | NetworkDock |
 
-pkg_name: clearpath_dock_msgs
+## Navigation Control
 
-action_type: NetworkDock
+### Pause navigation
 
-# [Action Client (C++)](https://docs.ros.org/en/foxy/Tutorials/Intermediate/Writing-an-Action-Server-Client/Cpp.html#writing-an-action-client)
+| | |
+| :---------------------- | :--------------|
+| `service_name` | control_selection/pause |
+| `pkg_name` | std_srvs |
+| `service_type` | SetBool |
+
+### Resume navigation
+
+| | |
+| :---------------------- | :--------------|
+| `service_name` | control_selection/resume |
+| `pkg_name` | std_srvs |
+| `service_type` | SetBool |
+
+### Stop all autonomy actions
+
+| | |
+| :---------------------- | :--------------|
+| `service_name` | autonomy/stop|
+| `pkg_name` | std_srvs |
+| `service_type` | Trigger |
+
+## [Action Client (C++)](https://docs.ros.org/en/foxy/Tutorials/Intermediate/Writing-an-Action-Server-Client/Cpp.html#writing-an-action-client)
 ```cpp
 #include "action_tutorials_interfaces/action/fibonacci.hpp"
 
@@ -123,7 +144,7 @@ action_type: NetworkDock
     this->client_ptr_->async_send_goal(goal_msg, send_goal_options);
 ```
 
-# [Action Client (Python)](https://docs.ros.org/en/foxy/Tutorials/Intermediate/Writing-an-Action-Server-Client/Py.html#writing-an-action-client)
+## [Action Client (Python)](https://docs.ros.org/en/foxy/Tutorials/Intermediate/Writing-an-Action-Server-Client/Py.html#writing-an-action-client)
 
 ```python
 from <pkg_name>.action import <action_type>
@@ -139,7 +160,7 @@ from <pkg_name>.action import <action_type>
 ```
 
 
-# Terminal Command-line
+## Terminal Command-line
 
 In order to command the robot from the command-line, you will need to run the
 following command, where the `--feedack` argument will allow the user to view

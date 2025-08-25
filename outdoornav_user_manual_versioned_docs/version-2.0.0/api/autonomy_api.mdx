@@ -5,6 +5,7 @@ sidebar_position: 2
 toc_min_heading_level: 2
 toc_max_heading_level: 4
 ---
+# Autonomy API Endpoints
 
 :::note
 
@@ -13,7 +14,7 @@ All nodes, topics, and services are namespace prefixed with the robot serial num
 :::
 
 
-# Topic Subscribers
+# Subscribers
 
 | Topic                   | Message type                                                                                                 | Description     | QoS                                           |
 | :---------------------- | :----------------------------------------------------------------------------------------------------------- | :-------------- | :-------------------------------------------- |
@@ -22,8 +23,7 @@ All nodes, topics, and services are namespace prefixed with the robot serial num
 | joy_teleop/cmd_vel | [geometry_msgs/msg/TwistStamped](https://github.com/ros2/common_interfaces/blob/jazzy/geometry_msgs/msg/TwistStamped.msg) | Velocity commands from joystick inputs | [System Default](/docs/ros/api/overview#system-default)  |
 
 
-# Topic Publishers
-
+# Publishers
 
 | Topic                   | Message type                                                                                                 | Description     | QoS                                           |
 | :---------------------- | :----------------------------------------------------------------------------------------------------------- | :-------------- | :-------------------------------------------- |
@@ -39,8 +39,8 @@ All nodes, topics, and services are namespace prefixed with the robot serial num
 | localization/fix | [sensor_msgs/msg/NavSatFix](https://github.com/ros2/common_interfaces/blob/jazzy/sensor_msgs/msg/NavSatFix.msg) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
 | localization/odom | [nav_msgs/msg/Odometry](https://github.com/ros2/common_interfaces/blob/jazzy/nav_msgs/msg/Odometry.msg) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
 | mission/preview | [clearpath_navigation_msgs/msg/MissionPreview](pathname:///api/html/clearpath_navigation_msgs/msg/MissionPreview.html) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
-| mission_manager/state | [clearpath_mission_manager_msgs/msg/StorageState](pathname:///api/html/clearpath_navigation_msgs/msg/StorageState.html) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
-| mission_manager/network_maps_validity | [clearpath_mission_manager_msgs/msg/NetworkMapValidityState](pathname:///api/html/clearpath_navigation_msgs/msg/NetworkMapValidityState.html) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
+| mission_manager/state | [clearpath_mission_manager_msgs/msg/StorageState](pathname:///api/html/clearpath_mission_manager_msgs/msg/StorageState.html) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
+| mission_manager/network_maps_validity | [clearpath_mission_manager_msgs/msg/NetworkMapValidityState](pathname:///api/html/clearpath_mission_manager_msgs/msg/NetworkMapValidityState.html) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
 | speed_limit | [clearpath_navigation_msgs/msg/GoToPreview](https://github.com/ros-navigation/navigation2/blob/main/nav2_msgs/msg/SpeedLimit.msg) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
 | ui/heartbeat | [geometry_msgs/msg/TwistStamped](https://github.com/ros2/common_interfaces/blob/jazzy/geometry_msgs/msg/TwistStamped.msg) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
 | ui_teleop/cmd_vel | [geometry_msgs/msg/TwistStamped](https://github.com/ros2/common_interfaces/blob/jazzy/geometry_msgs/msg/TwistStamped.msg) | Lidar scan data | [System Default](/docs/ros/api/overview#system-default)  |
@@ -49,6 +49,7 @@ All nodes, topics, and services are namespace prefixed with the robot serial num
 
 | Service                   | Service type                                                                                                 | Description     |
 | :---------------------- | :----------------------------------------------------------------------------------------------------------- | :-------------- |
+| autonomy/stop | [std_srvs/srv/Trigger](https://docs.ros2.org/foxy/api/std_srvs/srv/Trigger.html) | Lidar scan data |
 | control_selection/set_mode | [clearpath_control_msgs/srv/SetControlMode](pathname:///api/html/clearpath_control_msgs/srv/SetControlMode.html) | Lidar scan data |
 | control_selection/pause | [std_srvs/srv/SetBool](https://docs.ros2.org/foxy/api/std_srvs/srv/SetBool.html) | Lidar scan data |
 | control_selection/resume | [std_srvs/srv/SetBool](https://docs.ros2.org/foxy/api/std_srvs/srv/SetBool.html) | Lidar scan data |
@@ -68,10 +69,10 @@ All nodes, topics, and services are namespace prefixed with the robot serial num
 | docking/dock_localizer/get_dock_poses| [clearpath_dock_msgs/srv/GetDockPoses](pathname:///api/html/clearpath_dock_msgs/srv/GetDockPoses.html) |  |
 | docking/dock_localizer/survey_dock| [clearpath_dock_msgs/srv/SurveyDock](pathname:///api/html/clearpath_dock_msgs/srv/SurveyDock.html) |  |
 | localization/lat_lon_to_xy | [clearpath_localization_msgs/srv/ConvertLatLonToCartesian](pathname:///api/html/clearpath_localization_msgs/srv/ConvertLatLonToCartesian.html) |  |
-| localization/lat_lon_to_xy_array | [clearpath_localization_msgs/srv/ConvertLatLonToCartesianArray](pathname:///api/html/clearpath_localization_msgs/srv/ConvertLatLonToCartesianArray.html)) |  |
-| localization/set_datum | [clearpath_localization_msgs/srv/SetDatum](pathname:///api/html/clearpath_localization_msgs/srv/SetDatum.html)) |  |
-| localization/xy_to_lat_lon | [clearpath_localization_msgs/srv/ConvertCartesianToLatLon](pathname:///api/html/clearpath_localization_msgs/srv/ConvertCartesianToLatLon.html)) |  |
-| localization/xy_to_lat_lon_array | [clearpath_localization_msgs/srv/ConvertCartesianToLatLonArray](pathname:///api/html/clearpath_localization_msgs/srv/ConvertCartesianToLatLonArray.html)) |  |
+| localization/lat_lon_to_xy_array | [clearpath_localization_msgs/srv/ConvertLatLonToCartesianArray](pathname:///api/html/clearpath_localization_msgs/srv/ConvertLatLonToCartesianArray.html) |  |
+| localization/set_datum | [clearpath_localization_msgs/srv/SetDatum](pathname:///api/html/clearpath_localization_msgs/srv/SetDatum.html) |  |
+| localization/xy_to_lat_lon | [clearpath_localization_msgs/srv/ConvertCartesianToLatLon](pathname:///api/html/clearpath_localization_msgs/srv/ConvertCartesianToLatLon.html) |  |
+| localization/xy_to_lat_lon_array | [clearpath_localization_msgs/srv/ConvertCartesianToLatLonArray](pathname:///api/html/clearpath_localization_msgs/srv/ConvertCartesianToLatLonArray.html) |  |
 | log_manager/delete_log | [clearpath_logger_msgs/srv/DeleteLog](pathname:///api/html/clearpath_logger_msgs/srv/DeleteLog.html) |  |
 | log_manager/start_recording | [std_srvs/srv/Trigger](https://docs.ros2.org/foxy/api/std_srvs/srv/Trigger.html) |  |
 | log_manager/stop_recording | [std_srvs/srv/Trigger](https://docs.ros2.org/foxy/api/std_srvs/srv/Trigger.html) |  |
@@ -147,3 +148,20 @@ All nodes, topics, and services are namespace prefixed with the robot serial num
 | mission_manager/update_task | [clearpath_mission_manager_msgs/srv/UpdateTask](pathname:///api/html/clearpath_mission_manager_msgs/srv/UpdateTask.html) | |
 | mission_manager/update_waypoint | [clearpath_mission_manager_msgs/srv/UpdateWaypoint](pathname:///api/html/clearpath_mission_manager_msgs/srv/UpdateWaypoint.html) | |
 | mission_manager/validate_network_map | [clearpath_mission_manager_msgs/srv/ValidateNetworkMap](pathname:///api/html/clearpath_mission_manager_msgs/srv/ValidateNetworkMap.html) | |
+| safety/watchdogs/add_communication_watchdog | [clearpath_safety_msgs/srv/AddCommunicationWatchdog](pathname:///api/html/clearpath_safety_msgs/srv/AddCommunicationWatchdog.html) | |
+| safety/watchdogs/add_communication_watchdog | [clearpath_safety_msgs/srv/AddCommunicationWatchdog](pathname:///api/html/clearpath_safety_msgs/srv/AddCommunicationWatchdog.html) | |
+| safety/watchdogs/add_communication_watchdog | [clearpath_safety_msgs/srv/AddCommunicationWatchdog](pathname:///api/html/clearpath_safety_msgs/srv/AddCommunicationWatchdog.html) | |
+| safety/watchdogs/add_communication_watchdog | [clearpath_safety_msgs/srv/AddCommunicationWatchdog](pathname:///api/html/clearpath_safety_msgs/srv/AddCommunicationWatchdog.html) | |
+| safety/watchdogs/add_communication_watchdog | [clearpath_safety_msgs/srv/AddCommunicationWatchdog](pathname:///api/html/clearpath_safety_msgs/srv/AddCommunicationWatchdog.html) | |
+
+# Actions
+
+| Action Name                   | Action type                                                                                                 | Description     |
+| :---------------------- | :----------------------------------------------------------------------------------------------------------- | :-------------- |
+| autonomy/network_mission | [clearpath_navigation_msgs/action/ExecuteNetworkMissionByUuid](pathname:///api/html/clearpath_navigation_msgs/action/ExecuteNetworkMissionByUuid.html) | Lidar scan data |
+| autonomy/network_miission_from_goal | [clearpath_navigation_msgs/action/ExecuteNetworkMissionFromGoal](pathname:///api/html/clearpath_navigation_msgs/action/ExecuteNetworkMissionFromGoal.html) | Lidar scan data |
+| autonomy/network_goto | [clearpath_navigation_msgs/action/ExecuteNetworkGoTo](pathname:///api/html/clearpath_navigation_msgs/action/ExecuteNetworkGoTo.html) | Lidar scan data |
+| autonomy/network_goto_poi | [clearpath_navigation_msgs/action/ExecuteNetworkGoToPOI](pathname:///api/html/clearpath_navigation_msgs/action/ExecuteNetworkGoToPOI.html) | Lidar scan data |
+| autonomy/local_dock | [clearpath_dock_msgs/action/Dock](pathname:///api/html/clearpath_dock_msgs/action/Dock.html) | Lidar scan data |
+| autonomy/local_undock | [clearpath_dock_msgs/action/Undock](pathname:///api/html/clearpath_dock_msgs/action/Undock.html) | Lidar scan data |
+| autonomy/network_dock | [clearpath_dock_msgs/action/NetworkDock](pathname:///api/html/clearpath_dock_msgs/action/NetworkDock.html) | Lidar scan data |
