@@ -42,7 +42,7 @@ sensors:
 </table>
 
 #### Package and Setup
-The Wiferion Wireless Charger uses the `wiferion_charger` ROS 2 driver. The driver is open source, maintained by Clearpath, and hosted on [GitHub](https://github.com/clearpathrobotics/wiferion_charger). The packages is installed alongside the `clearpath_robot` package as a dependency.
+The Wiferion Wireless Charger uses the `wiferion_charger` ROS 2 driver. The driver is open source, maintained by Clearpath, and hosted on [GitHub](https://github.com/clearpathrobotics/wiferion_charger). The packages are installed alongside the `clearpath_robot` package as a dependency.
 
 The driver uses the [`clearpath_ros2_socketcan_interface`](https://github.com/clearpathrobotics/clearpath_ros2_socketcan_interface/) to communicate with the CAN bus via ROS 2 topics. Therefore, a ROS 2 socket CAN bridge must be available to use the driver. Make sure to define a CAN bridge for the CAN interface connected to the Wiferion charger.
 
