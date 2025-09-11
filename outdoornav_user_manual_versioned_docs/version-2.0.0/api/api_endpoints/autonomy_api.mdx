@@ -10,6 +10,9 @@ toc_max_heading_level: 4
 
 All nodes, topics, and services are namespace prefixed with the robot serial number.
 
+If your serial number is `cpr-a300-00001`, then your namespace
+will be `a300_00001`. This can be overwritten in the [robot.yaml](../config/yaml/overview) file.
+
 :::
 
 &nbsp;
@@ -107,7 +110,7 @@ All nodes, topics, and services are namespace prefixed with the robot serial num
 | Action Name                   | Action type                                                                                                 | Description     |
 | :---------------------- | :----------------------------------------------------------------------------------------------------------- | :-------------- |
 | autonomy/network_mission | [clearpath_navigation_msgs/action/ExecuteNetworkMissionByUuid](pathname:///api/html/clearpath_navigation_msgs/action/ExecuteNetworkMissionByUuid.html) | Execute an autonomous mission |
-| autonomy/network_mission_from_goal | [clearpath_navigation_msgs/action/ExecuteNetworkMissionFromGoal](pathname:///api/html/clearpath_navigation_msgs/action/ExecuteNetworkMissionFromGoal.html) | Execute and autonomous mission, starting from a specific goal |
+| autonomy/network_mission_from_goal | [clearpath_navigation_msgs/action/ExecuteNetworkMissionFromGoal](pathname:///api/html/clearpath_navigation_msgs/action/ExecuteNetworkMissionFromGoal.html) | Execute an autonomous mission, starting from a specific goal |
 | autonomy/network_goto | [clearpath_navigation_msgs/action/ExecuteNetworkGoTo](pathname:///api/html/clearpath_navigation_msgs/action/ExecuteNetworkGoTo.html) | Send platform to location  |
 | autonomy/network_goto_poi | [clearpath_navigation_msgs/action/ExecuteNetworkGoToPOI](pathname:///api/html/clearpath_navigation_msgs/action/ExecuteNetworkGoToPOI.html) | Send platform to a point of interest |
 | autonomy/local_dock | [clearpath_dock_msgs/action/Dock](pathname:///api/html/clearpath_dock_msgs/action/Dock.html) | Dock the platform (charge target must be visible by platform 2D lidar sensor) |
