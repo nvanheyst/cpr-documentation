@@ -59,26 +59,29 @@ drive with the following file structure (/Documents/General/Releases/...)
 :::note
 
 If you are upgrading to version 2.1.0 from 2.0.x please also navigate to
-Documents/General/Releases/\<version\> (on the Sharepoint), download one
-of the following files and transfer it to the robot:
+Documents/General/Releases/2.1 (on the cloud storage), download one
+of the following files :
 
-* **outdoornav.yaml.amp** for standard AMP robots,
-
-```code
-scp outdoornav.yaml robot@192.168.131.1:/opt/onav/
-```
+* **outdoornav.yaml.amp** for standard AMP robots, or,
 
 * **outdoornav.yaml.observer** for Observer robots.
+
+Transfer the file to the robot:
+
+
+```code
+scp outdoornav.yaml.amp robot@192.168.131.1:/opt/onav/
+```
 
 ```code
 scp outdoornav.yaml.observer robot@192.168.131.1:/opt/onav/
 ```
 
-Finally, navigate to the Documents/General/Releases/\<version\> (on the Sharepoint),
+Finally, navigate to the Documents/General/Releases/2.1 (on the cloud storage),
 download the update script and transfer it to the robot:
 
 ```code
-scp update.py robot@192.168.131.1:/opt/onav/2.0.0/app/upgrade/
+scp update.py robot@192.168.131.1:/opt/onav/ros2/app/upgrade/
 ```
 :::
 
@@ -90,13 +93,13 @@ has been installed on the robot and ***\<new_version\>*** is the version you wan
 to update to.
 
     ```code
-    python3 /opt/onav/<latest_version>/app/upgrade/update.py -v <new_version>
+    python3 /opt/onav/<latest_version>/app/upgrade/update.py -v <new_version> -c amp
     ```
 
     Eg. To update from version 2.0.0 to version 2.1.0 run the following
 
     ```code
-    python3 /opt/onav/2.0.0/app/upgrade/update.py -v 2.1.0
+    python3 /opt/onav/ros2/app/upgrade/update.py -v 2.1.0 -c amp
     ```
 
     * this will create a new version folder in /opt/onav/
@@ -114,7 +117,7 @@ to update to.
 If you have an Observer model robot please use the following command to update
 
 ```code
-python3 /opt/onav/<latest_version>/app/upgrade/update.py -v <new_version> -c observer
+python3 /opt/onav/ros2/app/upgrade/update.py -v <new_version> -c observer
 ```
 
 :::
@@ -129,8 +132,24 @@ python3 /opt/onav/<latest_version>/app/upgrade/update.py -v <new_version> -c obs
 
 :::note
 
+If you have an standard AMP model robot please use the following command to finalize cleanup:
+
+```code
+rm /opt/onav/outdoornav.yaml.amp
+```
+
+If you have an Observer model robot please use the following command to finalize cleanup:
+
+```code
+rm /opt/onav/outdoornav.yaml.observer
+```
+
+:::
+
+:::note
+
 If you have made any customisation changes to the app/ directory of your 
 previous version, you will need to make these same modifications manually 
-yourself to the new versions app/ directory files.
+yourself to the new versions **app/**  directory files.
 
 :::
