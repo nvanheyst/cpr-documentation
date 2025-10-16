@@ -105,7 +105,7 @@ const config = {
         remarkPlugins: [remarkMath],
         rehypePlugins: [rehypeKatex],
         showLastUpdateTime: true,
-        includeCurrentVersion: false,
+        includeCurrentVersion: true,
       },
     ],
     [

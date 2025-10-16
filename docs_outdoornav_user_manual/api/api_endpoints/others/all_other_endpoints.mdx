@@ -1,0 +1,190 @@
+---
+title: All Other Endpoints
+sidebar_label: All Other Endpoints
+sidebar_position: 1
+toc_min_heading_level: 2
+toc_max_heading_level: 4
+---
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## Topics
+
+<details>
+<summary>localization/odom</summary>
+
+The XY location of the platform in the 'map' coordinate frame. These values are relative to the datum coorodinate.
+
+- Topic Name: **localization/odom**
+
+- Topic Type: [clearpath_control_msgs/srv/SetControlMode](pathname:///api/html/clearpath_control_msgs/srv/SetControlMode.html)
+
+- Topic QoS: 
+
+<Tabs groupId="localization_odom">
+  <TabItem value="Python" label="Python" default>
+
+```python
+import rclpy
+from rclpy.node import Node
+
+from nav_msgs.msg import Odometry
+
+
+class LocalizationOdom(Node):
+
+    def __init__(self):
+        super().__init__('localization_odom_sub')
+        self.odom_sub = self.create_subscription(
+            Odometry, 'localization/odom', self.odom_cb, 10)
+        self.odom_sub  # prevent unused variable warning
+
+    def odom_cb(self, msg):
+        self.last_odom_msg = msg
+
+if __name__ == '__main__':
+    rclpy.init(args=args)
+    localization_odom_sub = LocalizationOdom()
+    rclpy.spin(localization_odom_sub)
+    localization_odom_sub.destroy_node()
+    rclpy.shutdown()
+```
+  </TabItem>
+  <TabItem value="C++" label="C++">
+
+```cpp
+#include <memory>
+
+#include "rclcpp/rclcpp.hpp"
+#include "nav_msgs/msg/odometry.hpp"
+
+class LocalizationOdom : public rclcpp::Node
+{
+public:
+  LocalizationOdom()
+  : Node("localization_odom_sub")
+  {
+    auto odom_cb =
+      [this](nav_msgs::msg::Odometry::UniquePtr msg) -> void {
+        last_odom_msg_ = msg;
+      };
+
+    odom_sub_ = this->create_subscription<nav_msgs::msg::Odometry>("localization/odom", 10, odom_cb);
+  }
+
+private:
+  rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;
+  nav_msgs::msg::Odometry::UniquePtr last_odom_msg_;
+};
+
+int main(int argc, char * argv[])
+{
+  rclcpp::init(argc, argv);
+  rclcpp::spin(std::make_shared<LocalizationOdom>());
+  rclcpp::shutdown();
+  return 0;
+}
+```
+  </TabItem>
+
+</Tabs>
+</details>
+
+
+## Services
+
+<details>
+<summary>control_selection/set_mode</summary>
+
+Switch the control mode of the platform. Options are: ('AUTONOMY', 'MANUAL', 'NEUTRAL')
+
+- Service Name: **control_selection/set_mode**
+
+- Service Type: [clearpath_control_msgs/srv/SetControlMode](pathname:///api/html/clearpath_control_msgs/srv/SetControlMode.html)
+
+<Tabs groupId="control_selection_set_mode">
+  <TabItem value="Python" label="Python" default>
+
+```python
+import rclpy
+from rclpy.node import Node
+
+from clearpath_control_msgs.srv import SetControlMode,
+from clearpath_control_msgs.msg import ControlMode
+
+
+class SetControlMode(Node):
+
+    def __init__(self):
+        super().__init__('set_control_mode_client')
+        self._srv_client = self.create_client(SetControlMode, 'control_selection/set_mode')
+        while not self._srv_client.wait_for_service(timeout_sec=1.0):
+            self.get_logger().info('service not available, waiting again...')
+        self.req = SetControlMode.Request()
+
+    def send_request(self, mode):
+        # set to manual mode
+        self.req.mode.mode = mode
+        self.future = self._srv_client.call_async(self.req)
+        rclpy.spin_until_future_complete(self, self.future)
+        return self.future.result()
+
+if __name__ == '__main__':
+    rclpy.init(args=args)
+    set_control_mode_client = SetControlMode()
+    response = set_control_mode_client.send_request(ControlMode.MANUAL)
+    set_control_mode_client.get_logger().info('Control mode set to MANUAL mode.'))
+    set_control_mode_client.destroy_node()
+    rclpy.shutdown()
+```
+  </TabItem>
+  <TabItem value="C++" label="C++">
+
+```cpp
+#include "rclcpp/rclcpp.hpp"
+#include "clearpath_control_msgs/srv/set_control_mode.hpp"
+#include "clearpath_control_msgs/msg/control_mode.hpp"
+
+#include <chrono>
+#include <cstdlib>
+#include <memory>
+
+using namespace std::chrono_literals;
+
+int main(int argc, char **argv)
+{
+  rclcpp::init(argc, argv);
+
+  std::shared_ptr<rclcpp::Node> node = rclcpp::Node::make_shared("set_control_mode_client");
+  rclcpp::Client<std_srvs::srv::SetControlMode>::SharedPtr client =                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+    node->create_client<std_srvs::srv::SetControlMode>("control_selection/set_mode");
+
+  auto request = std::make_shared<std_srvs::srv::SetControlMode::Request>();
+  request-> mode.mode = clearpath_control_msgs::ControlMode::MANUAL;
+  
+  while (!client->wait_for_service(1s)) {
+    if (!rclcpp::ok()) {
+      RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Interrupted while waiting for the service. Exiting.");
+      return 0;
+    }
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "service not available, waiting again...");
+  }
+
+  auto result = client->async_send_request(request);
+  // Wait for the result.
+  if (rclcpp::spin_until_future_complete(node, result) ==
+    rclcpp::FutureReturnCode::SUCCESS)
+  {
+      RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Control mode set to MANUAL mode");
+  } else {
+    RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Failed to call service control_selection/set_mode");
+  }
+
+  rclcpp::shutdown();
+  return 0;
+}
+```
+  </TabItem>
+
+</Tabs>
+</details>
