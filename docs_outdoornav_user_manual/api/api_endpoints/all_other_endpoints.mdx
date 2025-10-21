@@ -1,7 +1,7 @@
 ---
 title: All Other Endpoints
 sidebar_label: All Other Endpoints
-sidebar_position: 1
+sidebar_position: 6
 toc_min_heading_level: 2
 toc_max_heading_level: 4
 ---
@@ -11,42 +11,42 @@ import TabItem from "@theme/TabItem";
 ## Topics
 
 <details>
-<summary>localization/odom</summary>
+<summary>localization/datum</summary>
 
-The XY location of the platform in the 'map' coordinate frame. These values are relative to the datum coorodinate.
+The lat/lon coordinate of the datum. This value is sotred in persistent memory and loaded at runtime.
 
-- Topic Name: **localization/odom**
+- Topic Name: **localization/datum**
 
-- Topic Type: [clearpath_control_msgs/srv/SetControlMode](pathname:///api/html/clearpath_control_msgs/srv/SetControlMode.html)
+- Topic Type: [sensor_msgs/msg/NavSatFix](https://github.com/ros2/common_interfaces/blob/jazzy/sensor_msgs/msg/NavSatFix.msg)
 
 - Topic QoS: 
 
-<Tabs groupId="localization_odom">
+<Tabs groupId="localization_datum">
   <TabItem value="Python" label="Python" default>
 
 ```python
 import rclpy
 from rclpy.node import Node
 
-from nav_msgs.msg import Odometry
+from sensor_msgs.msg import NavSatFix
 
 
-class LocalizationOdom(Node):
+class Datum(Node):
 
     def __init__(self):
-        super().__init__('localization_odom_sub')
-        self.odom_sub = self.create_subscription(
-            Odometry, 'localization/odom', self.odom_cb, 10)
-        self.odom_sub  # prevent unused variable warning
+        super().__init__('datum_sub')
+        self.datum_sub = self.create_subscription(
+            NavSatFix, 'localization/datum', self.datum_cb, 10)
+        self.datum_sub  # prevent unused variable warning
 
-    def odom_cb(self, msg):
-        self.last_odom_msg = msg
+    def datum_cb(self, msg):
+        self.last_datum_msg = msg
 
 if __name__ == '__main__':
     rclpy.init(args=args)
-    localization_odom_sub = LocalizationOdom()
-    rclpy.spin(localization_odom_sub)
-    localization_odom_sub.destroy_node()
+    datum_sub = Datum()
+    rclpy.spin(datum_sub)
+    datum_sub.destroy_node()
     rclpy.shutdown()
 ```
   </TabItem>
@@ -56,31 +56,31 @@ if __name__ == '__main__':
 #include <memory>
 
 #include "rclcpp/rclcpp.hpp"
-#include "nav_msgs/msg/odometry.hpp"
+#include "sensor_msgs/msg/nav_sat_fix.hpp"
 
-class LocalizationOdom : public rclcpp::Node
+class Datum : public rclcpp::Node
 {
 public:
-  LocalizationOdom()
-  : Node("localization_odom_sub")
+  Datum()
+  : Node("datum_sub")
   {
-    auto odom_cb =
-      [this](nav_msgs::msg::Odometry::UniquePtr msg) -> void {
-        last_odom_msg_ = msg;
+    auto datum_cb =
+      [this](sensor_msgs::msg::NavSatFix::UniquePtr msg) -> void {
+        last_datum_msg_ = msg;
       };
 
-    odom_sub_ = this->create_subscription<nav_msgs::msg::Odometry>("localization/odom", 10, odom_cb);
+    datum_sub_ = this->create_subscription<sensor_msgs::msg::NavSatFix>("localization/datum", 10, datum_cb);
   }
 
 private:
-  rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;
-  nav_msgs::msg::Odometry::UniquePtr last_odom_msg_;
+  rclcpp::Subscription<sensor_msgs::msg::NavSatFix>::SharedPtr datum_sub_;
+  sensor_msgs::msg::NavSatFix::UniquePtr last_datum_msg_;
 };
 
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<LocalizationOdom>());
+  rclcpp::spin(std::make_shared<Datum>());
   rclcpp::shutdown();
   return 0;
 }

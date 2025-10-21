@@ -1,0 +1,110 @@
+---
+title: Get Dock Info
+sidebar_label: Get Dock Information
+sidebar_position: 2
+toc_min_heading_level: 2
+toc_max_heading_level: 4
+---
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+Retrieve the dock information
+
+- Service Name: **docking/dock_manager/get_dock**
+
+- Service Type: [clearpath_dock_msgs/srv/GetDock](pathname:///api/html/clearpath_dock_msgs/srv/GetDock.html)
+
+<Tabs groupId="docking_get">
+  <TabItem value="Python" label="Python" default>
+
+```python
+import rclpy
+from rclpy.node import Node
+
+from clearpath_dock_msgs.srv import GetDock
+
+
+class GetDock(Node):
+
+    def __init__(self):
+        super().__init__('get_dock_client')
+        self._srv_client = self.create_client(GetDock, 'docking/dock_manager/get_dock')
+        while not self._srv_client.wait_for_service(timeout_sec=1.0):
+            self.get_logger().info('service not available, waiting again...')
+        self.req = GetDock.Request()
+
+    def send_request(self, lat, lon):
+        # self.req.lat = lat
+        # self.req.lon = lon
+        self.future = self._srv_client.call_async(self.req)
+        rclpy.spin_until_future_complete(self, self.future)
+        return self.future.result()
+
+if __name__ == '__main__':
+    rclpy.init(args=args)
+    get_dock_client = Getock()
+    response = get_dock_client.send_request()
+    if response.success:
+      get_dock_client.get_logger().info('Retrived dock info succesfully!')
+    else:
+      get_dock_client.get_logger().error('Failed to retrieve dock info')
+    
+    get_dock_client.destroy_node()
+    rclpy.shutdown()
+```
+  </TabItem>
+  <TabItem value="C++" label="C++">
+
+```cpp
+#include "rclcpp/rclcpp.hpp"
+#include "clearpath_dock_msgs/srv/get_dock.hpp"
+
+#include <chrono>
+#include <cstdlib>
+#include <memory>
+
+using namespace std::chrono_literals;
+
+
+int main(int argc, char **argv)
+{
+  rclcpp::init(argc, argv);
+
+  std::shared_ptr<rclcpp::Node> node = rclcpp::Node::make_shared("get_dock_client");
+  rclcpp::Client<clearpath_dock_msgs::srv::GetDock>::SharedPtr client =
+    node->create_client<clearpath_dock_msgs::srv::GetDock>("docking/dock_manager/get_dock");
+
+  auto request = std::make_shared<clearpath_dock_msgs::srv::GetDock::Request>();
+
+  while (!client->wait_for_service(1s)) {
+    if (!rclcpp::ok()) {
+      RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Interrupted while waiting for the service. Exiting.");
+      return 0;
+    }
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "service not available, waiting again...");
+  }
+
+  auto result = client->async_send_request(request);
+  // Wait for the result.
+  if (rclcpp::spin_until_future_complete(node, result) ==
+    rclcpp::FutureReturnCode::SUCCESS)
+  {
+    if (result.get()->success)
+    {
+      RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Retrived dock info successfully");
+    }
+    else
+    {
+      RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Failed to retrieve dock info");
+    }
+  } else {
+    RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Failed to call service docking/dock_manager/get_dock");
+  }
+
+  rclcpp::shutdown();
+  return 0;
+}
+```
+  </TabItem>
+
+</Tabs>

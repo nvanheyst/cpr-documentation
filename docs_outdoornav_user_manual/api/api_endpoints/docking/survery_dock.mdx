@@ -1,0 +1,112 @@
+---
+title: Survey Dock
+sidebar_label: Survey Dock
+sidebar_position: 3
+toc_min_heading_level: 2
+toc_max_heading_level: 4
+---
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+Survey the location of an existing dock. This is required to accurately position the dock on the map and
+ensure that proper docking is achieved. The dock target must be clearly visible by the docking lidar for
+this survey process to succeed.
+
+- Service Name: **docking/dock_localizer/survey_dock**
+
+- Service Type: [clearpath_dock_msgs/srv/SurveyDock](pathname:///api/html/clearpath_dock_msgs/srv/SurveyDock.html)
+
+<Tabs groupId="docking_survey">
+  <TabItem value="Python" label="Python" default>
+
+```python
+import rclpy
+from rclpy.node import Node
+
+from clearpath_dock_msgs.srv import SurveyDock
+
+
+class SurveyDock(Node):
+
+    def __init__(self):
+        super().__init__('survey_dock_client')
+        self._srv_client = self.create_client(SurveyDock, 'docking/dock_localizer/survey_dock')
+        while not self._srv_client.wait_for_service(timeout_sec=1.0):
+            self.get_logger().info('service not available, waiting again...')
+        self.req = SurveyDock.Request()
+
+    def send_request(self, lat, lon):
+        # self.req.lat = lat
+        # self.req.lon = lon
+        self.future = self._srv_client.call_async(self.req)
+        rclpy.spin_until_future_complete(self, self.future)
+        return self.future.result()
+
+if __name__ == '__main__':
+    rclpy.init(args=args)
+    survey_dock_client = SurveyDock()
+    response = survey_dock_client.send_request()
+    if response.success:
+      survey_dock_client.get_logger().info('Dock was surveyed successfully!')
+    else:
+      survey_dock_client.get_logger().error('Failed to survey dock')
+    
+    survey_dock_client.destroy_node()
+    rclpy.shutdown()
+```
+  </TabItem>
+  <TabItem value="C++" label="C++">
+
+```cpp
+#include "rclcpp/rclcpp.hpp"
+#include "clearpath_dock_msgs/srv/survey_dock.hpp"
+
+#include <chrono>
+#include <cstdlib>
+#include <memory>
+
+using namespace std::chrono_literals;
+
+
+int main(int argc, char **argv)
+{
+  rclcpp::init(argc, argv);
+
+  std::shared_ptr<rclcpp::Node> node = rclcpp::Node::make_shared("survey_dock_client");
+  rclcpp::Client<clearpath_dock_msgs::srv::SurveyDock>::SharedPtr client =
+    node->create_client<clearpath_dock_msgs::srv::SurveyDock>("docking/dock_localizer/survey_dock");
+
+  auto request = std::make_shared<clearpath_dock_msgs::srv::SurveyDock::Request>();
+
+  while (!client->wait_for_service(1s)) {
+    if (!rclcpp::ok()) {
+      RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Interrupted while waiting for the service. Exiting.");
+      return 0;
+    }
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "service not available, waiting again...");
+  }
+
+  auto result = client->async_send_request(request);
+  // Wait for the result.
+  if (rclcpp::spin_until_future_complete(node, result) ==
+    rclcpp::FutureReturnCode::SUCCESS)
+  {
+    if (result.get()->success)
+    {
+      RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Surveyed dock successfully");
+    }
+    else
+    {
+      RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Failed to survey dock");
+    }
+  } else {
+    RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Failed to call service docking/dock_localizer/survey_dock");
+  }
+
+  rclcpp::shutdown();
+  return 0;
+}
+```
+  </TabItem>
+
+</Tabs>

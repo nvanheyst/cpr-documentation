@@ -34,8 +34,6 @@ will be `a300_00001`. This can be overwritten in the [robot.yaml](../../../../do
 | docking/docking_server/path | [nav_msgs/msg/Path](https://github.com/ros2/common_interfaces/blob/jazzy/nav_msgs/msg/Path.msg) | Docking path |
 | docking/undocking_server/path | [nav_msgs/msg/Path](https://github.com/ros2/common_interfaces/blob/jazzy/nav_msgs/msg/Path.msg) | Undocking path |
 | goto/preview | [clearpath_navigation_msgs/msg/GoToPreview](pathname:///api/html/clearpath_navigation_msgs/msg/GoToPreview.html) | Preview points for a GoTo execution | [System Default](/docs/ros/api/overview#system-default)  |
-| localization/datum | [sensor_msgs/msg/NavSatFix](https://github.com/ros2/common_interfaces/blob/jazzy/sensor_msgs/msg/NavSatFix.msg) | Map origin (0, 0), specified as the datum | [System Default](/docs/ros/api/overview#system-default)  |
-| localization/fix | [sensor_msgs/msg/NavSatFix](https://github.com/ros2/common_interfaces/blob/jazzy/sensor_msgs/msg/NavSatFix.msg) | Platform lat/lon coordinates | [System Default](/docs/ros/api/overview#system-default)  |
 | mission/preview | [clearpath_navigation_msgs/msg/MissionPreview](pathname:///api/html/clearpath_navigation_msgs/msg/MissionPreview.html) | Preview points for a mission execution | [System Default](/docs/ros/api/overview#system-default)  |
 | speed_limit | [clearpath_navigation_msgs/msg/GoToPreview](https://github.com/ros-navigation/navigation2/blob/main/nav2_msgs/msg/SpeedLimit.msg) | Current navigation speed limit | [System Default](/docs/ros/api/overview#system-default)  |
 | ui/heartbeat | [geometry_msgs/msg/TwistStamped](https://github.com/ros2/common_interfaces/blob/jazzy/geometry_msgs/msg/TwistStamped.msg) | Heartbeat of the UI | [System Default](/docs/ros/api/overview#system-default)  |
@@ -49,38 +47,17 @@ will be `a300_00001`. This can be overwritten in the [robot.yaml](../../../../do
 
 | Service                 | Service type                                                                                                 | Description     |
 | :---------------------- | :----------------------------------------------------------------------------------------------------------- | :-------------- |
-| docking/dock_manager/add_dock | [clearpath_dock_msgs/srv/AddDock](pathname:///api/html/clearpath_dock_msgs/srv/AddDock.html) | Add a dock |
 | docking/dock_manager/clear_data | [std_srvs/srv/Trigger](https://docs.ros2.org/foxy/api/std_srvs/srv/Trigger.html) | Clear all dock data |
 | docking/dock_manager/delete_dock | [clearpath_dock_msgs/srv/RemoveDock](pathname:///api/html/clearpath_dock_msgs/srv/RemoveDock.html) | Delete a dock |
 | docking/dock_manager/export | [clearpath_dock_msgs/srv/ExportData](pathname:///api/html/clearpath_dock_msgs/srv/ExportData.html) | Export dock data |
 | docking/dock_manager/get_database | [clearpath_dock_msgs/srv/GetDockDatabase](pathname:///api/html/clearpath_dock_msgs/srv/GetDockDatabase.html) | Returns the entire dock database |
-| docking/dock_manager/get_dock | [clearpath_dock_msgs/srv/GetDock](pathname:///api/html/clearpath_dock_msgs/srv/GetDock.html) | Returns a docks info  |
 | docking/dock_manager/import | [clearpath_dock_msgs/srv/ImportData](pathname:///api/html/clearpath_dock_msgs/srv/ImportData.html) | Import a dock |
 | docking/dock_manager/update_dock | [clearpath_dock_msgs/srv/UpdateDock](pathname:///api/html/clearpath_dock_msgs/srv/UpdateDock.html) | Update a docks information |
 | docking/dock_localizer/add_dock_current_pose| [clearpath_dock_msgs/srv/AddDockCurrentPose](pathname:///api/html/clearpath_dock_msgs/srv/AddDockCurrentPose.html) | Add a dock with the current pose |
 | docking/dock_localizer/get_dock_poses| [clearpath_dock_msgs/srv/GetDockPoses](pathname:///api/html/clearpath_dock_msgs/srv/GetDockPoses.html) | Return the dock and predock poses of a specific dock |
-| docking/dock_localizer/survey_dock| [clearpath_dock_msgs/srv/SurveyDock](pathname:///api/html/clearpath_dock_msgs/srv/SurveyDock.html) | Survey the docks position |
-| execute_task | [clearpath_task_msgs/srv/ExecuteTask](pathname:///api/html/clearpath_task_msgs/srv/ExecuteTask.html) | Run a task as a service |
+
 | localization/lat_lon_to_xy | [clearpath_localization_msgs/srv/ConvertLatLonToCartesian](pathname:///api/html/clearpath_localization_msgs/srv/ConvertLatLonToCartesian.html) | Convert lat/lon condinate to map XY coordinate |
 | localization/lat_lon_to_xy_array | [clearpath_localization_msgs/srv/ConvertLatLonToCartesianArray](pathname:///api/html/clearpath_localization_msgs/srv/ConvertLatLonToCartesianArray.html) | Convert a set of lat/lon coordinates to map XY coordinates |
 | localization/xy_to_lat_lon | [clearpath_localization_msgs/srv/ConvertCartesianToLatLon](pathname:///api/html/clearpath_localization_msgs/srv/ConvertCartesianToLatLon.html) | Convert map XY coordinate to lat/lon coordinate |
 | localization/xy_to_lat_lon_array | [clearpath_localization_msgs/srv/ConvertCartesianToLatLonArray](pathname:///api/html/clearpath_localization_msgs/srv/ConvertCartesianToLatLonArray.html) | Convert a set of map XY coordinates to lat/lon coordinates |
 | log_manager/delete_log | [clearpath_logger_msgs/srv/DeleteLog](pathname:///api/html/clearpath_logger_msgs/srv/DeleteLog.html) | Delete a secific log |
-| safety/watchdogs/add_communication_watchdog | [clearpath_safety_msgs/srv/AddCommunicationWatchdog](pathname:///api/html/clearpath_safety_msgs/srv/AddCommunicationWatchdog.html) | Create a new Communication watchdog |
-| safety/watchdogs/add_heartbeat_watchdog | [clearpath_safety_msgs/srv/AddHeartbeatWatchdog](pathname:///api/html/clearpath_safety_msgs/srv/AddHeartbeatWatchdog.html) | Create a new Heartbeat watchdog |
-| safety/watchdogs/add_inclination_watchdog | [clearpath_safety_msgs/srv/AddInclinationWatchdog](pathname:///api/html/clearpath_safety_msgs/srv/AddInclinationWatchdog.html) | Create a new Inclination watchdog |
-| safety/watchdogs/add_num_points_watchdog | [clearpath_safety_msgs/srv/AddNumPointsWatchdog](pathname:///api/html/clearpath_safety_msgs/srv/AddNumPointsWatchdog.html) | Create a new NumPoints watchdog |
-| safety/watchdogs/add_odom_covariance_watchdog | [clearpath_safety_msgs/srv/AddOdomCovarianceWatchdog](pathname:///api/html/clearpath_safety_msgs/srv/AddOdomCovarianceWatchdog.html) | Create a new OdomCovariance watchdog |
-| safety/watchdogs/add_rtk_fix_watchdog | [clearpath_safety_msgs/srv/AddRtkFixWatchdog](pathname:///api/html/clearpath_safety_msgs/srv/AddRtkFixWatchdog.html) | Create a new RTKFix watchdog |
-| safety/watchdogs/add_topic_data_watchdog | [clearpath_safety_msgs/srv/AddTopicDataWatchdog](pathname:///api/html/clearpath_safety_msgs/srv/AddTopicDataWatchdog.html) | Create a new TopicData watchdog |
-| safety/watchdogs/add_trigger_watchdog | [clearpath_safety_msgs/srv/AddTriggerWatchdog](pathname:///api/html/clearpath_safety_msgs/srv/AddTriggerWatchdog.html) | Create a new Trigger watchdog |
-| safety/watchdogs/enable_all | [std_srvs/srv/SetBool](https://docs.ros2.org/foxy/api/std_srvs/srv/SetBool.html) | Enable/disable all watchdogs |
-| safety/watchdogs/remove_watchdog | [clearpath_safety_msgs/srv/RemoveWatchdog](pathname:///api/html/clearpath_safety_msgs/srv/RemoveWatchdog.html) | Remove/delete a watchdog |
-| safety/watchdogs/update_communication_watchdog | [clearpath_safety_msgs/srv/UpdateCommunicationWatchdog](pathname:///api/html/clearpath_safety_msgs/srv/UpdateCommunicationWatchdog.html) | Create a new Communication watchdog |
-| safety/watchdogs/update_heartbeat_watchdog | [clearpath_safety_msgs/srv/UpdateHeartbeatWatchdog](pathname:///api/html/clearpath_safety_msgs/srv/UpdateHeartbeatWatchdog.html) | Create a new Heartbeat watchdog |
-| safety/watchdogs/update_inclination_watchdog | [clearpath_safety_msgs/srv/UpdateInclinationWatchdog](pathname:///api/html/clearpath_safety_msgs/srv/UpdateInclinationWatchdog.html) | Create a new Inclination watchdog |
-| safety/watchdogs/update_num_points_watchdog | [clearpath_safety_msgs/srv/UpdateNumPointsWatchdog](pathname:///api/html/clearpath_safety_msgs/srv/UpdateNumPointsWatchdog.html) | Create a new NumPoints watchdog |
-| safety/watchdogs/update_odom_covariance_watchdog | [clearpath_safety_msgs/srv/UpdateOdomCovarianceWatchdog](pathname:///api/html/clearpath_safety_msgs/srv/UpdateOdomCovarianceWatchdog.html) | Create a new OdomCovariance watchdog |
-| safety/watchdogs/update_rtk_fix_watchdog | [clearpath_safety_msgs/srv/UpdateRtkFixWatchdog](pathname:///api/html/clearpath_safety_msgs/srv/UpdateRtkFixWatchdog.html) | Create a new RTKFix watchdog |
-| safety/watchdogs/update_topic_data_watchdog | [clearpath_safety_msgs/srv/UpdateTopicDataWatchdog](pathname:///api/html/clearpath_safety_msgs/srv/UpdateTopicDataWatchdog.html) | Create a new TopicData watchdog |
-| safety/watchdogs/update_trigger_watchdog | [clearpath_safety_msgs/srv/UpdateTriggerWatchdog](pathname:///api/html/clearpath_safety_msgs/srv/UpdateTriggerWatchdog.html) | Create a new Trigger watchdog |

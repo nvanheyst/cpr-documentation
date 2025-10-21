@@ -1,0 +1,165 @@
+---
+title: Monitor Location
+sidebar_label: Monitor Location
+sidebar_position: 1
+toc_min_heading_level: 2
+toc_max_heading_level: 4
+---
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## Map location
+
+The XY location of the platform in the 'map' coordinate frame. These values are relative to the datum coorodinate.
+
+- Topic Name: **localization/odom**
+
+- Topic Type: [nav_msgs/msg/Odometry](https://github.com/ros2/common_interfaces/blob/jazzy/nav_msgs/msg/Odometry.msg)
+
+- Topic QoS: 
+
+<Tabs groupId="localization_odom">
+  <TabItem value="Python" label="Python" default>
+
+```python
+import rclpy
+from rclpy.node import Node
+
+from nav_msgs.msg import Odometry
+
+
+class LocalizationOdom(Node):
+
+    def __init__(self):
+        super().__init__('localization_odom_sub')
+        self.odom_sub = self.create_subscription(
+            Odometry, 'localization/odom', self.odom_cb, 10)
+        self.odom_sub  # prevent unused variable warning
+
+    def odom_cb(self, msg):
+        self.last_odom_msg = msg
+
+if __name__ == '__main__':
+    rclpy.init(args=args)
+    localization_odom_sub = LocalizationOdom()
+    rclpy.spin(localization_odom_sub)
+    localization_odom_sub.destroy_node()
+    rclpy.shutdown()
+```
+  </TabItem>
+  <TabItem value="C++" label="C++">
+
+```cpp
+#include <memory>
+
+#include "rclcpp/rclcpp.hpp"
+#include "nav_msgs/msg/odometry.hpp"
+
+class LocalizationOdom : public rclcpp::Node
+{
+public:
+  LocalizationOdom()
+  : Node("localization_odom_sub")
+  {
+    auto odom_cb =
+      [this](nav_msgs::msg::Odometry::UniquePtr msg) -> void {
+        last_odom_msg_ = msg;
+      };
+
+    odom_sub_ = this->create_subscription<nav_msgs::msg::Odometry>("localization/odom", 10, odom_cb);
+  }
+
+private:
+  rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;
+  nav_msgs::msg::Odometry::UniquePtr last_odom_msg_;
+};
+
+int main(int argc, char * argv[])
+{
+  rclcpp::init(argc, argv);
+  rclcpp::spin(std::make_shared<LocalizationOdom>());
+  rclcpp::shutdown();
+  return 0;
+}
+```
+  </TabItem>
+
+</Tabs>
+
+## Lat/Lon location
+
+The lat/lon location of the platform.
+
+- Topic Name: **localization/fix**
+
+- Topic Type: [sensor_msgs/msg/NavSatFix](https://github.com/ros2/common_interfaces/blob/jazzy/nav_msgs/msg/Odometry.msg)
+
+- Topic QoS: 
+
+<Tabs groupId="localization_fix">
+  <TabItem value="Python" label="Python" default>
+
+```python
+import rclpy
+from rclpy.node import Node
+
+from sensor_msgs.msg import NavSatFix
+
+
+class LocalizationFix(Node):
+
+    def __init__(self):
+        super().__init__('localization_fix_sub')
+        self.odom_sub = self.create_subscription(
+            NavSatFix, 'localization/fix', self.fix_cb, 10)
+        self.fix_sub  # prevent unused variable warning
+
+    def fix_cb(self, msg):
+        self.last_fix_msg = msg
+
+if __name__ == '__main__':
+    rclpy.init(args=args)
+    localization_fix_sub = LocalizationFix()
+    rclpy.spin(localization_fix_sub)
+    localization_fix_sub.destroy_node()
+    rclpy.shutdown()
+```
+  </TabItem>
+  <TabItem value="C++" label="C++">
+
+```cpp
+#include <memory>
+
+#include "rclcpp/rclcpp.hpp"
+#include "sensor_msgs/msg/nav_sat_fix.hpp"
+
+class LocalizationFix : public rclcpp::Node
+{
+public:
+  LocalizationFix()
+  : Node("localization_fix_sub")
+  {
+    auto odom_cb =
+      [this](sensor_msgs::msg::NavSatFix::UniquePtr msg) -> void {
+        last_fix_msg_ = msg;
+      };
+
+    fix_sub_ = this->create_subscription<sensor_msgs::msg::NavSatFix>("localization/fix", 10, fix_cb);
+  }
+
+private:
+  rclcpp::Subscription<sensor_msgs::msg::NavSatFIx>::SharedPtr fix_sub_;
+  sensor_msgs::msg::NavSatFix::UniquePtr last_fix_msg_;
+};
+
+int main(int argc, char * argv[])
+{
+  rclcpp::init(argc, argv);
+  rclcpp::spin(std::make_shared<LocalizationFix>());
+  rclcpp::shutdown();
+  return 0;
+}
+```
+  </TabItem>
+
+</Tabs>
