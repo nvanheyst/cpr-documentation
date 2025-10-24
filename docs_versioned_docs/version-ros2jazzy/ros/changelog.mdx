@@ -77,6 +77,34 @@ import Style from '/assets/css/changelog.css';
     </tbody>
 </table>
 
+## [2.8] 2025-10-23
+
+### New Features
+- Added a new platform.wireless section to config
+- Added system.bash support
+- Added support for multiple launch files to be listed in platform.extras.launch, added launch arguments field
+- Added support for automatic discovery range
+- Added support for Kinova arms
+- Added support for Franka arms
+- Added support for StereoLabs Zed2 camera
+- Added Peplink router & base station diagnostics into Networking
+- Added additional Puma diagnostics
+
+### Fixed
+- Replace assert with raise + relevant Exception
+- Fixed OakD Parameters
+- Raised a FileNotFound exception instead of an assertion error if the middleware config path doesn't exist
+- Renamed oakd namespace in robot.yaml to luxonis_oakd driver package
+- Fixed URDF Parameters on Kinova and Grippers
+- Added dependency on python3-apt
+- Replaced assertions in clearpath_generator_common with specific exceptions
+- Fixed catching FileNotFound exceptions when loading the samples and ignore them
+- Set simulated camera topic
+- Skipped xacro load for Zed2 camera since wrapper must be manually installed
+- Included hidden with foxglove bridge for onav
+- Disabled prefixing of links by mecanum controller
+- Fixed Ridgeback rear lights and cover colors
+
 ## [2.7] 2025-08-25
 
 ### New Features
