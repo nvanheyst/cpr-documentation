@@ -1,0 +1,155 @@
+---
+title: Installing Updates
+sidebar_label: Installing Updates
+sidebar_position: 1
+toc_min_heading_level: 4
+toc_max_heading_level: 4
+---
+
+The following page details the steps to update the OutdoorNav software that is already
+installed on your platform.
+
+
+:::note
+
+Please ensure that you have received an email advising you that an update is available
+since only those who receive the update emails will be have access to the update files.
+
+:::
+
+## Download
+
+1. Click the link that was sent to you in the update email. You will be sent to a cloud storage
+drive with the following file structure (/Documents/General/Releases/...)
+
+2. Navigate to the version folder you wish to update to and download the following files:
+
+    - **cpr-onav-ui.tar**
+
+    - **cpr-onav-base.tar**
+
+    - **cpr-onav-autonomy.tar**
+
+    - **cpr-onav-app.zip**
+
+3. Connect to the robot 
+
+    Option 1: via ethernet (port located inside of the rear charge port door)
+
+    Option 2: via wifi (Husky SSID: cpr_a300_amp_xxx)
+
+4. Transfer all files to the robots **/opt/onav/** folder
+
+    **Linux**:
+
+    ```code
+    scp cpr-onav-app.zip cpr-onav-ui.tar cpr-onav-base.tar cpr-onav-autonomy.tar robot@192.168.131.1:/opt/onav/
+    ```
+
+    **Windows**: Use [FileZilla Client](https://filezilla-project.org/download.php?platform=win64) to transfer all files to the robot.
+    
+    SFTP Connection:
+
+        * Host: sftp://192.168.131.1
+
+        * Username: robot
+
+        * Password: clearpath
+
+:::note
+
+If you are upgrading to version 2.1.0 from 2.0.x please also navigate to
+Documents/General/Releases/2.1 (on the cloud storage), download one
+of the following files :
+
+* **outdoornav.yaml.amp** for standard AMP robots, or,
+
+* **outdoornav.yaml.observer** for Observer robots.
+
+Transfer the file to the robot:
+
+
+```code
+scp outdoornav.yaml.amp robot@192.168.131.1:/opt/onav/
+```
+
+```code
+scp outdoornav.yaml.observer robot@192.168.131.1:/opt/onav/
+```
+
+Finally, navigate to the Documents/General/Releases/2.1 (on the cloud storage),
+download the update script and transfer it to the robot:
+
+```code
+scp update.py robot@192.168.131.1:/opt/onav/ros2/app/upgrade/
+```
+:::
+
+## Update
+
+1. Run the below command to update the version of OutdoorNav, where
+***\<latest_version\>*** is the folder of the last version of OutdoorNav that
+has been installed on the robot and ***\<new_version\>*** is the version you want
+to update to.
+
+    ```code
+    python3 /opt/onav/<latest_version>/app/upgrade/update.py -v <new_version> -c amp
+    ```
+
+    Eg. To update from version 2.0.0 to version 2.1.0 run the following
+
+    ```code
+    python3 /opt/onav/ros2/app/upgrade/update.py -v 2.1.0 -c amp
+    ```
+
+    * this will create a new version folder in /opt/onav/
+
+    * copy all persistent data from the last version
+
+    * installs the app folder
+
+    * stops the currently running version of OutdoorNav
+
+    * starts the new version of OutdoorNav
+
+:::note
+
+If you have an Observer model robot please use the following command to update
+
+```code
+python3 /opt/onav/ros2/app/upgrade/update.py -v <new_version> -c observer
+```
+
+:::
+
+## Cleanup
+
+1. Remove all extraneous files
+
+    ```code
+    rm /opt/onav/cpr-onav-ui.tar /opt/onav/cpr-onav-base.tar /opt/onav/cpr-onav-autonomy.tar /opt/onav/cpr-onav-app.zip
+    ```
+
+:::note
+
+If you have an standard AMP model robot please use the following command to finalize cleanup:
+
+```code
+rm /opt/onav/outdoornav.yaml.amp
+```
+
+If you have an Observer model robot please use the following command to finalize cleanup:
+
+```code
+rm /opt/onav/outdoornav.yaml.observer
+```
+
+:::
+
+:::note
+
+If you have made any customisation changes to the app/ directory of your 
+previous version, you will need to make these same modifications manually 
+yourself to the new versions **app/**  directory files.
+
+:::

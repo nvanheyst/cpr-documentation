@@ -27,11 +27,15 @@ manipulators:
 </tr>
 </table>
 
-#### Package and Setup
+<details>
+<summary>Robotiq 2F 140 Setup</summary>
+
+### Package and Setup
 :::note
-The Robotiq 2F 140 gripper is supported by the Kinova Gen3 arm's wrist connector and hardware interface. Therefore, when attached to Kinova arm's the Robotiq gripper does not need it's own controller.
+The Robotiq 2F 140 gripper is supported by the Kinova Gen3 arm's wrist connector and hardware interface. Therefore, when attached to Kinova arm's the Robotiq gripper does not need its own controller.
 :::
-The Robotiq 2F 140 uses the `robotiq_description` and `robotiq_driver` ROS 2 Packages. The driver is open source, maintaned by PickNik Robotics, and hosted on [GitHub](https://github.com/PickNikRobotics/ros2_robotiq_gripper).
+The Robotiq 2F 140 uses the `robotiq_description` and `robotiq_driver` ROS 2 Packages. The driver is open source, maintained by PickNik Robotics, and hosted on [GitHub](https://github.com/PickNikRobotics/ros2_robotiq_gripper).
 
 For more specifics on the way Clearpath's configuration system adds the manipulator to the robot description, see the Robotiq 2F 140 gripper [description file](https://github.com/clearpathrobotics/clearpath_common/blob/humble/clearpath_manipulators_description/urdf/gripper/robotiq_2f_140.urdf.xacro) in `clearpath_manipulators_description`.
 
+</details>

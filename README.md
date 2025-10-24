@@ -50,9 +50,9 @@
 
         git clone https://github.com/clearpathrobotics/cpr-documentation.git
 
-2.  Create a branch from development. with a name indicating the purpose, such as _feature_xxxxxx_
+2.  Create a branch from development with a name indicating the purpose, such as _feature_xxxxxx_
 3.  Make changes to the relevant files.
-4.  Test using your local server, using the steps mentioned [Steps to run this on your computer locally](##-steps-to-run-this-on-your-computer-locally)
+4.  Test using your local server, using the steps mentioned [Steps to run this on your computer locally](#steps-to-run-this-on-your-computer-locally)
 5.  When ready, enter `ctrl-c` in your terminal to stop the server. Then run `npm run build` to test that the site builds corretly.
 6.  Resolve any errors that the terminal reports, and rerun the command `npm run build`.
 7.  Finally, check that your updates adhere to our code formatting standard, by running the command `npm run format-check`.
@@ -129,18 +129,18 @@ When it is time to publish a numbered release of the user manual:
 
 <br>
 Follow the steps for the OutdoorNav User Manual workflow above, replacing
-**outdoornav** with **indoornav**.
+<b>outdoornav</b> with <b>indoornav</b>.
 
 </details>
 
-## Workflow for publishing Robots / ROS User Manual updates
+## Workflow for publishing Software User Manual updates
 
 <details>
 
-<summary>Click to expand for details on how to update the Robots / ROS User Manual</summary>
+<summary>Click to expand for details on how to update the Software User Manual</summary>
 
 <br>
-The Robots / ROS sections of the website are a "versioned" document called `docs`, which means that a snapshot of the content is
+The Software sections of the website are a "versioned" document called <code>docs</code>, which means that a snapshot of the content is
 made to align with each ROS version. This allows users to access version-specific copies of the
 documentation.
 
@@ -217,7 +217,7 @@ includeCurrentVersion: false,
     HTML commenting—`<!-- -->`—causes issues with the MDX extension in VS Code.
 2.  Refer to [Docusaurus's guide](https://docusaurus.io/docs/next/markdown-features) for supported Markdown features.
 3.  For advanced users, refer to [Markdown MDX](https://mdxjs.com/) for adding React Components to a Markdown file.
-4.  for advanced users, you may create React pages using _.js_ or _.ts_ file types.
+4.  For advanced users, you may create React pages using _.js_ or _.ts_ file types.
 
 ## How should I name files?
 
@@ -513,3 +513,33 @@ Even though the font size has been modified, the rendered diagram's font may not
   `}
 />
 ```
+
+## Spelling Guide
+
+Spelling on within this repository should align with the Government of Canada's [TERMIUM Plus®](https://www.btb.termiumplus.gc.ca/).
+Industry terms should align with the related organization's preferred spelling.
+
+<details>
+  <summary>Click to expand spelling examples</summary>
+  <table>
+    <tr><th>Correct spelling</th><th>Mistake</th></tr>
+    <tr><th>10</th><th>Ten</th></tr>
+    <tr><th>2X</th><th>2x</th></tr>
+    <tr><th>Aluminum</th><th>Aluminium</th></tr>
+    <tr><th>Antennas</th><th>Antennae</th></tr>
+    <tr><th>Antennas</th><th>Aerial</th></tr>
+    <tr><th>AWS, or Amazon Web Services</th><th>Amazon AWS</th></tr>
+    <tr><th>Colour</th><th>Color</th></tr>
+    <tr><th>Computer</th><th>PC</th></tr>
+    <tr><th>Enable Switch</th><th>Deadman Switch</th></tr>
+    <tr><th>Emergency Stop</th><th>E-stop</th></tr>
+    <tr><th>GitHub</th><th>Github</th></tr>
+    <tr><th>Lidar</th><th>LiDAR</th></tr>
+    <tr><th>Metre</th><th>Meter</th></tr>
+    <tr><th>ROS 2</th><th>ROS2</th></tr>
+    <tr><th>RViz</th><th>Rviz</th></tr>
+    <tr><th>Gmapping</th><th>gmapping</th></tr>
+    <tr><th>Tire</th><th>Tyre</th></tr>
+    <tr><th>Wi-Fi</th><th>wifi</th></tr>
+  </table>
+</details>
