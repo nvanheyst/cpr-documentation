@@ -34,6 +34,8 @@ The Universal Robots arms use the `ur_description` and `ur_driver` ROS 2 Package
 
 For more specifics on the way Clearpath's configuration system adds the arm to the robot description, see the [description file](https://github.com/clearpathrobotics/clearpath_common/blob/humble/clearpath_manipulators_description/urdf/arm/universal_robots.urdf.xacro). Note, all parameters to the `xacro:macro universal_robots` can be passed through the `robot.yaml` entry above. For examples, read the sections below.
 
+For more information on how to setup the arm, see the [Universal Robots ROS 2 Driver Documentation](https://docs.universal-robots.com/Universal_Robots_ROS2_Documentation/index.html).
+
 
 ### Teach Pendant Setup
 The following sub-sections will cover the standard UR teach pendant setup, but with the specific Clearpath parameters. For the UR instructions see: [**Setting up a UR robot for ur_robot_driver**](https://docs.universal-robots.com/Universal_Robots_ROS2_Documentation/doc/ur_robot_driver/ur_robot_driver/doc/installation/robot_setup.html) and [**Installing a URCap on a e-Series robot**](https://docs.universal-robots.com/Universal_Robots_ROS2_Documentation/doc/ur_robot_driver/ur_robot_driver/doc/installation/install_urcap_e_series.html).
@@ -60,7 +62,7 @@ Navigate to the **Settings/System/URCaps** page to install the URCap. Note, you 
 </figure>
 </center>
 
-Navigate to the **Installation/URCaps** page to configure the IP address and hostname of the external device. The standard Clearpath robot computer IP address is `192.168.131.40`. Each robot has its own hostname, we will use `cpr-a300-0000` as a placeholder:
+Navigate to the **Installation/URCaps** page to configure the IP address and hostname of the external device. The standard Clearpath robot computer IP address is `192.168.131.1`. Each robot has its own hostname, we will use `cpr-a300-0000` as a placeholder:
 <center>
 <figure>
     <img src={require("./img/universal_robots/installation_urcaps.png").default} width="700" />

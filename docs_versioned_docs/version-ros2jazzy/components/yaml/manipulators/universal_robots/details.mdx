@@ -3,6 +3,8 @@ The Universal Robots arms use the `ur_description` and `ur_driver` ROS 2 Package
 
 For more specifics on the way Clearpath's configuration system adds the arm to the robot description, see the [description file](https://github.com/clearpathrobotics/clearpath_common/blob/jazzy/clearpath_manipulators_description/urdf/arm/universal_robots.urdf.xacro). Note, all parameters to the `xacro:macro universal_robots` can be passed through the `robot.yaml` entry above. For examples, read the sections below.
 
+For more information on how to setup the arm, see the [Universal Robots ROS 2 Driver Documentation](https://docs.universal-robots.com/Universal_Robots_ROS2_Documentation/index.html).
+
 
 ### Teach Pendant Setup {#ur_teach_pendant_setup}
 The following sub-sections will cover the standard UR teach pendant setup, but with the specific Clearpath parameters. For the UR instructions see: [**Setting up a UR robot for ur_robot_driver**](https://docs.universal-robots.com/Universal_Robots_ROS2_Documentation/doc/ur_robot_driver/ur_robot_driver/doc/installation/robot_setup.html) and [**Installing a URCap on a e-Series robot**](https://docs.universal-robots.com/Universal_Robots_ROS2_Documentation/doc/ur_robot_driver/ur_robot_driver/doc/installation/install_urcap_e_series.html).
@@ -20,6 +22,22 @@ Navigate to the **Settings/System/Networking** page of the UR teach pendant and 
 <center>
 <figure>
     <img src={require("/components/manipulators/universal_robots/settings_network.png").default} width="700" />
+</figure>
+</center>
+
+</details>
+
+
+#### Services
+<details>
+
+<summary>Enabling Services</summary>
+
+In recent versions of the UR control box firmware, the services required to start external control must be enabled manually through the teach pendant. Under the `Settings` page, find the `Security` tab. There should be a `Services` section under the `Security` tab. Enable the `Dashboard Server`, `Primary Client Interface`, and `Real-Time Data Exchange (RTDE)` interfaces.
+
+<center>
+<figure>
+    <img src={require("/components/manipulators/universal_robots/services_polyscope5.png").default} width="700" />
 </figure>
 </center>
 
