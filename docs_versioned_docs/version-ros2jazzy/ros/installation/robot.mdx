@@ -362,7 +362,7 @@ sudo systemctl daemon-reload && sudo systemctl start clearpath-robot.service
   Clearpath robot services can now be installed with the following command:
 
   ```
-  source /opt/ros/jazzy/setup.bash
+  ros2 run clearpath_generator_robot generate_launch
   ros2 run clearpath_robot install
   sudo systemctl enable clearpath-robot
   ```
