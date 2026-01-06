@@ -39,7 +39,7 @@ class ExecuteMissionActionClient(Node):
     def __init__(self, namespace: str):
         super().__init__('execute_mission')
         self._namespace = namespace
-        self._action_client = ActionClient(self, ExecuteMission, f'{self._namespace}/autonomy/mission')
+        self._action_client = ActionClient(self, ExecuteMission, f'/{self._namespace}/autonomy/mission')
         self._mission_goal_handle = None
         self._mission_goal_cancelled = False
         self._mission_running = False
@@ -55,7 +55,7 @@ class ExecuteMissionActionClient(Node):
         goal_msg.map_uuid = map_id
 
         if not self._action_client.wait_for_server(timeout_sec=5.0):
-            self.get_logger().error(f'[{LOGGING_NAME}] {self._namespace}/autonomy/mission action server not available!')
+            self.get_logger().error(f'[{LOGGING_NAME}] /{self._namespace}/autonomy/mission action server not available!')
             self.destroy_node()
             rclpy.shutdown()
             return

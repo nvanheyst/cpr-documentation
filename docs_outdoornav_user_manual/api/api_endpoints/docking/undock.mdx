@@ -38,7 +38,8 @@ class UndockActionClient(Node):
     def __init__(self, namespace: str):
         super().__init__('execute_undock')
         self._namespace = namespace
-        self._action_client = ActionClient(self, Undock, f'{self._namespace}/autonomy/undock')
+        self._action_client = ActionClient(self, Undock, f'/{self._namespace}/autonomy/undock')
+        self._undock_goal_handle = None
 
         self._map_dock_running = False
         self._undock_running = False
@@ -52,7 +53,7 @@ class UndockActionClient(Node):
         goal_msg.dock_name = dock_name
 
         if not self._action_client.wait_for_server(timeout_sec=5.0):
-            self.get_logger().error(f'[{LOGGING_NAME}] {self._namespace}/autonomy/undock action server not available!')
+            self.get_logger().error(f'[{LOGGING_NAME}] /{self._namespace}/autonomy/undock action server not available!')
             self.destroy_node()
             rclpy.shutdown()
             return

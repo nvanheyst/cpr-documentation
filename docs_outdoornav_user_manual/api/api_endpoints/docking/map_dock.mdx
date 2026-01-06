@@ -40,7 +40,7 @@ class MapDockActionClient(Node):
     def __init__(self, namespace: str):
         super().__init__('execute_map_dock')
         self._namespace = namespace
-        self._action_client = ActionClient(self, MapDock, f'{self._namespace}/autonomy/dock_map')
+        self._action_client = ActionClient(self, MapDock, f'/{self._namespace}/autonomy/dock_map')
 
         self._map_dock_goal_handle = None
         self._map_dock_running = False
@@ -52,7 +52,7 @@ class MapDockActionClient(Node):
         goal_msg.map_uuid = map_id
 
         if not self._action_client.wait_for_server(timeout_sec=5.0):
-            self.get_logger().error(f'[{LOGGING_NAME}] autonomy/dock_map action server not available!')
+            self.get_logger().error(f'[{LOGGING_NAME}] /{self._namespace}/autonomy/dock_map action server not available!')
             self.destroy_node()
             rclpy.shutdown()
             return

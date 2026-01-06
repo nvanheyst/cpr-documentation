@@ -37,7 +37,7 @@ WAYPOINT = Waypoint(
             latitude=,
             longitude=,
             heading=,
-            position_tolerance=-1.0,    # -1.0 mean off
+            position_tolerance=-1.0,    # -1.0 means off
             yaw_tolerance=-1.0,         # -1.0 means off
             tasks=[]
 )
@@ -48,7 +48,7 @@ class ExecuteGoToActionClient(Node):
     def __init__(self, namespace: str):
         super().__init__('execute_goto')
         self._namespace = namespace
-        self._action_client = ActionClient(self, ExecuteGoTo, f'{self._namespace}/autonomy/goto')
+        self._action_client = ActionClient(self, ExecuteGoTo, f'/{self._namespace}/autonomy/goto')
         self._goto_goal_handle = None
         self._goto_goal_cancelled = False
         self._goto_running = False
@@ -65,7 +65,7 @@ class ExecuteGoToActionClient(Node):
         goal_msg.waypoint = waypoint
 
         if not self._action_client.wait_for_server(timeout_sec=5.0):
-            self.get_logger().error(f'[{LOGGING_NAME}] {self._namespace}/autonomy/goto action server not available!')
+            self.get_logger().error(f'[{LOGGING_NAME}] /{self._namespace}/autonomy/goto action server not available!')
             self.destroy_node()
             rclpy.shutdown()
             return
