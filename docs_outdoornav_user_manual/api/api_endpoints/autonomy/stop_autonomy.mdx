@@ -46,11 +46,14 @@ class StopAutonomy(Node):
         try:
             response = future.result()
             if response.success:
-                self.node.get_logger().info(f'[{LOGGING_NAME}] Autonomy stopped!')
+                self.get_logger().info(f'[{LOGGING_NAME}] Autonomy stopped!')
             else:
-                self.node.get_logger().error(f'[{LOGGING_NAME}] Failed to stop autonomy')
+                self.get_logger().error(f'[{LOGGING_NAME}] Failed to stop autonomy')
         except Exception as e:
-            self.node.get_logger().error(f'[{LOGGING_NAME}] Service call failed: {e}')
+            self.get_logger().error(f'[{LOGGING_NAME}] Service call failed: {e}')
+
+        self.destroy_node()
+        rclpy.shutdown()
 
 
 def main(args=None):
@@ -61,8 +64,7 @@ def main(args=None):
     stop_autonomy_client = StopAutonomy(namespace)
     stop_autonomy_client.stop()
 
-    stop_autonomy_client.destroy_node()
-    rclpy.shutdown()
+    rclpy.spin(stop_autonomy_client)
 
 
 if __name__ == '__main__':

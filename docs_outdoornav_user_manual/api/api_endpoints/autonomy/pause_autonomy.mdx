@@ -47,11 +47,14 @@ class PauseAutonomy(Node):
         try:
             response = future.result()
             if response.success:
-                self.node.get_logger().info(f'[{LOGGING_NAME}] Autonomy paused!')
+                self.get_logger().info(f'[{LOGGING_NAME}] Autonomy paused!')
             else:
-                self.node.get_logger().error(f'[{LOGGING_NAME}] Failed to pause autonomy')
+                self.get_logger().error(f'[{LOGGING_NAME}] Failed to pause autonomy')
         except Exception as e:
-            self.node.get_logger().error(f'[{LOGGING_NAME}] Service call failed: {e}')
+            self.get_logger().error(f'[{LOGGING_NAME}] Service call failed: {e}')
+
+        self.destroy_node()
+        rclpy.shutdown()
 
 
 def main(args=None):
@@ -62,8 +65,7 @@ def main(args=None):
     pause_autonomy_client = PauseAutonomy(namespace)
     pause_autonomy_client.pause()
 
-    pause_autonomy_client.destroy_node()
-    rclpy.shutdown()
+    rclpy.spin(pause_autonomy_client)
 
 
 if __name__ == '__main__':

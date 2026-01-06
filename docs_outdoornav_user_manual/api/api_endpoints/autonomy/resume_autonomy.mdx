@@ -47,11 +47,14 @@ class ResumeAutonomy(Node):
         try:
             response = future.result()
             if response.success:
-                self.node.get_logger().info(f'[{LOGGING_NAME}] Autonomy resumed!')
+                self.get_logger().info(f'[{LOGGING_NAME}] Autonomy resumed!')
             else:
-                self.node.get_logger().error(f'[{LOGGING_NAME}] Failed to resume autonomy')
+                self.get_logger().error(f'[{LOGGING_NAME}] Failed to resume autonomy')
         except Exception as e:
-            self.node.get_logger().error(f'[{LOGGING_NAME}] Service call failed: {e}')
+            self.get_logger().error(f'[{LOGGING_NAME}] Service call failed: {e}')
+
+        self.destroy_node()
+        rclpy.shutdown()
 
 
 def main(args=None):
@@ -62,8 +65,7 @@ def main(args=None):
     resume_autonomy_client = ResumeAutonomy(namespace)
     resume_autonomy_client.resume()
 
-    resume_autonomy_client.destroy_node()
-    rclpy.shutdown()
+    rclpy.spin(resume_autonomy_client)
 
 
 if __name__ == '__main__':
