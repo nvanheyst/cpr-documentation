@@ -136,7 +136,7 @@ int main(int argc, char **argv)
     }
     else
     {
-      RCLCPP_INFO(rclcpp::get_logger("add_dock_client"), "Failed to add dock!");
+      RCLCPP_ERROR(rclcpp::get_logger("add_dock_client"), "Failed to add dock!");
     }
   } else {
     RCLCPP_ERROR(rclcpp::get_logger("add_dock_client"), "Failed to call service /%s/docking/dock_manager/add_dock", namespace_.c_str());

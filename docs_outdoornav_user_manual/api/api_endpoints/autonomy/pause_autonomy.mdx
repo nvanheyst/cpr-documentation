@@ -120,7 +120,7 @@ int main(int argc, char **argv)
     }
     else
     {
-      RCLCPP_INFO(rclcpp::get_logger("pause_autonomy_client"), "Autonomy failed to pause!");
+      RCLCPP_ERROR(rclcpp::get_logger("pause_autonomy_client"), "Autonomy failed to pause!");
     }
   } else {
     RCLCPP_ERROR(rclcpp::get_logger("pause_autonomy_client"), "Failed to call service /%s/autonomy/pause", namespace_.c_str());

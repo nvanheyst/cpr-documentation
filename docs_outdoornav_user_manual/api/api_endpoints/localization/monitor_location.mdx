@@ -107,37 +107,7 @@ if __name__ == '__main__':
   <TabItem value="C++" label="C++">
 
 ```cpp
-#include <memory>
 
-#include "rclcpp/rclcpp.hpp"
-#include "nav_msgs/msg/odometry.hpp"
-
-class LocalizationOdom : public rclcpp::Node
-{
-public:
-  LocalizationOdom()
-  : Node("localization_odom_sub")
-  {
-    auto odom_cb =
-      [this](nav_msgs::msg::Odometry::UniquePtr msg) -> void {
-        last_odom_msg_ = msg;
-      };
-
-    odom_sub_ = this->create_subscription<nav_msgs::msg::Odometry>("localization/odom", 10, odom_cb);
-  }
-
-private:
-  rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;
-  nav_msgs::msg::Odometry::UniquePtr last_odom_msg_;
-};
-
-int main(int argc, char * argv[])
-{
-  rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<LocalizationOdom>());
-  rclcpp::shutdown();
-  return 0;
-}
 ```
   </TabItem>
 

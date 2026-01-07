@@ -118,7 +118,7 @@ int main(int argc, char **argv)
     }
     else
     {
-      RCLCPP_INFO(rclcpp::get_logger("stop_autonomy_client"), "Autonomy failed to stop!");
+      RCLCPP_ERROR(rclcpp::get_logger("stop_autonomy_client"), "Autonomy failed to stop!");
     }
   } else {
     RCLCPP_ERROR(rclcpp::get_logger("stop_autonomy_client"), "Failed to call service /%s/autonomy/stop", namespace_.c_str());

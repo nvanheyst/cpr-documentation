@@ -130,7 +130,7 @@ int main(int argc, char **argv)
     }
     else
     {
-      RCLCPP_INFO(rclcpp::get_logger("survey_dock_client"), "Failed to survey dock!");
+      RCLCPP_ERROR(rclcpp::get_logger("survey_dock_client"), "Failed to survey dock!");
     }
   } else {
     RCLCPP_ERROR(rclcpp::get_logger("survey_dock_client"), "Failed to call service /%s/docking/dock_localizer/survey_dock", namespace_.c_str());
