@@ -14,9 +14,14 @@ const config = {
   url: "https://docs.clearpathrobotics.com",
   baseUrl: "/",
   onBrokenLinks: "throw",
-  onBrokenMarkdownLinks: "throw",
   onBrokenAnchors: "throw",
   favicon: "img/website_images/favicon.ico",
+
+  markdown: {
+    hooks: {
+        onBrokenMarkdownLinks: "throw"
+    }
+  },
 
   i18n: {
     defaultLocale: "en",
