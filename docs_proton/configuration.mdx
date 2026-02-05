@@ -57,6 +57,27 @@ nodes:
         port: 11419
 ```
 
+### Heartbeat
+
+The heartbeat configuration of a node indicates whether or not the node will produce heartbeats, and at what rate.
+
+- **enabled**: `true` indicates this node will produce heartbeats, `false` indicates it won't
+- **period**: The period in milliseconds between heartbeats
+
+:::note
+Heartbeat periodicity and sequence incrementing is not enforced by Proton, and should be done at the application level.
+:::
+
+### Endpoints
+
+The endpoint indicates the transport endpoint at which this node can receive Bundles from another peer.
+
+- **id**: Endpoint ID. Used in [Connections](#connections) to pair two nodes.
+- **type**: Endpoint Type. Currently the options are `udp4` or `serial`.
+- **ip**: UDP4 socket IP address. Not used for `serial`.
+- **port**: UDP4 socket port. Not used for `serial`.
+- **device**: Serial device name. Not used for `udp4`.
+
 ## Connections
 
 The connections section is used to connect two nodes together by their endpoints. It is a simple list of pairs of nodes and the endpoint ID to be used for this connection.
@@ -77,8 +98,7 @@ Each node must define a unique endpoint for each peer it will be communicating w
 
 ## Bundles
 
-This section defines every Bundle that can be sent in this Proton network. A Bundle consists of a unique name and non-zero ID, a producer or list of producers, a consumer or list of consumers,
-and a list of signals. An empty Bundle without any Signals is also allowed.
+This section defines every Bundle that can be sent in this Proton network. A Bundle consists of a unique name and non-zero ID, a producer or list of producers, a consumer or list of consumers, and a list of signals. An empty Bundle without any Signals is also allowed.
 
 ```yaml
 bundles:
@@ -106,6 +126,13 @@ bundles:
     signals:
       - {name: data, type: list_bytes, length: 4, capacity: 3}
 ```
+
+Entries:
+- **name**: A unique string representing the bundle name
+- **id**: A unique, non-zero unsigned integer representing the Bundle ID
+- **producers**: A single node name, or list of node names, indicating the node(s) which can produce this Bundle. The nodes must be defined in the [Nodes](#nodes) section.
+- **consumers**: A single node name, or list of node names, indicating the node(s) which can consume this Bundle. The nodes must be defined in the [Nodes](#nodes) section.
+- **signals**: A list of Signals that make up this Bundle. Can be ommitted.
 
 ### Defining Signals
 

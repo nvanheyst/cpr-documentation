@@ -1202,6 +1202,10 @@ proton_status_e proton_node_node2_transport_write(void * context, const uint8_t 
 The Proton node does handle transport timeouts. These should be implemented within your transport functions.
 :::
 
+##### Serial Transport
+
+For serial transport, the `read` and `write` functions must implement Proton's [framing](./index.mdx#serial_transport) to correctly extract the serialized Bundle from the serial stream, and correctly send a Bundle to another peer. The [protoncpp](https://github.com/clearpathrobotics/proton/blob/main/protoncpp/src/transport/serial.cpp) implementation of serial transport can be used as reference.
+
 #### Thread Safety
 
 The **protonc** generator will also generate optional mutex lock and unlock functions. These can also be implemented, using platform specific
@@ -1295,8 +1299,3 @@ void proton_bundle_node2_heartbeat_callback(void * context)
   printf("Received Node 2 heartbeat %ul\r\n", c->bundles.node2_heartbeat_bundle.heartbeat);
 }
 ```
-
-:::note
-Heartbeat periodicity and sequence incrementing is not enforced by Proton, and should be done at the application level.
-:::
-
