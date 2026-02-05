@@ -1,0 +1,246 @@
+---
+title: proton_ros2
+sidebar_label: Proton ROS 2
+sidebar_position: 5
+toc_min_heading_level: 2
+toc_max_heading_level: 4
+---
+
+# proton_ros2
+
+proton_ros2 is a ROS 2 adapter for Proton. It runs a ROS 2 node and a `protoncpp` node in the same process, and bridges:
+
+Proton bundles to ROS 2 topics (publishers/subscribers)
+Proton request/response bundles to ROS 2 services (servers/clients)
+
+## Runtime configurability
+
+proton_ros2 is runtime configurable through a single YAML file: the **Proton configuration**. In addition to the normal Proton sections (`nodes`, `connections`, `bundles`), you add a `ros2:` section that declares how bundles map to ROS 2 topics/services.
+
+On startup, the ROS 2 node:
+
+1. Constructs a `proton::Node` from `protoncpp` with `auto_configure=true` and `auto_activate=false`.
+2. Reads the YAML root node back out via `proton_node_->getConfig().getYamlNode()`.
+3. Parses `ros2:` into `ROS2Config` and creates publishers/subscribers/services/clients.
+4. Activates the Proton node, starts Proton stats, and spins Proton in a background thread.
+
+Changing the config changes the created bridges on next launch (there is no live reload).
+
+## Running
+
+The executable is `proton_ros2_node`.
+
+It takes two ROS parameters:
+
+- `config_file` (string): path to the Proton YAML containing the `ros2:` section
+- `target` (string): Proton node name this process represents (used to decide which bundles are produced/consumed)
+
+The launch file `proto_ws/src/proton_ros2/launch/proton_ros2.launch.py` wires these parameters and supports an optional `namespace`.
+
+## How bridging works
+
+### One bridge, two event loops
+
+- ROS 2 runs in the executor thread (`rclcpp::spin()` in `main.cpp`).
+- Proton transport + bundle reception runs in a background thread calling `proton::Node::spin()`.
+
+Bridging is callback-driven:
+
+- When a Proton bundle is consumed, `protoncpp` invokes the registered bundle callback. `proton_ros2` uses that to publish to ROS 2 (topic case) or to invoke a ROS service client call (service-client case).
+- When a ROS 2 message is received, the subscription callback converts it into a Proton bundle and calls `proton_node_->sendBundle()`.
+
+### Direction is inferred from producers/consumers
+
+For each configured `ros2.topic` mapping, `proton_ros2` checks the Proton bundle’s `producers` and `consumers` arrays for the configured `target`:
+
+- If `target` is a **consumer** of the bundle: create a ROS 2 **publisher**.
+  - Proton -> ROS (publish when bundle is received)
+- If `target` is a **producer** of the bundle: create a ROS 2 **subscriber**.
+  - ROS -> Proton (send bundle when message is received)
+
+This is the key mechanism that makes the ROS wiring “runtime configurable”: the same topic mapping can become a publisher or subscriber depending on which node name you launch as `target`.
+
+## ROS 2 configuration in YAML
+
+The `ros2:` section supports `topics` and `services` arrays.
+
+### Topics
+
+Each topic entry contains:
+
+- `topic` (string, required): ROS topic name
+- `message` (string, required): ROS message type as `pkg/msg/Name` (e.g. `std_msgs/msg/String`)
+- `bundle` (string, required): Proton bundle name
+- `qos` (string or map, optional): QoS profile
+
+Example:
+
+```yaml
+ros2:
+  topics:
+    - {topic: /my_string, message: std_msgs/msg/String, bundle: my_string, qos: default}
+```
+
+### Services
+
+Each service entry contains:
+
+- `topic` (string, required): ROS service name
+- `service` (string, required): ROS service type as `pkg/srv/Name` (e.g. `std_srvs/srv/SetBool`)
+- `request` (string, required): Proton bundle name used as the request
+- `response` (string, optional): Proton bundle name used as the response
+- `timeout` (uint32 ms, optional): timeout waiting for a response or server; defaults to `1000`
+- `qos` (string or map, optional): QoS profile
+
+Example:
+
+```yaml
+ros2:
+  services:
+    - {topic: /light_switch, service: std_srvs/srv/SetBool,
+       request: light_switch_request, response: light_switch_response, timeout: 100}
+```
+
+## QoS configuration
+
+QoS can be specified either as:
+
+- A string naming a standard profile: `default`, `system_defaults`, `sensor_data`, `services`, `rosout`
+- A map describing a custom QoS profile:
+  - `history`: `keep_last`, `keep_all`, `system_default` (default `system_default`)
+  - `depth`: integer (default `10`)
+  - `reliability`: `reliable`, `best_effort`, `system_default` (default `system_default`)
+  - `durability`: `transient_local`, `volatile`, `system_default` (default `system_default`)
+
+proton_ros2 turns this into an `rclcpp::QoS` at runtime.
+
+## Type adapters and conversion
+
+proton_ros2 uses ROS 2 type adapters for topics:
+
+- Publishers are created as `rclcpp::Publisher<rclcpp::TypeAdapter<proton::BundleHandle, MsgT>>`
+- Subscriptions are created as `rclcpp::Subscription<MsgT>` and explicitly convert `MsgT -> BundleHandle` using the adapter
+
+For services, `proton_ros2` implements a parallel mechanism (`ServiceTypeAdapter<ServiceT>`) that provides:
+
+- `convert_to_bundle(Request)` and `convert_to_ros(Response)` for request/response directions
+
+### Mapping expectations
+
+Conversion reads/writes Proton signals by name. In practice this means:
+
+- The Proton bundle must define signals with names that match whatever mapping the adapter expects.
+- The types must be compatible with Proton signal types (e.g. `float32[]` maps to `list_float`, `uint8[]` maps to `bytes`).
+
+The adapter code is generated at build time; see next section.
+
+## Build-time code generation
+
+Most of the message/service conversion logic is generated during the CMake build:
+
+- The CMake custom command runs `proto_ws/src/proton_ros2/proton_ros2/proton_ros2_generator`.
+- It generates:
+  - Per-package message adapters (e.g. `.../messages/std_msgs_msg.hpp/.cpp`)
+  - Per-package service adapters (e.g. `.../services/std_srvs_srv.hpp/.cpp`)
+  - A `Factory` (`factory.hpp/.cpp`) that can create typed publishers/subscribers/services/clients from type strings
+  - “Instantiation” translation units (`factory_<pkg>_inst.cpp`) to reduce template compile memory usage
+
+At runtime, `proton_ros2` calls factory functions like:
+
+- `Factory::createTypedPublisher(message_type_string, ...)`
+- `Factory::createTypedSubscriber(message_type_string, ...)`
+- `Factory::createTypedService(service_type_string, ...)`
+- `Factory::createTypedClient(service_type_string, ...)`
+
+The `type` string must match the ROS interface full name, e.g. `std_msgs/msg/String`.
+
+### Flattening
+
+The generator can auto-derive a default mapping by introspecting ROS interfaces in Python (`rosidl_runtime_py`, `rosidl_parser`) and flattening nested messages into path-like signal names.
+
+This is implemented in `proto_ws/src/proton_ros2/proton_ros2/flatten.py`.
+
+### Overriding mappings (config folder)
+
+Some messages/services need custom mappings or are intentionally disabled. Overrides live in:
+
+- `proto_ws/src/proton_ros2/config/messages/*.yaml`
+- `proto_ws/src/proton_ros2/config/services/*.yaml`
+
+Each entry can:
+
+- Provide a custom `mapping:` list
+- Set `skip: true` to disable generation for that message/service
+- For messages, set `stamp: <field.path>` to auto-fill a timestamp in `convert_to_ros_message()` using ROS time
+
+The supported/overridden types are summarized in `proto_ws/src/proton_ros2/config/README.md`.
+
+## Mapping language (generator config)
+
+Generator mappings are expressed as small dict entries. Common keys:
+
+- `ros2.path`: ROS field path (dot-separated, e.g. `layout.data_offset`)
+- `ros2.index`: fixed index into a ROS array/vector
+- `ros2.length`: list length behavior
+  - `> 0` indicates fixed-size array length
+  - `0` indicates dynamic list (resize destination on Proton->ROS)
+- `ros2.subpath`: field name inside a nested message element (used for arrays of nested messages)
+- `proton.signal`: Proton signal name
+- `proton.index`: fixed index into a Proton list signal
+- `proton.subindex`: byte subindex inside a `list_bytes` element (used for RGB-like layouts)
+- `type`: Proton signal type string (e.g. `uint32`, `list_float`, `bytes`, `list_bytes`)
+
+The generator recognizes several mapping “shapes”, including:
+
+- Scalar: `ros_msg.field = proton.signal`
+- Indexed: `ros_msg.field[i] = proton.signal[j]`
+- Fixed/dynamic lists: `ros_msg.field[] <-> proton.signal[]`
+- Arrays of submessages: `ros_msg.field[n].subfield <-> proton.signal[n]`
+- `list_bytes` subindex: `ros_msg.field[n].subfield <-> proton.signal[n][subindex]`
+
+Example (custom RGB mapping) from `config/messages/clearpath_platform_msgs.yaml`:
+
+```yaml
+- {ros2.path: lights, ros2.length: 0, ros2.subpath: red,   proton.signal: lights, proton.subindex: 0, type: list_bytes}
+- {ros2.path: lights, ros2.length: 0, ros2.subpath: green, proton.signal: lights, proton.subindex: 1, type: list_bytes}
+- {ros2.path: lights, ros2.length: 0, ros2.subpath: blue,  proton.signal: lights, proton.subindex: 2, type: list_bytes}
+```
+
+## Services: server vs client behavior
+
+Service direction is inferred from the request/response bundles’ producers/consumers for `target`.
+
+With both request + response bundles configured:
+
+- Create a ROS 2 **service server** when:
+  - `target` is a producer of the **request** bundle, and
+  - `target` is a consumer of the **response** bundle.
+
+  Behavior:
+  - On ROS request: convert to request bundle, send to Proton
+  - Wait up to `timeout` for a Proton response bundle
+  - Convert response bundle to ROS response
+
+- Create a ROS 2 **service client** when:
+  - `target` is a consumer of the **request** bundle, and
+  - `target` is a producer of the **response** bundle.
+
+  Behavior:
+  - On Proton request bundle arrival: convert bundle to ROS request and call the ROS service
+  - On ROS response: convert to response bundle and send to Proton
+
+If `response` is omitted, the node creates a server/client that only sends a request bundle (fire-and-forget semantics).
+
+## Diagnostics
+
+`proton_ros2` registers diagnostics tasks via `diagnostic_updater`:
+
+- Per-connection RX/TX rates (KB/s) from the embedded `protoncpp` node
+- Per-bundle frequency (Hz) depending on whether `target` produces or consumes the bundle
+- Heartbeat frequency checks for peers that have heartbeat enabled in the Proton config
+
+Diagnostics are published through the standard ROS 2 diagnostics pipeline.
+
+## Transport
+
+proton_ros2 does not implement its own transport. All network/serial transport is provided by the embedded `protoncpp` node and is configured in the Proton YAML (UDP4 or serial, endpoints, connections).
