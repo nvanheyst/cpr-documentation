@@ -1121,7 +1121,7 @@ proton_buffer_t proton_decode_buffer = {decode_buffer, sizeof(decode_buffer)};
 
 // Receive packet_length bytes into decode_buffer
 
-if (proton_bundle_decode(proton_decode_buffer, PROTON__PEER__NODE2, &id, packet_length) == PROTON_OK)
+if (proton_bundle_decode(proton_decode_buffer, PROTON__NODE__NODE2__ID, &id, packet_length) == PROTON_OK)
 {
   switch(id)
   {
@@ -1147,4 +1147,156 @@ if (proton_bundle_decode(proton_decode_buffer, PROTON__PEER__NODE2, &id, packet_
 
 ### Node implementation
 
+If generated with `NODE` set to True, your application will have to define the transport layer, Bundle callbacks, and run the node spin function periodically. Bundle encoding and decoding will be handled automatically.
+
+#### Context
+
+It is recommended to create a custom context struct which holds your node and bundle structs. This context will then be passed to transport, mutex, and callback calls when spinning your node, allowing direct access to Bundle data, or other useful information.
+
+```c
+typedef struct {
+  proton_node_t node;
+  proton_bundles_node1_t bundles;
+} context_t;
+```
+
+#### Initialisation
+
+On top of initialising [Bundle Structs](#bundle-structs), you will need to also initialise the target node, and each of its peers. Use the default value initialiser list for each:
+
+```c
+// Define all structs and variables
+proton_peer_t node1_peers[PROTON__PEER__COUNT] = {PROTON__NODE__NODE2__PEER__DEFAULT_VALUE};
+
+context_t context = {
+  .node = PROTON__NODE__NODE1__DEFAULT_VALUE,
+  .bundles = PROTON__BUNDLES__NODE1__DEFAULT_VALUE
+};
+
+uint8_t decode_buffer[DECODE_BUFFER_SIZE];
+proton_buffer_t proton_decode_buffer = {decode_buffer, sizeof(decode_buffer)};
+
+uint8_t encode_buffer[ENCODE_BUFFER_SIZE];
+proton_buffer_t proton_encode_buffer = {encode_buffer, sizeof(encode_buffer)};
+
+// Initialise Bundles
+proton_bundles_mcu_init(&context.bundles);
+// Initialise Peers
+proton_peer_node2_init(&node1_peers[PROTON__PEER__NODE2], proton_decode_buffer);
+// Initialise Node
+proton_node_mcu_init(&context.node, node1_peers, proton_encode_buffer, &context);
+```
+
+#### Transport
+
+The transport functions for each peer must be defined in your application source. They should adhere to the function prototypes, and return an appropriate status. The `read` and `write` functions must correctly populate the `bytes_read` or `bytes_written` variables on success.
+
+```c
+proton_status_e proton_node_node2_transport_connect(void * context);
+proton_status_e proton_node_node2_transport_disconnect(void * context);
+proton_status_e proton_node_node2_transport_read(void * context, uint8_t * buf, size_t len, size_t * bytes_read);
+proton_status_e proton_node_node2_transport_write(void * context, const uint8_t * buf, size_t len, size_t * bytes_written);
+```
+
+:::note
+The Proton node does handle transport timeouts. These should be implemented within your transport functions.
+:::
+
+#### Thread Safety
+
+The **protonc** generator will also generate optional mutex lock and unlock functions. These can also be implemented, using platform specific
+mutexes, to provide atomic access to the encode and decode buffers.
+
+```c
+proton_status_e proton_node_node2_lock(void * context);
+proton_status_e proton_node_node2_unlock(void * context);
+
+proton_status_e proton_node_node1_lock(void * context);
+proton_status_e proton_node_node1_unlock(void * context);
+```
+
+#### Callbacks
+
+Each Bundle that is defined as being consumed by the target node will have a generated callback function. These are called every time the corresponding Bundle is decoded. Your application should implement these as required.
+
+```c
+void proton_bundle_consumed_bundle_callback(void * context)
+{
+  if (context == NULL) return;
+
+  context_t * c = (context_t *)context;
+
+  if (c->bundles.consumed_bundle_bundle.booleans[c->bundles.consumed_bundle_bundle.BOOL0])
+  {
+    // Do something
+  }
+}
+```
+
+#### Spinning a Peer
+
+Once all proton structs have been initialised and transport and callback functions have been defined, the `proton_spin` or `proton_spin_once` functions can be used to run the automatic transport and Bundle management of a peer.
+
+The `proton_spin_once` function runs the peers state machine, utilising the transport functions to manage the transport connection, and handling the reception of Bundles from this peer. `proton_spin` is simply an infinite loop that repeatedly calls `proton_spin_once`, and so it is a blocking call intended to run in its own thread or task.
+
+When the peers transport is in a **connected** state, the `proton_spin_once` function will call the transport read function to receive serialized Bundles from the peer, decode their IDs and data into the appropriate Bundle structs, and execute the Bundle's callback. If mutexes are implemented, it will ensure thread safety around the decode buffer.
+
+```c
+proton_spin_once(&context.node, PROTON__PEER__NODE2);
+```
+
+#### Producing Bundles
+
+While spinning a peer is used for handling Bundle reception, the production of Bundles occurs asynchronously. The `proton_bundle_send` function should be used to automatically encode and send a Bundle to each of its consumers.
+
+The Bundle struct that was initialised should be filled out with the appropriate data, then `proton_bundle_send` should be called with the Bundles ID.
+
+```c
+context.bundles.produced_bundle_bundle.integer = 12;
+context.bundles.produced_bundle_bundle.floats[3] = -12.53f;
+strncpy(context.bundles.produced_bundle_bundle.name, "NAME", PROTON__BUNDLE__PRODUCED_BUNDLE__SIGNAL__NAME__CAPACITY);
+context.bundles.produced_bundle_bundle.hex_codes[4][0] = 0xFF;
+
+proton_bundle_send(&context.node, PROTON__BUNDLE__PRODUCED_BUNDLE);
+```
+
+#### Heartbeats
+
+Heartbeats can be enabled on a per-node basis in the Proton configuration file:
+
+```yaml
+nodes:
+  - name: node1
+    heartbeat:
+      enabled: true
+      period: 1000
+```
+
+The period is the expected rate at which heartbeats will be produced by this node in milliseconds.
+
+In **protonc**, a `proton_bundle_heartbeat_t` struct will be generated for each node that enables the heartbeat. They can be initialised the same way as any other Bundle. The heartbeat bundle is unique in that it uses the ID 0 (defined as `PROTON_HEARTBEAT_ID`), and has a single predefined `heartbeat` signal of type `uint32`. It is expected for the application to increment the `heartbeat` signal each time it is produced.
+
+Heartbeats can be produced the same way as any other Bundle:
+
+```c
+context.bundles.node1_heartbeat_bundle.heartbeat++;
+proton_bundle_send(&context.node, PROTON_HEARTBEAT_ID);
+```
+
+and similarly received in a callback:
+
+```c
+void proton_bundle_node2_heartbeat_callback(void * context)
+{
+  if (context == NULL) return;
+
+  context_t * c = (context_t *)context;
+
+  printf("Received Node 2 heartbeat %ul\r\n", c->bundles.node2_heartbeat_bundle.heartbeat);
+}
+```
+
+:::note
+Heartbeat periodicity and sequence incrementing is not enforced by Proton, and should be done at the application level.
+:::
 
