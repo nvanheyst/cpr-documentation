@@ -1,29 +1,18 @@
 ---
-title: protoncpp
+title: Proton CPP
 sidebar_label: Proton CPP
 sidebar_position: 4
 toc_min_heading_level: 2
 toc_max_heading_level: 4
 ---
 
-# protoncpp
+# Proton CPP
 
-`protoncpp` is the C++ runtime for Proton that:
-
-- Loads a YAML configuration at startup
-- Materializes **bundles** and **signals** from that config
-- Creates per-peer **connections** that use an underlying **transport** (UDP4 or serial)
-- Sends/receives protobuf-encoded `Bundle` messages, updates local bundle state, and invokes callbacks
+**protoncpp** is the C++ implementation of Proton, intended to run on more powerful 64-bit processors. **protoncpp** parses the Proton configuration file at run-time, and dynamically creates the Bundle and Signal objects required for the target node. It also fully handles peer connections and transport functionality, so no transport abstraction is required by the user. **protoncpp** also handles Bundle consumption through registered callbacks.
 
 ## Runtime configurability
 
-`protoncpp` is runtime configurable in the sense that the data model and network topology are not compiled into your application:
-
-- The set of nodes, endpoints, connections, bundles, and signals come from a YAML file.
-- Signals can be initialized with defaults or constant values in YAML.
-- The transport type (UDP4 vs serial) and endpoint parameters are defined in YAML.
-
-Changing the YAML changes what the runtime constructs on next startup. (There is no live reload / dynamic reconfigure API in the current C++ runtime.)
+`protoncpp` is runtime configurable in the sense that the Bundle definitions and network topology are not compiled into the executable. Changing the YAML changes what the runtime constructs on next startup. (There is no live reload / dynamic reconfigure API in the current C++ runtime.)
 
 ### Node lifecycle
 

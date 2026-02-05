@@ -479,20 +479,20 @@ proton_status_e proton_node_node1_init(proton_node_t * node, proton_peer_t * pee
   - A `proton_bundles_<target>_t` that groups all bundles (including heartbeat bundles) for the target node.
 
 #### **Bundle init prototypes**
-  - Functions like `proton_bundle_<name>_init()` initialize a bundle struct and bind signal handles.
-  - `proton_bundles_<target>_init()` initializes the full bundle set for the target.
+  - Functions like `proton_bundle_<name>_init` initialize a bundle struct and bind signal handles.
+  - `proton_bundles_<target>_init` initializes the full bundle set for the target.
 
 #### **Encode/decode and print prototypes**
-  - `proton_bundle_encode()` serializes a bundle into a `proton_buffer_t`.
-  - `proton_bundle_decode()` deserializes and validates producers/IDs.
-  - `proton_bundle_print()` is a helper to print a bundle for debug.
+  - `proton_bundle_encode` serializes a bundle into a `proton_buffer_t`.
+  - `proton_bundle_decode` deserializes and validates producers/IDs.
+  - `proton_bundle_print` is a helper to print a bundle for debug.
 
 #### **Peer enum**
   - `PROTON__PEER_e` assigns an index for each peer in the `peers[]` array used by the runtime node.
 
 #### **Receive/send prototypes**
-  - `proton_node_<peer>_receive()` is called after transport read to decode and dispatch callbacks for that peer.
-  - `proton_bundle_send()` encodes and sends a bundle to all consumers.
+  - `proton_node_<peer>_receive` is called after transport read to decode and dispatch callbacks for that peer.
+  - `proton_bundle_send` encodes and sends a bundle to all consumers.
 
 #### **Consumer callback prototypes**
   - Weak callbacks for each consumed bundle and heartbeat. You override these in your application to handle incoming data.
@@ -505,8 +505,8 @@ proton_status_e proton_node_node1_init(proton_node_t * node, proton_peer_t * pee
   - Optional lock/unlock hooks for atomic buffer access. If you don’t implement them, weak defaults return `PROTON_OK`.
 
 #### **Peer and node init prototypes**
-  - `proton_peer_<peer>_init()` initializes peer state with its ID and defaults.
-  - `proton_node_<target>_init()` configures and activates the node with peers, buffers, and callbacks.
+  - `proton_peer_<peer>_init` initializes peer state with its ID and defaults.
+  - `proton_node_<target>_init` configures and activates the node with peers, buffers, and callbacks.
 
 
 ### Source file
@@ -1017,25 +1017,25 @@ proton_status_e proton_node_node1_init(proton_node_t * node, proton_peer_t * pee
   - `static proton_bundle_handle_t _<bundle>_bundle_handle` are runtime handles that bind bundle IDs, signal handles, and producer/consumer masks.
 
 #### **Per-bundle init functions**
-  - Functions like `proton_bundle_produced_bundle_init()` call `proton_init_signal()` for each signal in order, then `proton_init_bundle()` to assemble the bundle handle.
+  - Functions like `proton_bundle_produced_bundle_init` call `proton_init_signal` for each signal in order, then `proton_init_bundle` to assemble the bundle handle.
 
 #### **Aggregate init function**
-  - `proton_bundles_<target>_init()` initializes all bundles (including heartbeat bundles) for the target node.
+  - `proton_bundles_<target>_init` initializes all bundles (including heartbeat bundles) for the target node.
 
 #### **Bundle decode**
-  - `proton_bundle_decode()` reads the bundle ID, selects the correct handle (including heartbeat by producer), validates producer permissions, then calls `proton_decode()`.
+  - `proton_bundle_decode` reads the bundle ID, selects the correct handle (including heartbeat by producer), validates producer permissions, then calls `proton_decode`.
 
 #### **Bundle encode**
-  - `proton_bundle_encode()` chooses the appropriate handle by bundle ID and calls `proton_encode()` to serialize into a buffer.
+  - `proton_bundle_encode` chooses the appropriate handle by bundle ID and calls `proton_encode` to serialize into a buffer.
 
 #### **Bundle print helper**
-  - `proton_bundle_print()` selects the handle and forwards to `proton_print_bundle()` for debugging.
+  - `proton_bundle_print` selects the handle and forwards to `proton_print_bundle` for debugging.
 
 #### **Peer receive function**
-  - `proton_node_<peer>_receive()` decodes a buffer received from a peer, chooses the correct callback, and invokes it.
+  - `proton_node_<peer>_receive` decodes a buffer received from a peer, chooses the correct callback, and invokes it.
 
 #### **Bundle send function**
-  - `proton_bundle_send()` encodes the bundle, then writes it to all peers that are listed as consumers, with atomic buffer locking.
+  - `proton_bundle_send` encodes the bundle, then writes it to all peers that are listed as consumers, with atomic buffer locking.
 
 #### **Weak consumer callbacks**
   - Default (weak) callbacks for incoming bundles and heartbeats; you override these in application code to process data.
@@ -1044,9 +1044,107 @@ proton_status_e proton_node_node1_init(proton_node_t * node, proton_peer_t * pee
   - Default (weak) lock/unlock functions used by the atomic buffer; replace if your platform needs real locking.
 
 #### **Peer init function**
-  - `proton_peer_<peer>_init()` fills a peer struct with IDs, heartbeat defaults, transport vtable, callbacks, and buffer.
+  - `proton_peer_<peer>_init` fills a peer struct with IDs, heartbeat defaults, transport vtable, callbacks, and buffer.
 
 #### **Node init function**
-  - `proton_node_<target>_init()` configures the node with heartbeat settings, peers, buffers, and then activates it.
+  - `proton_node_<target>_init` configures the node with heartbeat settings, peers, buffers, and then activates it.
+
+## Usage
+
+Once proton has been included into your project, you can begin to define proton structs and buffers to be used by your application.
+
+### Core implementation
+
+If you generate **protonc** code with `NODE` set to False, you will only have the core encode and decode functionality. Transport and node management will be up to your application to implement. **protonc** will only enable you to encode and decode Bundles to and from data buffers.
+
+#### Bundle structs
+
+Bundle structs can be defined and initialized individually, or as part of the aggregate `proton_bundles_<target>_t` struct, which is recommended.
+
+Bundles should be initialized with the default value initialiser list generated in the header file, and the generated `init` function.
+
+```c
+proton_bundles_node1_t bundles = PROTON__BUNDLES__NODE1__DEFAULT_VALUE;
+proton_bundles_node1_init(&bundles);
+```
+
+:::note
+Always check the return value of proton functions to ensure no errors occurred.
+:::
+
+The individual Bundle structs within `bundles` will now be bound to the corresponding `_<bundle_name>_bundle_handle` struct defined in the source file, and will be used by proton for encoding/decoding.
+
+#### Buffers
+
+**protonc** uses the `proton_buffer_t` struct for data buffers. It is defined as:
+
+```c
+typedef struct {
+  uint8_t * data;
+  size_t len;
+} proton_buffer_t;
+```
+
+Typically you should create one buffer for encoding, and another for decoding. They should be of sufficient size to encode any of your Bundles.
+
+```c
+uint8_t encode_buffer[ENCODE_BUFFER_SIZE];
+proton_buffer_t proton_encode_buffer = {encode_buffer, sizeof(encode_buffer)};
+```
+
+#### Encoding a Bundle
+
+If you are just using the core functionality of **protonc**, then at this point you can fill out the Bundle data, and manually use the generated `proton_bundle_encode` function with your encode buffer to encode your Bundle.
+
+```c
+bundles.produced_bundle_bundle.integer = 12;
+bundles.produced_bundle_bundle.floats[3] = -12.53f;
+strncpy(bundles.produced_bundle_bundle.name, "NAME", PROTON__BUNDLE__PRODUCED_BUNDLE__SIGNAL__NAME__CAPACITY);
+bundles.produced_bundle_bundle.hex_codes[4][0] = 0xFF;
+
+size_t bytes_encoded = 0;
+if (proton_bundle_encode(proton_encode_buffer, PROTON__BUNDLE__PRODUCED_BUNDLE, &bytes_encoded) == PROTON_OK)
+{
+  // Send the first bytes_encoded bytes of encode_buffer
+}
+```
+
+#### Decoding a Bundle
+
+The decoding process requires knowing which peer sent the Bundle, and what the length of the received serialized packet is. The decode function will also indicate the ID of the received Bundle.
+
+```c
+uint32_t id = 0;
+size_t packet_length = 0;
+uint8_t decode_buffer[DECODE_BUFFER_SIZE];
+proton_buffer_t proton_decode_buffer = {decode_buffer, sizeof(decode_buffer)};
+
+// Receive packet_length bytes into decode_buffer
+
+if (proton_bundle_decode(proton_decode_buffer, PROTON__PEER__NODE2, &id, packet_length) == PROTON_OK)
+{
+  switch(id)
+  {
+    case PROTON__BUNDLE__CONSUMED_BUNDLE:
+    {
+      // Handle receiving consumed_bundle
+      break;
+    }
+
+    case PROTON_HEARTBEAT_ID:
+    {
+      // Handle receiving heartbeat from node2
+      break;
+    }
+
+    default:
+    {
+      break;
+    }
+  }
+}
+```
+
+### Node implementation
 
 
