@@ -8,270 +8,235 @@ toc_max_heading_level: 4
 
 # Proton CPP
 
-**protoncpp** is the C++ implementation of Proton, intended to run on more powerful 64-bit processors. **protoncpp** parses the Proton configuration file at run-time, and dynamically creates the Bundle and Signal objects required for the target node. It also fully handles peer connections and transport functionality, so no transport abstraction is required by the user. **protoncpp** also handles Bundle consumption through registered callbacks.
+**protoncpp** is the C++ implementation of Proton, intended to run on more powerful 64-bit processors. **protoncpp** parses the Proton configuration file at run-time, and dynamically creates the Bundle and Signal objects required for the target node, no code generation required. It also fully handles peer connections and transport functionality, so no transport abstraction is required by the user.
 
-## Runtime configurability
+## Core functionality
 
-`protoncpp` is runtime configurable in the sense that the Bundle definitions and network topology are not compiled into the executable. Changing the YAML changes what the runtime constructs on next startup. (There is no live reload / dynamic reconfigure API in the current C++ runtime.)
+**protoncpp** utilises the Protobuf compiler to generate C++ classes for the Bundle and Signal protobufs. Then, much like **protonc**, it wraps these classes with the `BundleHandle` and `SignalHandle` classes.
+These classes add Proton specific functionality, such as Bundle IDs and names, as well as C++ features such as templating and data structures for ease of use.
 
-### Node lifecycle
+**protoncpp** also implements the `Node` class, with node state machine and peer connection management.
 
-`proton::Node` is a small state machine:
+### Runtime configuration model
 
-- `PROTON_NODE_UNCONFIGURED` (default)
-- `configure()` builds bundles + connections -> `PROTON_NODE_INACTIVE`
-- `activate()` starts connection threads (+ heartbeat thread if enabled) -> `PROTON_NODE_ACTIVE`
+At startup, `Node` loads the YAML configuration file and builds the runtime model (Bundles, Signals, peers, and connections) dynamically. Unlike **protonc**, there is no code generation step: the config is parsed at runtime, and all objects are created in memory based on the config.
 
-Construction can auto-run these transitions:
+### Bundles, Signals, and typed access
+
+Bundles represent message groups, while Signals represent typed fields inside a Bundle. **protoncpp** wraps the generated Protobuf types with `BundleHandle` and `SignalHandle` to provide strongly-typed access (`getValue<T>()` / `setValue<T>()`), list indexing, and name-based lookup.
+
+### Signal value types in C++
+
+Signal values are represented using native C++ types and `std::vector` containers. The template type you use with `getValue<T>()` / `setValue<T>()` must match the configured signal type:
+
+- Scalar types: `double`, `float`, `int32_t`, `int64_t`, `uint32_t`, `uint64_t`, `bool`, `std::string`
+- Bytes: `proton::bytes` (alias for `std::vector<uint8_t>`)
+- Lists: `proton::list_double`, `proton::list_float`, `proton::list_int32`, `proton::list_int64`, `proton::list_uint32`, `proton::list_uint64`, `proton::list_bool`, `proton::list_string`
+- List of bytes: `proton::list_bytes` (alias for `std::vector<proton::bytes>`)
+
+List signals also support indexed setters (for example `setValue<float>(index, value)`), and list-of-bytes supports both element updates and byte-level updates with `setValue<uint8_t>(index, subindex, value)`.
+
+### Constant signals
+
+Signals with defined values in the config are initialized as read-only from the config value and cannot be modified at runtime. Attempting to call `setValue()` on a constant signal throws an exception.
+
+### Node lifecycle and callbacks
+
+`Node` supports an explicit lifecycle: configure bundles and peers, activate connections, then spin to receive bundles. Bundle callbacks are registered per bundle name and invoked when new data arrives for that bundle.
+
+### Peer connections and transports
+
+Connections are created for each peer listed in the config. Each connection selects a transport (UDP4 or Serial) and handles low-level I/O, framing, and heartbeat monitoring. This is fully managed by `Node` and does not require user code.
+
+### Heartbeats and liveness
+
+When enabled, **protoncpp** automatically creates a heartbeat bundle per peer. The heartbeat thread increments and sends the heartbeat signal periodically, while connection threads track the last received heartbeat to mark peers active/inactive.
+
+### Threading and statistics
+
+Each connection runs in its own thread for I/O, with optional heartbeat and stats threads. Bundles track RX/TX counts and rates, which can be printed with `printStats()`.
+
+
+## Adding Proton CPP to your project
+
+**protoncpp** can be added to a CMake project much like [protonc](./protonc.mdx#fetch-proton). The Proton repo is fetched and made available to the project:
+
+```cmake
+include(FetchContent)
+FetchContent_Declare(
+  proton
+  GIT_REPOSITORY https://github.com/clearpathrobotics/proton.git
+  GIT_TAG main
+)
+
+set(PROTON_BUILD_PROTONC OFF)
+set(PROTON_BUILD_EXAMPLES OFF)
+set(PROTON_BUILD_TESTS OFF)
+set(PROTON_INSTALL OFF)
+
+FetchContent_MakeAvailable(proton)
+```
+
+Because no code generation needs to be added, simply link the **protoncpp** library to your executable:
+
+```cmake
+target_link_libraries(${MY_TARGET} proton::protoncpp)
+```
+
+Now, the **protoncpp** library is available to use:
 
 ```cpp
-proton::Node node("/path/to/config.yaml", "a300", /*auto_configure=*/true, /*auto_activate=*/true);
-node.spin();
+#include "protoncpp/proton.hpp"
 ```
 
-Internally, `configure()`:
+## Usage
 
-- Adds every configured bundle (see "Bundles and signals" below)
-- Extracts this node's `NodeConfig` by name
-- Scans configured `connections` and creates a `proton::Connection` to each peer
-- Creates implicit heartbeat bundles depending on heartbeat settings
+### Initialise the Node
 
-## Configuration file format
-
-The YAML is loaded by `proton::Config` (YAML-CPP) and decoded into:
-
-- `nodes[]`: per-node endpoints + heartbeat settings
-- `connections[]`: pairs of node endpoints that should communicate
-- `bundles[]`: named bundle definitions, each with signals, producers, and consumers
-
-At minimum you need:
-
-- A `nodes` entry for each node name you will run
-- One or more `connections` that include that node name
-- One or more `bundles`
-
-### Nodes and endpoints
-
-Each node has one or more `endpoints` keyed by an integer `id`. A connection references endpoints by this `id`.
-
-- `type: udp4` requires `ip` and `port`
-- `type: serial` requires `device`
-
-Heartbeat is configured per node:
-
-- `heartbeat.enabled` (default `false`)
-- `heartbeat.period` in ms (default `1000`)
-
-### Connections
-
-A connection is a pair of `{node, id}` endpoints:
-
-```yaml
-connections:
-  - first:  {node: a300, id: 0}
-    second: {node: j100, id: 0}
-```
-
-During `configure()`, each connection involving the local node becomes a `Connection` to the peer.
-
-Implementation constraints:
-
-- The two endpoints in a connection must have the same transport `type` (otherwise `Connection` throws).
-- The endpoint `id` must exist in each node's `endpoints` map.
-
-### Bundles
-
-Bundles are declared with:
-
-- `name`: human-readable bundle name
-- `id`: numeric bundle ID (must be non-zero; `0` is reserved for heartbeat)
-- `producers`: node name(s) allowed to publish the bundle
-- `consumers`: node name(s) that receive the bundle
-- `signals`: list of signal definitions
-
-Producers/consumers can be either a scalar string or a YAML sequence.
-
-## Bundles and signals
-
-A **bundle** is a protobuf message (`proton::Bundle`) with a numeric `id` and a repeated list of `Signal` messages (`signals[]`).
-
-Bundles are managed through `proton::BundleHandle`:
-
-- Holds a `std::shared_ptr<Bundle>` (the live data)
-- Owns a map of `SignalHandle`s for named access and typed get/set
-- Stores producers/consumers and an optional callback
-
-### Signals: types, length, capacity
-
-Signals are represented by a protobuf oneof (`proton::Signal`) and wrapped by `proton::SignalHandle`.
-
-Supported YAML `type` strings include scalars and lists:
-
-- Scalars: `double`, `float`, `int32`, `int64`, `uint32`, `uint64`, `bool`, `string`, `bytes`
-- Lists: `list_double`, `list_float`, `list_int32`, `list_int64`, `list_uint32`, `list_uint64`, `list_bool`, `list_string`, `list_bytes`
-
-Two sizing concepts are used:
-
-- `length`: number of list elements (for list types)
-- `capacity`: maximum size for `string`/`bytes` element storage (and per-element capacity for `list_bytes`)
-
-Rules enforced by config parsing:
-
-- List types require `length` unless a constant `value` is provided.
-- `string`, `bytes`, `list_string`, `list_bytes` require `capacity` unless a constant `value` is provided (in which case it is derived).
-
-### Constant vs non-constant signals (important)
-
-Signals become **constant** if YAML defines a `value`.
-
-Implementation detail with real impact:
-
-- Non-constant signals are appended into the protobuf bundle's `signals[]` and therefore are transmitted.
-- Constant signals are constructed as standalone `Signal` objects and are not added to the bundle's `signals[]`; they exist as local, read-only configuration values.
-
-Attempting to `setValue()` on a constant signal throws at runtime.
-
-### Example bundle YAML
-
-```yaml
-bundles:
-  - name: status
-    id: 1
-    producers: a300
-    consumers: [j100]
-    signals:
-      - {name: mode, type: uint32}
-      - {name: nameplate, type: string, capacity: 32}
-      - {name: temperatures, type: list_float, length: 8}
-      # Constant local-only value (not transmitted)
-      - {name: model, type: string, value: "A300"}
-```
-
-### Typed access API
-
-Signals are read/written through templates:
+To start using **protoncpp**, first create a `Node` object, and pass it your YAML configuration file, and target node:
 
 ```cpp
-auto& status = node.getBundle("status");
-
-status.getSignal("mode").setValue<uint32_t>(3);
-uint32_t mode = status.getSignal("mode").getValue<uint32_t>();
-
-// List element update
-status.getSignal("temperatures").setValue<float>(0, 42.0f);
-
-// bytes: set entire buffer or a single byte
-status.getSignal("payload").setValue<proton::bytes>({0x01, 0x02});
-status.getSignal("payload").setValue<uint8_t>(0, 0xFF);
-
-// list_bytes: set element, or element byte at subindex
-status.getSignal("lights").setValue<proton::bytes>(0, {0x10, 0x20, 0x30});
-status.getSignal("lights").setValue<uint8_t>(0, 2, 0x7F);
+proton::Node node("/path/to/my/config.yaml", "target");
 ```
 
-Out-of-range indices throw `std::out_of_range`.
+The constructor for `Node` will automatically parse the configuration file and set up all Signals, Bundles, and Transport for you.
 
-## Sending and receiving bundles
+### Register Bundle callbacks
 
-### Sending
+Now you can register callback functions for each Bundle that the target node consumes. Bundles are referenced by their name. The callback will accept a `BundleHandle` reference to the received Bundle.
 
-`Node::sendBundle()` serializes the bundle protobuf to a byte buffer and writes it to each configured consumer connection that is currently connected.
+```cpp
+void log_bundle_callback(proton::BundleHandle& handle);
 
-Transport-specific behavior:
+node.registerCallback("log", log_bundle_callback);
+```
 
-- UDP4: the protobuf bytes are sent as a single datagram
-- Serial: the protobuf bytes are wrapped in a Proton serial frame (see "Serial transport" below)
+### Getting Bundles and Signals
 
-### Receiving, updating, callbacks
+The `Node` object acts as a `BundleManager`, meaning that it exposes getter and setter functions for the Bundle and Signal handles.
 
-Each `Connection` runs in its own thread and polls the transport for the next message. When it parses a `Bundle`, it invokes the node's `readCompleteCallback`, which pushes it into a thread-safe queue (`SafeQueue`).
+To get a reference to a Bundle, simply use the `getBundle` function, and the Bundles name:
 
-The application thread typically calls `spinOnce()` or `spin()`:
+```cpp
+auto& log_bundle = node.getBundle("log_bundle");
+```
 
-- Blocks waiting for the next received bundle
-- Finds the matching local `BundleHandle` by bundle ID (or heartbeat producer)
-- Updates the `Bundle` stored in that handle
-- Increments RX counters and invokes the handle callback if registered
+From the Bundle, you can now get a specific Signal in a similar fashion:
 
-Callback registration is guarded by configuration:
+```cpp
+auto& msg_signal = log_bundle.getSignal("msg");
+```
 
-- `registerCallback(bundle, cb)` only succeeds if the current node is listed as a consumer of that bundle.
-- `registerHeartbeatCallback(producer, cb)` only succeeds if the current node is a consumer of that producer's heartbeat.
+To access the value of the Signal, use the `getValue` function, with the correct templated type:
 
-## Heartbeats
+```cpp
+std::string msg = msg_signal.getValue<std::string>();
+```
 
-Heartbeats are implicit bundles created at runtime (not declared in the `bundles:` section).
+The same result can be achieved in a single line as well:
 
-- Heartbeat bundle ID is always `0` (reserved)
-- Bundle name is the producer node name
-- It contains a single `uint32` signal named `heartbeat`
+```cpp
+std::string msg = node.getBundle("log_bundle").getSignal("msg").getValue<std::string>();
+```
 
-If this node's heartbeat is enabled:
+### Setting Signal values
 
-- `activate()` starts a heartbeat thread that periodically increments the `heartbeat` signal and sends the heartbeat bundle to all peers.
+To set the value of a Signal, first get a reference to a Bundle:
 
-If a peer's heartbeat is enabled:
+```cpp
+auto& log_bundle = node.getBundle("log_bundle");
+```
 
-- The `Connection` starts a watchdog thread that marks the peer inactive if heartbeats are late.
-- Any received bundle with `id == 0` triggers `Connection::heartbeat()` (updates last heartbeat timestamp and sets peer state active).
+Then get a reference to the Signal from the Bundle:
 
-## Transport architecture
+```cpp
+auto& msg_signal = log_bundle.getSignal("msg");
+```
 
-`protoncpp` uses a small abstraction:
+To set the value of the Signal, use the `setValue` function, with the correct templated type:
 
-- `Transport`: connect/disconnect/read/write + transport state
-- `TransportManager`: owns a `std::unique_ptr<Transport>` and wraps calls to update state and accumulate RX/TX byte counters
+```cpp
+msg_signal.setValue<std::string>("My message");
+```
 
-Each `Connection` is a `TransportManager` and chooses its concrete transport based on endpoint `type` in the YAML.
+The same result can be achieved in a single line as well:
 
-### UDP4 transport
+```cpp
+node.getBundle("log_bundle").getSignal("msg").setValue<std::string>("My message");
+```
 
-`Udp4Transport` uses two sockets:
+### Spinning and receiving bundles
 
-- A "node" socket that is `bind()`-ed to the local endpoint and used for `recv()`.
-- A "peer" socket that is `connect()`-ed to the peer endpoint and used for `send()`.
+To process incoming bundles, call `spinOnce()` in your loop, or `spin()` to block forever:
 
-Implementation notes:
+```cpp
+while (true)
+{
+  node.spinOnce();
+}
+```
 
-- The peer socket is set non-blocking; the node socket is created blocking.
-- `read()` blocks in `recv()` until a datagram arrives.
-- There is no extra framing: the UDP payload is the protobuf bytes.
+### Sending bundles
 
-### Serial transport
+To produce a bundle, set its signals and call `sendBundle()` by name or by handle:
 
-`SerialTransport` uses ASIO's `serial_port` and frames the protobuf payload.
+```cpp
+auto& log_bundle = node.getBundle("log_bundle");
+log_bundle.getSignal("msg").setValue<std::string>("Hello");
 
-Write path:
+node.sendBundle("log_bundle");
+// or
+node.sendBundle(log_bundle);
+```
 
-- Builds a framed packet: header (`0x50 0x52` + length) + payload + CRC16
-- Writes the full frame to the serial port
+### Heartbeats
 
-Read path:
+If heartbeats are enabled in the config, you can manually send one with `sendHeartbeat()`:
 
-- Synchronizes to frame start by scanning for `0x50`
-- Reads the remaining header and extracts payload length
-- Reads payload + CRC16
-- Validates the CRC16
+```cpp
+node.sendHeartbeat();
+```
 
-In `Connection::pollForBundle()`, serial reads subtract the serial frame overhead before parsing protobuf.
+To receive peer heartbeats, register a heartbeat callback using the peer name:
 
-## Threading model and stats
+```cpp
+void hb_callback(proton::BundleHandle& handle);
 
-At runtime you typically have:
+node.registerHeartbeatCallback("peer_node", hb_callback);
+```
 
-- 1 connection thread per peer (`Connection::spin()`)
-- Optional 1 heartbeat watchdog thread per peer (if peer heartbeat enabled)
-- Optional 1 node heartbeat sender thread (if local heartbeat enabled)
-- Optional 1 stats thread (`Node::startStatsThread()`)
+### Lists and bytes signals
 
-`startStatsThread()` computes per-bundle RX/TX counts per second and `printStats()` displays:
+List and bytes signals can be set as full vectors, or updated by index:
 
-- Connection transport state and KB/s rates
-- Produced/consumed bundle rates
-- Heartbeat rates
+```cpp
+auto& list_signal = node.getBundle("float_bundle").getSignal("values");
+list_signal.setValue<proton::list_float>({1.0f, 2.0f, 3.0f});
+list_signal.setValue<float>(1, 9.5f); // update index 1
+```
 
-## Notes / current quirks
+For bytes and list-of-bytes signals you can also update individual elements:
 
-- Bundle IDs cannot be `0` in YAML; `0` is reserved for heartbeat bundles.
-- Constant signals (YAML `value:`) are local-only and not serialized into outgoing bundles.
-- `Node::spin()` is an infinite loop; you generally run it on the main thread or in your own thread.
+```cpp
+auto& bytes_signal = node.getBundle("hex_bundle").getSignal("values");
+bytes_signal.setValue<proton::bytes>({0x01, 0x02, 0x03});
+bytes_signal.setValue<uint8_t>(2, 0xFF); // update byte index 2
+```
+
+### Bundle inspection and stats
+
+You can inspect bundle metadata and print bundle contents:
+
+```cpp
+auto& log_bundle = node.getBundle("log_bundle");
+log_bundle.printBundle();
+log_bundle.printBundleVerbose();
+```
+
+For runtime stats, call `startStatsThread()` to update counters and `printStats()` to display connection and rate info:
+
+```cpp
+node.startStatsThread();
+node.printStats();
+```
+
