@@ -1,0 +1,52 @@
+---
+title: MCU Protocol
+sidebar_label: MCU Protocol
+sidebar_position: 11
+toc_min_heading_level: 2
+toc_max_heading_level: 5
+---
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+Since the `Jazzy 2.9` (and `firmware 3.0`) release, the communication between the robot's MCU and computer has been updated to the Proton protocol. Proton is a _protobuf_ based communication protocol that is ROS agnostic (and ROS middleware agnostic). Therefore to use middlewares other than Fast DDS on Clearpath platforms, the robot's MCU firmware must be at least version `3.0`.
+
+On all Clearpath platforms, the robot's computer needs to launch a base node to establish communication with the robot's MCU:
+- When using MCU firmware `2.8` or older, the base node is a micro-ROS node, on all platforms other than the Husky A200.
+- With the introduction of Proton, all robots with MCU firmware `3.0` or newer, use a Proton node as the base node.
+
+For the purposes of maintaining backward compatibility, the default protocol will remain micro-ROS (`uros`), but users with new robots or that have upgraded their robot's firmware to `3.0`, will need to set the protocol to Proton (`proton`) in the Clearpath configuration file, `robot.yaml`.
+
+<Tabs groupId="MCU Protocols">
+<TabItem value="Proton" label="Proton" default>
+
+***
+```yaml
+platform:
+  mcu:
+    protocol: proton
+```
+
+:::warning
+
+The Proton protocol is required when using firmware version `3.0`. If firmware is older (e.g. 2.7 or older), use `uros` instead.
+
+:::
+
+</TabItem>
+<TabItem value="uros" label="micro-ROS" default>
+
+***
+```yaml
+platform:
+  mcu:
+    protocol: uros
+```
+
+:::warning
+
+The micro-ROS protocol is required when using firmware version `2.7` or older. If firmware version is newer than `3.0`, use `proton` instead.
+
+:::
+
+</TabItem>
+</Tabs>
