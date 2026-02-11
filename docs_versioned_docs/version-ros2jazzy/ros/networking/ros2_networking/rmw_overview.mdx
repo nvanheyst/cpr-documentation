@@ -1,6 +1,6 @@
 ---
-title: ROS 2 Communication
-sidebar_position: 2
+title: Middleware and DDS Overview
+sidebar_position: 1
 ---
 
 This page reviews information that is useful to understand for working with ROS 2 DDS based communication.
@@ -8,7 +8,7 @@ This page reviews information that is useful to understand for working with ROS 
 ## RMW Implementations
 ROS 2 uses an abstracted [ROS Middleware](https://docs.ros.org/en/humble/Concepts/Intermediate/About-Different-Middleware-Vendors.html) (RMW) to manage the networking and communication. There are several RMW Implementations to choose from, and each operates somewhat differently. Most RMW Implementations are based on the [DDS](https://docs.ros.org/en/humble/Installation/DDS-Implementations.html) (Data Distribution Service) standard which is built on the RTPS (Real-time Publish Subscribe) protocol. In the DDS standard, the ROS 2 nodes act as participants that can publish and subscribe. In most cases, DDS uses UDP messages for the underlying communication over the network. Each RMW implementation has many ways that it can be configured to achieve different goals such as simplicity, redundancy or robustness. The DDS system is decentralized, meaning that the participants are not managed by any one entity. Instead the system works peer to peer, allowing nodes to find each other. This process is referred to as the discovery process.
 
-The Clearpath robot packages currently support the eProsima Fast DDS as the RMW Implementation. There are still several decisions that have to be made in configuring the Clearpath robot networking. The most significant decision is choosing the discovery method. In Fast DDS, there is the default `Simple Discovery` and the more managed `Discovery Server` option. These two options are discussed in detail in the [ROS 2 Discovery Config](ros2_discovery_config.mdx) page. Instructions on switching the discovery method are available on that page, as well as the specific parameters are documented in the [System section](../../config/yaml/system.mdx#middleware) of `robot.yaml`.
+The Clearpath robot packages currently support the eProsima Fast DDS as the RMW Implementation. There are still several decisions that have to be made in configuring the Clearpath robot networking. The most significant decision is choosing the discovery method. In Fast DDS, there is the default `Simple Discovery` and the more managed `Discovery Server` option. These two options are discussed in detail in the [ROS 2 Discovery Config](fast_configuration.mdx) page. Instructions on switching the discovery method are available on that page, as well as the specific parameters are documented in the [System section](../../config/yaml/system.mdx#middleware) of `robot.yaml`.
 
 ## DDS Settings
 There are a variety of settings that are set through the `robot.yaml` that control how the DDS layer operates. For example, the [Domain ID](https://docs.ros.org/en/humble/Concepts/Intermediate/About-Domain-ID.html) is used in the calculation of which ports each node communicates on. In order for the DDS communication to be successful, the network needs to allow unrestricted data flow between the devices on these ports.
