@@ -1,6 +1,6 @@
 ---
-title: ROS 2 Networking
-sidebar_position: 1
+title: Fast DDS Overview
+sidebar_position: 2
 ---
 
 ## Overview
@@ -242,24 +242,3 @@ bash -e ~/clearpath/discovery-server-start
 ```
 
 
-## Zenoh Router
-
-In early 2025 a new ROS middleware implementation called **Zenoh** was released. For a
-detailed description of Zenoh, please refer to [Zenoh's design document](https://github.com/ros2/rmw_zenoh/blob/rolling/docs/design.md).
-
-Zenoh is only available on ROS 2 Jazzy and later; it cannot be used on ROS 2 Humble.
-
-### Starting the Zenoh Router
-
-To manually launch the Zenoh router run
-
-```bash
-bash -e ~/clearpath/zenoh-router-start
-```
-
-This process can also be daemonized and launched via the `systemctl` command:
-
-```bash
-source /opt/ros/jazzy/setup.bash
-sudo systemctl start clearpath-zenoh-router
-```

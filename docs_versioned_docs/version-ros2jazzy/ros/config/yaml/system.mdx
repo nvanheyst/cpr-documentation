@@ -55,50 +55,70 @@ ros2:
 ### Middleware
 
 The **middleware** section defines the which RMW Implementation to use and any related settings. To choose
-which implementation and discovery method is right for your project see [ROS 2 Discovery Configuration](../../networking/ros2_networking/ros2_discovery_config.mdx).
+which implementation and discovery method is right for your project see [ROS 2 Discovery Configuration](../../networking/ros2_networking/fast_configuration.mdx).
 
 :::note
 
-All platforms can use `rmw_fastrtps_cpp`.
+When using firmware version `2.7` or older, platforms, other than the Husky A200, use `rmw_fastrtps_cpp`. Attempting to use Zenoh on any other platform will result in an error when processing `robot.yaml`.
 
-Currently only the Husky A200 can use `rmw_zenoh_cpp`. Attempting to use Zenoh on any other platform will result in an error when processing `robot.yaml`.
+When using firmware version `3.0` or later (released of the `Jazzy 2.9 version`), all platforms can use any middleware as long as it is installed on the robot's computer. However, the robot's computer must use the Proton MCU protocol. Set the MCU protocol as outlined in the [platform documentation](./platform/mcu.mdx)
 
 :::
 
 | Key | Value / Datatype | Description |
 |:---:| :--------------: | ----------- |
-| **implementation** | string               | Declares the RMW Implementation to use. Currently only supports `rmw_fastrtps_cpp` and `rmw_zenoh_cpp`. |
+| **implementation** | string               | Declares the RMW Implementation to use. As of firmware version `3.0` supports, Clerpath platforms can use all middlewares, but Clearpath primarily supports the `rmw_cyclonedds_cpp`, `rmw_fastrtps_cpp`, and `rmw_zenoh_cpp` middlewares. |
 | **discovery**      | `simple` or `server` | Select `simple` for simple discovery and `server` for discovery server. (Defaults to `simple`. Ignored if `implementation` is not `rmw_fastrtps_cpp`.) |
 | **profile**        | string               | Advanced feature, allows an optional custom profile to be provided - RMW Implementation / vendor specific. |
 | **servers**        | list                 | Provides a list of all discovery servers in the system and whether or not the robot should connect to them. Ignored if `implementation` is not `rmw_fastrtps_cpp`.|
 | **automatic_discovery_range** | string    | Sets the value for the `ROS_AUTOMATIC_DISCOVERY_RANGE` environment variable. Must be one of `subnet`, `localhost`, `system_default`, or `off`. |
 | **static_peers**   | list                 | List of IP addresses or hostnames that ROS should discover nodes on. Sets the value of the `ROS_STATIC_PEERS` environment variable. |
 
-For example:
+#### Fast DDS Example:
 
 ```yaml
-middleware:
-  implementation: rmw_fastrtps_cpp
-  discovery: simple
-  automatic_discovery_range: subnet
-  static_peers:
-    - 192.168.131.1
-    - 192.168.131.2
-  profile: path/to/profile.xml
-  servers: # This section is described further below
-    - hostname: cpr-a200-0000
+system:
+  ros2:
+    middleware:
+      implementation: rmw_fastrtps_cpp
+      discovery: simple
+      automatic_discovery_range: subnet
+      static_peers:
+        - 192.168.131.1
+        - 192.168.131.2
+      profile: path/to/profile.xml
+      servers: # This section is described further below
+        - hostname: cpr-a200-0000
 ```
 
-Second example, using Zenoh:
+#### Zenoh Example:
 
 ```yaml
-middleware:
-  implementation: rmw_zenoh_cpp
-  profile: /path/to/router_configuration.json5
+system:
+  ros2:
+    middleware:
+      implementation: rmw_zenoh_cpp
+      profile: /path/to/router_configuration.json5
 
-  servers: # This section is described further below
-    - hostname: cpr-a200-0000
+      servers: # This section is described further below
+        - hostname: cpr-a200-0000
 ```
+
+#### Cyclone DDS Example:
+
+```yaml
+system:
+  ros2:
+    middleware:
+      implementation: rmw_cyclonedds_cpp
+  bash:
+    env:
+      CYCLONEDDS_URI: /home/robot/.cyclone/profile.xml
+```
+:::note
+The Cyclone Profile XML is not required for the robot's nodes to communicate with each other, but for using a remote computer to communicate with the robot's computer, it will need to be configured. See the documentation on configuring the [Cyclone Profile XML for remote communication](../../networking/ros2_networking/cyclone.mdx) for more information.
+:::
+
 
 #### Servers
 
