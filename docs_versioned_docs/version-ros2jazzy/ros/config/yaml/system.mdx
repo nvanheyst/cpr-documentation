@@ -61,13 +61,13 @@ which implementation and discovery method is right for your project see [ROS 2 D
 
 When using firmware version `2.7` or older, platforms, other than the Husky A200, use `rmw_fastrtps_cpp`. Attempting to use Zenoh on any other platform will result in an error when processing `robot.yaml`.
 
-When using firmware version `3.0` or later (released of the `Jazzy 2.9 version`), all platforms can use any middleware as long as it is installed on the robot's computer. However, the robot's computer must use the Proton MCU protocol. Set the MCU protocol as outlined in the [platform documentation](./platform/mcu.mdx)
+When using firmware version `3.0.0` or later (released of the `Jazzy 2.9 version`), all platforms can use any middleware as long as it is installed on the robot's computer. However, the robot's computer must use the Proton MCU protocol. Set the MCU protocol as outlined in the [platform documentation](./platform/mcu.mdx)
 
 :::
 
 | Key | Value / Datatype | Description |
 |:---:| :--------------: | ----------- |
-| **implementation** | string               | Declares the RMW Implementation to use. As of firmware version `3.0` supports, Clerpath platforms can use all middlewares, but Clearpath primarily supports the `rmw_cyclonedds_cpp`, `rmw_fastrtps_cpp`, and `rmw_zenoh_cpp` middlewares. |
+| **implementation** | string               | Declares the RMW Implementation to use. As of firmware version `3.0.0` supports, Clearpath platforms can use all middlewares, but Clearpath primarily supports the `rmw_cyclonedds_cpp`, `rmw_fastrtps_cpp`, and `rmw_zenoh_cpp` middlewares. |
 | **discovery**      | `simple` or `server` | Select `simple` for simple discovery and `server` for discovery server. (Defaults to `simple`. Ignored if `implementation` is not `rmw_fastrtps_cpp`.) |
 | **profile**        | string               | Advanced feature, allows an optional custom profile to be provided - RMW Implementation / vendor specific. |
 | **servers**        | list                 | Provides a list of all discovery servers in the system and whether or not the robot should connect to them. Ignored if `implementation` is not `rmw_fastrtps_cpp`.|
