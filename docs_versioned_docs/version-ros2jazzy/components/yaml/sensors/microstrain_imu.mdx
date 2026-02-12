@@ -12,6 +12,7 @@
 ```yaml
 imu:
   - model: microstrain_imu
+    device_type: gx5
     urdf_enabled: true
     launch_enabled: true
     parent: base_link
@@ -28,7 +29,7 @@ imu:
 </table>
 
 #### Package and Setup
-The MicroStrain GX devices use the `microstain_inertial` ROS 2 package. The driver is open source, maintained by MicroStrain, and hosted on [GitHub](https://github.com/LORD-MicroStrain/microstrain_inertial).
+The MicroStrain IMU devices use the `microstain_inertial` ROS 2 package. The driver is open source, maintained by MicroStrain, and hosted on [GitHub](https://github.com/LORD-MicroStrain/microstrain_inertial).  The `device_type` will default to the `GX5` but `GX3`, `GX4`, `GX5`, `CX5`, `RQ1`, `GQ7` and `GV7` are supported.
 
 For more specifics on the way Clearpath's configuration system launches the `microstrain_inertial` driver, see the MicroStrain GX [launch file](https://github.com/clearpathrobotics/clearpath_robot/blob/jazzy/clearpath_sensors/launch/microstrain_imu.launch.py) and the [default parameter file](https://github.com/clearpathrobotics/clearpath_robot/blob/jazzy/clearpath_sensors/config/microstrain_imu.yaml) in `clearpath_sensors`.
 

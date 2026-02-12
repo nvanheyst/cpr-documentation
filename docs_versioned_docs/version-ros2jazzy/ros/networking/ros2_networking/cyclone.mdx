@@ -1,0 +1,112 @@
+---
+title: Cyclone ROS Middleware
+sidebar_position: 5
+---
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## Setting up the Cyclone Profile XML for Remote Computer Communication
+
+If the Clearpath robot has been set to use the Cyclone DDS ROS middleware (see the [middleware documentation on how to modify Clearpath's Configuration YAML](../../config/yaml/system.mdx#middleware)), it will be required to modify the Cyclone Profile XML to establish communication with a remote computer.
+
+For the robot Cyclone Profile XML, create a file on the robot computer's home directory: `/home/robot/.cyclone/profile.xml` and copy the contents of the sample robot profile below.
+
+For the user Cyclone Profile XML, create a file on the remote computer, preferably on the home directory: `$HOME/.cyclone/profile.xml` and copy the contents of the sample remote profile below.
+
+<Tabs groupId="profile.xml">
+<TabItem value="robot_profile" label="Robot Profile" default>
+
+1. If using a **wired connection** using the robot's ethernet port:
+
+    a. The remote computer must have a static IP assigned in the range `192.168.131.100 - 192.168.131.255`.
+
+    b. Replace the `REMOTE_IP` with the static IP assigned in the previous step.
+
+    c. The `ROBOT_INTERFACE` should then be replaced with `br0`, the robot's bridged interface.
+
+2. If using a **wireless connection** using a WiFi router:
+
+    a. The robot and remote computer must both be connected to a router and have been assigned an IP address by that router.
+
+    b. Replace the `REMOTE_IP` with the static IP assigned by the router to the remote computer. Use the `ip a` command on the remote computer to find the IP address assigned to it.
+
+    c. Replace the `ROBOT_INTERFACE` with the robot's WiFi interface, by default it should be `wlp2s0`, but it is recommended to check by using the `ip a` command on the remote computer to find if the interface has been renamed, in certain cases it could have been renamed to `wlp3s0`.
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<CycloneDDS xmlns="https://cdds.io/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://cdds.io/config https://raw.githubusercontent.com/eclipse-cyclonedds/cyclonedds/master/etc/cyclonedds.xsd">
+    <Domain Id="any">
+        <General>
+            <Interfaces>
+                <NetworkInterface autodetermine="false" name="ROBOT_INTERFACE" />
+            </Interfaces>
+            <AllowMulticast>false</AllowMulticast>
+            <MaxMessageSize>65500B</MaxMessageSize>
+        </General>
+        <Discovery>
+            <EnableTopicDiscoveryEndpoints>true</EnableTopicDiscoveryEndpoints>
+        <ParticipantIndex>auto</ParticipantIndex>
+        <MaxAutoParticipantIndex>50</MaxAutoParticipantIndex>
+            <Peers>
+                <Peer Address="REMOTE_IP"/>
+                <Peer Address="127.0.0.1"/>
+            </Peers>
+        </Discovery>
+        <Internal>
+            <Watermarks>
+                <WhcHigh>500kB</WhcHigh>
+            </Watermarks>
+        </Internal>
+    </Domain>
+</CycloneDDS>
+```
+
+</TabItem>
+<TabItem value="remote_profile" label="Remote Profile" default>
+
+1. If using a **wired connection** using the robot's ethernet port:
+
+    a. Replace the `REMOTE_INTERFACE` with the name of the ethernet interface used by the remote computer. Use the `ip a` on the remote computer to find a list of the remote interfaces.
+
+    b. Replace the `ROBOT_IP` with the robot's static IP. By default, it will be set to `192.168.131.1`.
+
+2. If using a **wireless connection** using a WiFi router:
+
+    a. The robot and remote computer must both be connected to a router and have been assigned an IP address by that router.
+
+    b. Replace the `REMOTE_INTERFACE` with the remote computer's WiFi interface. Use the `ip a` command on the remote computer to get a list of all it's interfaces.
+
+    c. Replace the `ROBOT_IP` with the robot's WiFi IP address. Use the `ip a` command on the robot's computer to retrieve a list of all of it's interfaces. The IP address will be found under the wireless interface, by default it is named `wlp2s0`.
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<CycloneDDS xmlns="https://cdds.io/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://cdds.io/config https://raw.githubusercontent.com/eclipse-cyclonedds/cyclonedds/master/etc/cyclonedds.xsd">
+    <Domain Id="any">
+        <General>
+            <Interfaces>
+                <NetworkInterface autodetermine="false" name="REMOTE_INTERFACE" />
+            </Interfaces>
+            <AllowMulticast>false</AllowMulticast>
+            <MaxMessageSize>65500B</MaxMessageSize>
+        </General>
+        <Discovery>
+            <EnableTopicDiscoveryEndpoints>true</EnableTopicDiscoveryEndpoints>
+        <ParticipantIndex>auto</ParticipantIndex>
+        <MaxAutoParticipantIndex>50</MaxAutoParticipantIndex>
+            <Peers>
+                <Peer Address="ROBOT_IP"/>
+                <Peer Address="127.0.0.1"/>
+            </Peers>
+        </Discovery>
+        <Internal>
+            <Watermarks>
+                <WhcHigh>500kB</WhcHigh>
+            </Watermarks>
+        </Internal>
+    </Domain>
+</CycloneDDS>
+```
+
+</TabItem>
+
+</Tabs>
