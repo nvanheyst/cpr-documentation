@@ -1,6 +1,6 @@
 ---
-title: Controller
-sidebar_label: Controller
+title: Joystick Controller
+sidebar_label: Joystick Controller
 sidebar_position: 5
 toc_min_heading_level: 2
 toc_max_heading_level: 5
@@ -20,10 +20,17 @@ Switching between each is done by setting the `controller` parameter under the `
 controller: ps4 # one of ps4, ps5, logitech, xbox
 ```
 
+:::warning
+
+Logitech F710 controllers are no longer recommended.
+If the controller disconnects, the robot's computer continues sending drive commands. 
+
+:::
+
+
 ## Default Button Mappings
 
-By default, Clearpath platforms use the left and right triggers (typically buttons L1, R1) as the normal deadman and turbo deadman buttons respectively. The vertical axis of the left joystick will control linear speed in the X direction, and the horizontal axis controls angular speed. For omnidirectional robots,
-the horizontal axis of the right joystick will control linear speed in the Y direction.
+By default, Clearpath platforms use the left and right triggers (typically buttons L1, R1) as the normal deadman and turbo deadman buttons respectively. The vertical axis of the left joystick will control linear speed in the X direction, and the horizontal axis controls angular yaw speed. For omnidirectional robots, vertical axis of the left joystick will control linear speed in the X direction and the horizontal axis will control linear speed in the Y direction.  The right joystick horizontal axis will control angular yaw speed.
 
 ### Changing Button Mappings
 
@@ -74,8 +81,8 @@ The table below shows the default linear and angular speeds for each platform:
 
 | Platform   | Linear speed (normal, m/s) | Linear speed (turbo, m/s) | Angular speed (normal, rad/s) | Angular speed (turbo, rad/s) |
 |:---------- |:-------------------------- |:------------------------- |:----------------------------- |:---------------------------- |
-| Husky A300 | 0.4                        | 1.5                       | 0.5                           | 1.0                          |
-| Husky A200 | 0.4                        | 1.0                       | 0.6                           | 1.2                          |
+| Husky A300 | 0.4                        | 1.5                       | 0.75                          | 1.5                          |
+| Husky A200 | 0.4                        | 1.2                       | 0.4                           | 0.6                          |
 | Jackal     | 0.4                        | 2.0                       | 0.6                           | 1.4                          |
 | Warthog    | 0.5                        | 1.0                       | 2.4                           | 2.4                          |
 | Dingo-D    | 0.4                        | 1.0                       | 0.6                           | 1.0                          |

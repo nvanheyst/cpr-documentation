@@ -111,6 +111,18 @@ const config = {
     [
       "@docusaurus/plugin-content-docs",
       {
+        id: "proton",
+        path: "docs_proton",
+        routeBasePath: "docs_proton",
+        sidebarPath: require.resolve("./sidebars.js"),
+        remarkPlugins: [remarkMath],
+        rehypePlugins: [rehypeKatex],
+        showLastUpdateTime: true,
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
         id: "components",
         path: "components",
         remarkPlugins: [remarkMath],
@@ -164,6 +176,13 @@ const config = {
             label: "IndoorNav",
             position: "left",
             docsPluginId: "indoornav_user_manual",
+          },
+          {
+            type: "doc",
+            docId: "index",
+            label: "Proton",
+            position: "left",
+            docsPluginId: "proton",
           },
           {
             type: 'docsVersionDropdown',
