@@ -10,6 +10,10 @@ toc_max_heading_level: 4
 
 **proton_ros2** is a ROS 2 adapter for Proton. It runs both a ROS 2 node and a `protoncpp` node in the same process, and bridges Proton bundles to ROS 2 topics for publishers and subscribers, or services for servers and clients.
 
+:::note
+The **proton_ros2** package is only released in **ROS 2 Jazzy**, but can be built from source in other ROS 2 distros.
+:::
+
 ## Converting from Proton to ROS 2
 
 Bundles are dynamic enough that they can support the message structure of most ROS 2 messages. ROS 2 primitives can be mapped to an equivalent Proton Signal primitive, and a Proton Bundle structure can be defined based on the ROS 2 message fields.
