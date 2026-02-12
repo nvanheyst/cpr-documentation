@@ -80,11 +80,28 @@ import Style from '/assets/css/changelog.css';
 ## [2.9] 2026-01-11
 
 ### New Features
+- Added Proton for PC to MCU communication
+- Added support for CycloneDDS and Zenoh when using Proton
 - Add a new `platform.wireless` section to config
+- Add support for automatic discovery range
+- Updated Jackal J100 acceleration parameters
 
 ### Fixed
 - Replace `assert` with `raise` + relevant Exception
 - Fixed OakD Parameters
+- Fixed reading `arm_id`
+- Fixed Ewellix Parameters
+- Add `system.bash` section to robot.yaml with `source` and `env` sub-fields for adding additional bash sources and envars
+- Allow multiple launch files to be listed in platform.extras.launch, add launch arguments field
+- Rename `oakd` namespace in robot.yaml to `luxonis_oakd`
+- Fixed Kinova 2F lite gripper joint limits
+- Update Ignition nomenclature to new Gazebo gz names
+- Fixed Universal Robot Simulation Control
+- Added accelerometer_config param
+- Add missing Gazebo IMU topic tags for omnidirectional platforms
+- Replaced ignition references with gz
+- Fixed UR Parameter Generation
+- Add guard to include zed only once
 
 ## [2.8] 2025-10-23
 
