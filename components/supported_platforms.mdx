@@ -17,23 +17,30 @@
 
 :::note
 
-Most Clearpath platforms use Micro ROS in their MCU firmware, which limits the ability to use
-middleware implementations other than `Fast DDS`.
-
 If you need your Clearpath robot to interact with systems that rely on unsupported middleware, please
 refer to [ROS' middleware documentation](https://docs.ros.org/en/jazzy/Concepts/Intermediate/About-Different-Middleware-Vendors.html)
 for information on cross-vendor communication.
 
 :::
 
-| Platform  | Platform code | Fast DDS    | CycloneDDS      | Connext DDS | GurumDDS | Zenoh           |
-|:--------- |:------------- |:----------- |:--------------- |:----------- |:-------- | :-------------- |
-| Husky     | A200          | Yes         | Yes             | No          | No       | Yes             |
-|           | A300          | Yes         | Yes (as of 2.9) | No          | No       | Yes (as of 2.9) |
-| Jackal    | J100          | Yes         | Yes (as of 2.9) | No          | No       | Yes (as of 2.9) |
-| Warthog   | W200          | Yes         | Yes (as of 2.9) | No          | No       | Yes (as of 2.9) |
-| Dingo     | DD100         | Yes         | Yes (as of 2.9) | No          | No       | Yes (as of 2.9) |
-|           | DO100         | Yes         | Yes (as of 2.9) | No          | No       | Yes (as of 2.9) |
-|           | DD150         | Yes         | Yes (as of 2.9) | No          | No       | Yes (as of 2.9) |
-|           | DO150         | Yes         | Yes (as of 2.9) | No          | No       | Yes (as of 2.9) |
-| Ridgeback | R100          | Yes         | Yes (as of 2.9) | No          | No       | Yes (as of 2.9) |
+
+
+| Platform  | Platform code | Fast DDS | CycloneDDS                                        | Connext DDS | GurumDDS | Zenoh                                             |
+|:--------- |:------------- |:-------- |:------------------------------------------------- |:----------- |:-------- |:------------------------------------------------- |
+| Husky     | A200          | Yes      | Yes                                               | No          | No       | Yes                                               |
+|           | A300          | Yes      | <a href="#proton-requirement">Yes (as of 2.9)</a> | No          | No       | <a href="#proton-requirement">Yes (as of 2.9)</a> |
+| Jackal    | J100          | Yes      | <a href="#proton-requirement">Yes (as of 2.9)</a> | No          | No       | <a href="#proton-requirement">Yes (as of 2.9)</a> |
+| Warthog   | W200          | Yes      | <a href="#proton-requirement">Yes (as of 2.9)</a> | No          | No       | <a href="#proton-requirement">Yes (as of 2.9)</a> |
+| Dingo     | DD100         | Yes      | <a href="#proton-requirement">Yes (as of 2.9)</a> | No          | No       | <a href="#proton-requirement">Yes (as of 2.9)</a> |
+|           | DO100         | Yes      | <a href="#proton-requirement">Yes (as of 2.9)</a> | No          | No       | <a href="#proton-requirement">Yes (as of 2.9)</a> |
+|           | DD150         | Yes      | <a href="#proton-requirement">Yes (as of 2.9)</a> | No          | No       | <a href="#proton-requirement">Yes (as of 2.9)</a> |
+|           | DO150         | Yes      | <a href="#proton-requirement">Yes (as of 2.9)</a> | No          | No       | <a href="#proton-requirement">Yes (as of 2.9)</a> |
+| Ridgeback | R100          | Yes      | <a href="#proton-requirement">Yes (as of 2.9)</a> | No          | No       | <a href="#proton-requirement">Yes (as of 2.9)</a> |
+
+<div id="proton-requirement" class="anchor-target">
+:::warning[Proton Requirement]
+
+Middleware support other than Fast DDS requires `clearpath_firmware` version `3.0.0` or later and the Proton MCU protocol. Please ensure your robot's firmware is updated and configured to use the Proton protocol (`platform.mcu.protocol: proton`) in your `robot.yaml` configuration file.
+
+:::
+</div>
