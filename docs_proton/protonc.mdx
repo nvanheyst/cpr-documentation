@@ -1241,9 +1241,9 @@ void proton_bundle_consumed_bundle_callback(void * context)
 
 Once all proton structs have been initialised and transport and callback functions have been defined, the `proton_spin` or `proton_spin_once` functions can be used to run the automatic transport and Bundle management of a peer.
 
-The `proton_spin_once` function runs the peers state machine, utilising the transport functions to manage the transport connection, and handling the reception of Bundles from this peer. `proton_spin` is simply an infinite loop that repeatedly calls `proton_spin_once`, and so it is a blocking call intended to run in its own thread or task.
+The `proton_spin_once` function runs the peer's state machine, utilising the transport functions to manage the transport connection, and handling the reception of Bundles from this peer. `proton_spin` is simply an infinite loop that repeatedly calls `proton_spin_once`, and so it is a blocking call intended to run in its own thread or task.
 
-When the peers transport is in a **connected** state, the `proton_spin_once` function will call the transport read function to receive serialized Bundles from the peer, decode their IDs and data into the appropriate Bundle structs, and execute the Bundle's callback. If mutexes are implemented, it will ensure thread safety around the decode buffer.
+When the peer's transport is in a **connected** state, the `proton_spin_once` function will call the transport read function to receive serialized Bundles from the peer, decode their IDs and data into the appropriate Bundle structs, and execute the Bundle's callback. If mutexes are implemented, it will ensure thread safety around the decode buffer.
 
 ```c
 proton_spin_once(&context.node, PROTON__PEER__NODE2);
@@ -1253,7 +1253,7 @@ proton_spin_once(&context.node, PROTON__PEER__NODE2);
 
 While spinning a peer is used for handling Bundle reception, the production of Bundles occurs asynchronously. The `proton_bundle_send` function should be used to automatically encode and send a Bundle to each of its consumers.
 
-The Bundle struct that was initialised should be filled out with the appropriate data, then `proton_bundle_send` should be called with the Bundles ID.
+The Bundle struct that was initialised should be filled out with the appropriate data, then `proton_bundle_send` should be called with the Bundle's ID.
 
 ```c
 context.bundles.produced_bundle_bundle.integer = 12;
