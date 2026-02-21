@@ -49,7 +49,7 @@ will be `a300_00001`. This can be overwritten in the [robot.yaml](../../../../do
 | mission/preview | [clearpath_navigation_msgs/msg/MissionPreview](pathname:///api/html/clearpath_navigation_msgs/msg/MissionPreview.html) | Preview points for a mission execution | [System Default](/docs/ros/api/overview#system-default)  |
 | speed_limit | [clearpath_navigation_msgs/msg/GoToPreview](https://github.com/ros-navigation/navigation2/blob/main/nav2_msgs/msg/SpeedLimit.msg) | Current navigation speed limit | [System Default](/docs/ros/api/overview#system-default)  |
 | ui/heartbeat | [geometry_msgs/msg/TwistStamped](https://github.com/ros2/common_interfaces/blob/jazzy/geometry_msgs/msg/TwistStamped.msg) | Heartbeat of the UI | [System Default](/docs/ros/api/overview#system-default)  |
-| ui_teleop/cmd_vel | [geometry_msgs/msg/TwistStamped](https://github.com/ros2/common_interfaces/blob/jazzy/geometry_msgs/msg/TwistStamped.msg) | Velocity commands fron the UI joystick | [System Default](/docs/ros/api/overview#system-default)  |
+| ui_teleop/cmd_vel | [geometry_msgs/msg/TwistStamped](https://github.com/ros2/common_interfaces/blob/jazzy/geometry_msgs/msg/TwistStamped.msg) | Velocity commands from the UI joystick | [System Default](/docs/ros/api/overview#system-default)  |
 
 &nbsp;
 
@@ -75,12 +75,12 @@ will be `a300_00001`. This can be overwritten in the [robot.yaml](../../../../do
 | docking/dock_localizer/get_dock_poses| [clearpath_dock_msgs/srv/GetDockPoses](pathname:///api/html/clearpath_dock_msgs/srv/GetDockPoses.html) | Return the dock and predock poses of a specific dock |
 | docking/dock_localizer/survey_dock| [clearpath_dock_msgs/srv/SurveyDock](pathname:///api/html/clearpath_dock_msgs/srv/SurveyDock.html) | Survey the docks position |
 | execute_task | [clearpath_task_msgs/srv/ExecuteTask](pathname:///api/html/clearpath_task_msgs/srv/ExecuteTask.html) | Run a task as a service |
-| localization/lat_lon_to_xy | [clearpath_localization_msgs/srv/ConvertLatLonToCartesian](pathname:///api/html/clearpath_localization_msgs/srv/ConvertLatLonToCartesian.html) | Convert lat/lon condinate to map XY coordinate |
+| localization/lat_lon_to_xy | [clearpath_localization_msgs/srv/ConvertLatLonToCartesian](pathname:///api/html/clearpath_localization_msgs/srv/ConvertLatLonToCartesian.html) | Convert lat/lon coordinate to map XY coordinate |
 | localization/lat_lon_to_xy_array | [clearpath_localization_msgs/srv/ConvertLatLonToCartesianArray](pathname:///api/html/clearpath_localization_msgs/srv/ConvertLatLonToCartesianArray.html) | Convert a set of lat/lon coordinates to map XY coordinates |
 | localization/set_datum | [clearpath_localization_msgs/srv/SetDatum](pathname:///api/html/clearpath_localization_msgs/srv/SetDatum.html) | Set the datum |
 | localization/xy_to_lat_lon | [clearpath_localization_msgs/srv/ConvertCartesianToLatLon](pathname:///api/html/clearpath_localization_msgs/srv/ConvertCartesianToLatLon.html) | Convert map XY coordinate to lat/lon coordinate |
 | localization/xy_to_lat_lon_array | [clearpath_localization_msgs/srv/ConvertCartesianToLatLonArray](pathname:///api/html/clearpath_localization_msgs/srv/ConvertCartesianToLatLonArray.html) | Convert a set of map XY coordinates to lat/lon coordinates |
-| log_manager/delete_log | [clearpath_logger_msgs/srv/DeleteLog](pathname:///api/html/clearpath_logger_msgs/srv/DeleteLog.html) | Delete a secific log |
+| log_manager/delete_log | [clearpath_logger_msgs/srv/DeleteLog](pathname:///api/html/clearpath_logger_msgs/srv/DeleteLog.html) | Delete a specific log |
 | log_manager/start_recording | [std_srvs/srv/Trigger](https://docs.ros2.org/foxy/api/std_srvs/srv/Trigger.html) | Start logging data |
 | log_manager/stop_recording | [std_srvs/srv/Trigger](https://docs.ros2.org/foxy/api/std_srvs/srv/Trigger.html) | Stop logging data |
 | safety/watchdogs/add_communication_watchdog | [clearpath_safety_msgs/srv/AddCommunicationWatchdog](pathname:///api/html/clearpath_safety_msgs/srv/AddCommunicationWatchdog.html) | Create a new Communication watchdog |
