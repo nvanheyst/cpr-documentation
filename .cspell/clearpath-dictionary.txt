@@ -13,6 +13,18 @@ Kinova
 Jetson
 Microhard
 Peplink
+Murata
+Traco
+Numato
+Wurth
+Elektronik
+Franka
+Robotiq
+Ewellix
+Gurum
+Seyond
+Phidgets
+Realsense
 
 # Robot Platforms
 Husky
@@ -56,6 +68,9 @@ rosout
 distros
 submessages
 srvs
+rosservices
+rostopics
+datasheet
 
 # Technical Terms
 MCU
@@ -103,6 +118,13 @@ BLDC
 CANbus
 busbar
 busbars
+sflash
+sulfation
+AHRS
+undock
+Liftkit
+Zenoh
+Atel
 contactor
 contactors
 gearmotor
@@ -115,6 +137,9 @@ Eurorack
 keyswitch
 oneof
 UNCONFIGURED
+CTCR
+CHRG
+VSTBY
 
 # GPS NMEA Message Types
 Gpgga
@@ -189,6 +214,7 @@ timestamps
 waypoint
 waypoints
 quaternion
+strobing
 
 # Canadian English Variants (accepted)
 behaviour
@@ -196,3 +222,10 @@ colour
 
 # Part Numbers and Model Numbers (add as needed)
 # These are specific product codes that should not be flagged
+HNTASN
+SHNTP
+SHNTAP
+HATLSN
+WXNV
+FTDI
+Penetrox
