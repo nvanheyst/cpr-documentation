@@ -14,7 +14,9 @@
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
     "format-check": "prettier --check components docs src README.md",
-    "format-write": "prettier --write components docs src README.md"
+    "format-write": "prettier --write components docs src README.md",
+    "spellcheck": "cspell \"**/*.{md,mdx}\"",
+    "spellcheck:fix": "cspell --words-only --unique \"**/*.{md,mdx}\" | sort -f"
   },
   "dependencies": {
     "@docusaurus/core": "^3.9.2",
@@ -34,6 +36,7 @@
     "@docusaurus/tsconfig": "^3.9.2",
     "@docusaurus/types": "^3.9.2",
     "@types/react": "^18.3.1",
+    "cspell": "^8.6.1",
     "prettier": "^2.6.2",
     "typescript": "^5.2.2"
   },

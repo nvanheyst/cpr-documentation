@@ -1,0 +1,43 @@
+{
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "version": "0.2",
+  "language": "en",
+  "words": [],
+  "dictionaryDefinitions": [
+    {
+      "name": "clearpath-dictionary",
+      "path": "./.cspell/clearpath-dictionary.txt",
+      "addWords": true
+    }
+  ],
+  "dictionaries": ["clearpath-dictionary"],
+  "ignorePaths": [
+    "node_modules",
+    "build",
+    "*.lock",
+    "package-lock.json",
+    ".git",
+    ".github",
+    "static",
+    "*_versioned_docs",
+    "*_versioned_sidebars",
+    "usb-site"
+  ],
+  "files": [
+    "**/*.md",
+    "**/*.mdx"
+  ],
+  "ignoreRegExpList": [
+    "Urls",
+    "Email",
+    "Base64",
+    "HexValues",
+    "/```[\\s\\S]*?```/g",
+    "/<[^>]*>/g",
+    "/`[^`]+`/g",
+    "/\\{[^}]+\\}/g",
+    "/\\[[^\\]]*\\]\\([^)]*\\)/g"
+  ],
+  "enableGlobDot": false,
+  "useGitignore": true
+}

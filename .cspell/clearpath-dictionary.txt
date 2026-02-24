@@ -1,0 +1,160 @@
+# Clearpath Robotics Custom Dictionary
+# Add words one per line. Lines starting with # are comments.
+
+# Company and Brand Names
+Clearpath
+clearpathrobotics
+Misumi
+Molex
+Icotek
+Littelfuse
+Inventus
+
+# Robot Platforms
+Husky
+Jackal
+Dingo
+Warthog
+Ridgeback
+Boxer
+TurtleBot
+
+# ROS Terms
+ROS
+rosdep
+rosdistro
+roslaunch
+rosrun
+roscore
+rosnode
+rostopic
+rosbag
+roscpp
+rospy
+rqt
+rviz
+catkin
+colcon
+ament
+urdf
+xacro
+tf2
+Jazzy
+Humble
+Noetic
+Melodic
+Kinetic
+ros2
+ros2launch
+ros2run
+
+# Technical Terms
+MCU
+GPIO
+UART
+USB
+SPI
+I2C
+TCP
+UDP
+IP
+DHCP
+NTP
+SSH
+WiFi
+ethernet
+LiDAR
+lidar
+SLAM
+IMU
+GNSS
+GPS
+RTK
+odometry
+odom
+localization
+AMCL
+Nav2
+costmap
+pointcloud
+velodyne
+teleop
+joystick
+gamepad
+DualShock
+VBAT
+PCAN
+PCBA
+BLDC
+CANbus
+busbar
+busbars
+contactor
+contactors
+gearmotor
+gearmotors
+keyswitch
+
+# OS and Linux Terms
+Ubuntu
+Debian
+debian
+APT
+apt
+systemd
+udev
+sudo
+bash
+zsh
+
+# Clearpath Specific
+MiniITX
+OutdoorNav
+IndoorNav
+PACS
+
+# Networking
+FastDDS
+DDS
+rmw
+multicast
+
+# File Extensions and Technical Names
+mdx
+tsx
+yaml
+yml
+YAML
+JSON
+json
+XML
+xml
+
+# Common Abbreviations
+config
+configs
+repo
+repos
+PC
+PCs
+etc
+sudo
+
+# Misc Technical
+firmware
+namespace
+namespaces
+hostname
+localhost
+timestamp
+timestamps
+waypoint
+waypoints
+quaternion
+
+# British English Variants (accepted)
+familiarisation
+behaviour
+
+# Part Numbers and Model Numbers (add as needed)
+# These are specific product codes that should not be flagged
