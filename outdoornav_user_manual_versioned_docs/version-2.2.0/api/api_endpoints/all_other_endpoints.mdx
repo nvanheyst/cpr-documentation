@@ -136,7 +136,7 @@ if __name__ == '__main__':
 #include <memory>
 
 #include "rclcpp/rclcpp.hpp"
-#include "nav_msgs/msg/Path.hpp"
+#include "nav_msgs/msg/path.hpp"
 
 class AutonomyInitialPath : public rclcpp::Node
 {
@@ -296,7 +296,7 @@ if __name__ == '__main__':
 #include <memory>
 
 #include "rclcpp/rclcpp.hpp"
-#include "clearpath_control_msgs/msg/current_mode.hpp"
+#include "clearpath_control_msgs/msg/control_mode.hpp"
 
 class CurrentMode : public rclcpp::Node
 {
@@ -305,16 +305,16 @@ public:
   : Node("mode_sub")
   {
     auto mode_cb =
-      [this](clearpath_control_msgs::msg::CurrentMode::UniquePtr msg) -> void {
+      [this](clearpath_control_msgs::msg::ControlMode::UniquePtr msg) -> void {
         last_mode_msg_ = msg;
       };
 
-    mode_sub_ = this->create_subscription<clearpath_control_msgs::msg::CurrentMode>("control_selection/current_mode", 10, mode_cb);
+    mode_sub_ = this->create_subscription<clearpath_control_msgs::msg::ControlMode>("control_selection/current_mode", 10, mode_cb);
   }
 
 private:
-  rclcpp::Subscription<clearpath_control_msgs::msg::CurrentMode>::SharedPtr mode_sub_;
-  clearpath_control_msgs::msg::CurrentMode::UniquePtr last_mode_msg_;
+  rclcpp::Subscription<clearpath_control_msgs::msg::ControlMode>::SharedPtr mode_sub_;
+  clearpath_control_msgs::msg::ControlMode::UniquePtr last_mode_msg_;
 };
 
 int main(int argc, char * argv[])
@@ -836,10 +836,10 @@ class SpeedLimit(Node):
     def __init__(self):
         super().__init__('speed_limit_sub')
         self.speed_limit_sub = self.create_subscription(
-            SpeedLimit, 'speed_limit', self.datum_cb, 10)
+            SpeedLimit, 'speed_limit', self.speed_limit_cb, 10)
         self.speed_limit_sub  # prevent unused variable warning
 
-    def datum_cb(self, msg):
+    def speed_limit_cb(self, msg):
         self.last_speed_limit_msg = msg
 
 if __name__ == '__main__':
@@ -1092,7 +1092,7 @@ if __name__ == '__main__':
     rclpy.init(args=args)
     set_control_mode_client = SetControlMode()
     response = set_control_mode_client.send_request(ControlMode.MANUAL)
-    set_control_mode_client.get_logger().info('Control mode set to MANUAL mode.'))
+    set_control_mode_client.get_logger().info('Control mode set to MANUAL mode.')
     set_control_mode_client.destroy_node()
     rclpy.shutdown()
 ```
@@ -1115,11 +1115,11 @@ int main(int argc, char **argv)
   rclcpp::init(argc, argv);
 
   std::shared_ptr<rclcpp::Node> node = rclcpp::Node::make_shared("set_control_mode_client");
-  rclcpp::Client<std_srvs::srv::SetControlMode>::SharedPtr client =                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-    node->create_client<std_srvs::srv::SetControlMode>("control_selection/set_mode");
+  rclcpp::Client<clearpath_control_msgs::srv::SetControlMode>::SharedPtr client =
+    node->create_client<clearpath_control_msgs::srv::SetControlMode>("control_selection/set_mode");
 
-  auto request = std::make_shared<std_srvs::srv::SetControlMode::Request>();
-  request-> mode.mode = clearpath_control_msgs::ControlMode::MANUAL;
+  auto request = std::make_shared<clearpath_control_msgs::srv::SetControlMode::Request>();
+  request->mode.mode = clearpath_control_msgs::msg::ControlMode::MANUAL;
   
   while (!client->wait_for_service(1s)) {
     if (!rclcpp::ok()) {
@@ -1463,7 +1463,7 @@ def main(args=None):
     robot_config = read_yaml(ROBOT_CONFIG_PATH)
     namespace = robot_config['system']['ros2']['namespace']
 
-    export_client = ExportDock(namespace)
+    export_dock_client = ExportDock(namespace)
     export_dock_client.send_request()
 
     rclpy.spin(export_dock_client)
@@ -2023,14 +2023,14 @@ int main(int argc, char **argv)
     node->create_client<clearpath_dock_msgs::srv::UpdateDock>("/" + namespace_ + "/" + std::string("docking/dock_manager/update_dock"));
 
   auto request = std::make_shared<clearpath_dock_msgs::srv::UpdateDock::Request>();
-  request->name = ""
+  request->name = "";
 
   auto dock_info = clearpath_dock_msgs::msg::DockInfo();
   dock_info.name = request->name;
   dock_info.dock_template = "a300_side_dock";
-  dock_info.latitude = ;
-  dock_info.longitude = ;
-  dock_info.orientation = ;
+  dock_info.latitude = 0.0;
+  dock_info.longitude = 0.0;
+  dock_info.orientation = geometry_msgs::msg::Quaternion();
 
   request->dock = dock_info;
 
@@ -2166,7 +2166,7 @@ int main(int argc, char **argv)
     node->create_client<clearpath_dock_msgs::srv::AddDockCurrentPose>("/" + namespace_ + "/" + std::string("docking/dock_localizer/add_dock_current_pose"));
 
   auto request = std::make_shared<clearpath_dock_msgs::srv::AddDockCurrentPose::Request>();
-  request->dock_name = ""
+  request->dock_name = "";
   request->dock_template = "a300_side_dock";
 
   while (!client->wait_for_service(2s)) {
@@ -2299,7 +2299,7 @@ int main(int argc, char **argv)
     node->create_client<clearpath_dock_msgs::srv::GetDockPoses>("/" + namespace_ + "/" + std::string("docking/dock_localizer/get_dock_poses"));
 
   auto request = std::make_shared<clearpath_dock_msgs::srv::GetDockPoses::Request>();
-  request->name = ""
+  request->name = "";
 
   while (!client->wait_for_service(2s)) {
     if (!rclcpp::ok()) {
@@ -2434,10 +2434,10 @@ int main(int argc, char **argv)
     node->create_client<clearpath_localization_msgs::srv::ConvertLatLonToCartesian>("/" + namespace_ + "/" + std::string("localization/lat_lon_to_xy"));
 
   auto request = std::make_shared<clearpath_localization_msgs::srv::ConvertLatLonToCartesian::Request>();
-  auto latlon_msg = sensor_msgs::msg::NavSatFix;
-  latlon_msg.latitude = ;
-  latlon_msg.longitude = ;
-  request->msg = latlon_msg
+  auto latlon_msg = sensor_msgs::msg::NavSatFix();
+  latlon_msg.latitude = 0.0;
+  latlon_msg.longitude = 0.0;
+  request->msg = latlon_msg;
 
   while (!client->wait_for_service(2s)) {
     if (!rclcpp::ok()) {
@@ -2577,15 +2577,15 @@ int main(int argc, char **argv)
     node->create_client<clearpath_localization_msgs::srv::ConvertLatLonToCartesianArray>("/" + namespace_ + "/" + std::string("localization/lat_lon_to_xy_array"));
 
   auto request = std::make_shared<clearpath_localization_msgs::srv::ConvertLatLonToCartesianArray::Request>();
-  auto latlon_msg1 = sensor_msgs::msg::NavSatFix;
-  latlon_msg1.latitude = ;
-  latlon_msg1.longitude = ;
+  auto latlon_msg1 = sensor_msgs::msg::NavSatFix();
+  latlon_msg1.latitude = 0.0;
+  latlon_msg1.longitude = 0.0;
 
-  auto latlon_msg1 = sensor_msgs::msg::NavSatFix;
-  latlon_msg2.latitude = ;
-  latlon_msg2.longitude = ;
+  auto latlon_msg2 = sensor_msgs::msg::NavSatFix();
+  latlon_msg2.latitude = 0.0;
+  latlon_msg2.longitude = 0.0;
 
-  request->msg = std::vector<sensor_msgs::msg::NavSatFix>{latlon_msg1, latlon_msg2}
+  request->msg = std::vector<sensor_msgs::msg::NavSatFix>{latlon_msg1, latlon_msg2};
 
   while (!client->wait_for_service(2s)) {
     if (!rclcpp::ok()) {
@@ -2724,10 +2724,10 @@ int main(int argc, char **argv)
     node->create_client<clearpath_localization_msgs::srv::ConvertCartesianToLatLon>("/" + namespace_ + "/" + std::string("localization/xy_to_lat_lon"));
 
   auto request = std::make_shared<clearpath_localization_msgs::srv::ConvertCartesianToLatLon::Request>();
-  auto pose_msg = geometry_msgs::msg::PoseStamped;
-  pose_msg.pose.position.x = ;
-  pose_msg.pose.position.y = ;
-  request->pose = pose_msg
+  auto pose_msg = geometry_msgs::msg::PoseStamped();
+  pose_msg.pose.position.x = 0.0;
+  pose_msg.pose.position.y = 0.0;
+  request->pose = pose_msg;
 
   while (!client->wait_for_service(2s)) {
     if (!rclcpp::ok()) {
@@ -2876,15 +2876,15 @@ int main(int argc, char **argv)
 
   auto request = std::make_shared<clearpath_localization_msgs::srv::ConvertCartesianToLatLonArray::Request>();
 
-  auto pose_msg1 = geometry_msgs::msg::PoseStamped;
-  pose_msg1.pose.position.x = ;
-  pose_msg1.pose.position.y = ;
+  auto pose_msg1 = geometry_msgs::msg::PoseStamped();
+  pose_msg1.pose.position.x = 0.0;
+  pose_msg1.pose.position.y = 0.0;
 
-  auto pose_msg2 = geometry_msgs::msg::PoseStamped;
-  pose_msg2.pose.position.x = ;
-  pose_msg2.pose.position.y = ;
+  auto pose_msg2 = geometry_msgs::msg::PoseStamped();
+  pose_msg2.pose.position.x = 0.0;
+  pose_msg2.pose.position.y = 0.0;
 
-  request->pose = std::vector<geometry_msgs::msg::PoseStamped>(pose_msg1, pose_msg2)
+  request->pose = std::vector<geometry_msgs::msg::PoseStamped>{pose_msg1, pose_msg2};
 
   while (!client->wait_for_service(2s)) {
     if (!rclcpp::ok()) {
