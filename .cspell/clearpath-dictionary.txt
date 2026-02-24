@@ -9,6 +9,10 @@ Molex
 Icotek
 Littelfuse
 Inventus
+Kinova
+Jetson
+Microhard
+Peplink
 
 # Robot Platforms
 Husky
@@ -47,6 +51,11 @@ Kinetic
 ros2
 ros2launch
 ros2run
+pinout
+rosout
+distros
+submessages
+srvs
 
 # Technical Terms
 MCU
@@ -79,9 +88,14 @@ costmap
 pointcloud
 velodyne
 teleop
+teleoperate
+teleoperation
+teleoperating
 joystick
 gamepad
 DualShock
+UGV
+UGVs
 VBAT
 PCAN
 PCBA
@@ -93,7 +107,23 @@ contactor
 contactors
 gearmotor
 gearmotors
+Mbit
+Gbit
+bgna
+MIMO
+Eurorack
 keyswitch
+oneof
+UNCONFIGURED
+
+# GPS NMEA Message Types
+Gpgga
+Gpgsa
+Gpgst
+Gpgsv
+Gprmc
+Gpvtg
+Gpzda
 
 # OS and Linux Terms
 Ubuntu
@@ -112,6 +142,14 @@ MiniITX
 OutdoorNav
 IndoorNav
 PACS
+protoncpp
+protonc
+libprotonc
+Protobuf
+protobuf
+protobufs
+nanopb
+microcontrollers
 
 # Networking
 FastDDS
@@ -152,9 +190,9 @@ waypoint
 waypoints
 quaternion
 
-# British English Variants (accepted)
-familiarisation
+# Canadian English Variants (accepted)
 behaviour
+colour
 
 # Part Numbers and Model Numbers (add as needed)
 # These are specific product codes that should not be flagged
