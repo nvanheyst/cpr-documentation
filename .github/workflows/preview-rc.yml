@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: configure AWS credentials
         id: creds
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           aws-region: us-east-2
           role-to-assume: ${{ secrets.AWS_GITHUB_ACTIONS_ROLE }}
@@ -47,7 +47,7 @@ jobs:
         if: github.event_name == 'delete'
       - name: configure AWS credentials
         id: creds
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           aws-region: us-east-2
           role-to-assume: ${{ secrets.AWS_GITHUB_ACTIONS_ROLE }}
