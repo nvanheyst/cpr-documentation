@@ -25,6 +25,12 @@ Gurum
 Seyond
 Phidgets
 Realsense
+Netgear
+Omron
+Microstrain
+Hokuyo
+Loctite
+Blackfly
 
 # Robot Platforms
 Husky
@@ -71,6 +77,9 @@ srvs
 rosservices
 rostopics
 datasheet
+Bringup
+devel
+netplan
 
 # Technical Terms
 MCU
@@ -89,6 +98,15 @@ WiFi
 ethernet
 LiDAR
 lidar
+CMOS
+PYTHONPATH
+candump
+gmapping
+openni
+kinect
+madgwick
+mymap
+airlab
 SLAM
 IMU
 GNSS
@@ -132,6 +150,7 @@ gearmotors
 Mbit
 Gbit
 bgna
+microcontroller's
 MIMO
 Eurorack
 keyswitch
@@ -215,10 +234,12 @@ waypoint
 waypoints
 quaternion
 strobing
+microcontroller's
 
 # Canadian English Variants (accepted)
 behaviour
 colour
+favourite
 
 # Part Numbers and Model Numbers (add as needed)
 # These are specific product codes that should not be flagged
@@ -229,3 +250,148 @@ HATLSN
 WXNV
 FTDI
 Penetrox
+APWR
+DCDC
+FEPO
+LPBK
+PFLT
+PXCN
+SPWR
+UPWR
+XPWR
+ZXNV
+
+# Additional Company/Brand Names
+Blox
+Botic
+Brite
+Digikey
+Dozzle
+Dremel
+Drylac
+Fixposition
+Flaticon
+Freepik
+Futaba
+Greenlee
+Henryuan
+Kartech
+Kimtech
+Knipex
+Luxonis
+Movella
+Olfa
+Panduit
+Panduits
+Piksi
+Powerpole
+Schrader
+SEVCON
+Stereolabs
+Swiftnav
+Telegrey
+Tyco
+Vette
+Wiha
+Xsens
+
+# Technical Terms (Additional)
+Ackermann
+Aluminium
+bootloader
+bootup
+brushless
+Chargeport
+Chipset
+DCDC
+Deburring
+diagnosability
+driveable
+Electroless
+ETSI
+gearhead
+gearheads
+Georeference
+hardpoint
+hrtac
+jstest
+Lifepo
+lifepo
+lsusb
+machineid
+Mbps
+Gbps
+mcap
+mecanum
+microcontroller
+microcontrollers
+MICROTRAIN
+Minesweeping
+mosaicing
+nanophosphate
+NAVSAT
+navsat
+oakd
+Obround
+obround
+onav
+opto
+overcurrent
+overdischarge
+Pinouts
+pinouts
+preconfigured
+replugging
+RFID
+Ridgebacks
+rosbags
+rosserial
+RSSI
+SBAS
+screensize
+Sidecutters
+Sideslope
+swappable
+Tagout
+tagout
+teleoperated
+thumbstick
+Unpowered
+unpowered
+VRLA
+Wheelspeed
+zipties
+
+# OutdoorNav Terms
+Autocharge
+autocharge
+Goalpoint
+goalpoint
+Goalpoints
+Viapoint
+Goalpoint's
+
+# File/Code Terms
+codeowners
+filebrowser
+filemode
+
+# British/Canadian English Variants (accepted)
+authorised
+Colours
+colours
+familiarisation
+favourite
+jewellery
+manoeuvre
+minimise
+minimised
+Recognised
+recognised
+travelled
+travelling
+utilises
+norlab's
+
+# Additional Brands
+Firewire

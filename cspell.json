@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
   "version": "0.2",
-  "language": "en",
+  "language": "en,en-GB",
   "words": [],
   "dictionaryDefinitions": [
     {
@@ -20,8 +20,7 @@
     ".github",
     "static",
     "*_versioned_docs",
-    "*_versioned_sidebars",
-    "usb-site"
+    "*_versioned_sidebars"
   ],
   "files": [
     "**/*.md",
