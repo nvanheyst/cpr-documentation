@@ -376,22 +376,12 @@ codeowners
 filebrowser
 filemode
 
-# British/Canadian English Variants (accepted)
-authorised
+# Canadian English Variants (accepted)
 Colours
 colours
-familiarisation
 favourite
 jewellery
 manoeuvre
-minimise
-minimised
-Recognised
-recognised
 travelled
 travelling
-utilises
 norlab's
-
-# Additional Brands
-Firewire
