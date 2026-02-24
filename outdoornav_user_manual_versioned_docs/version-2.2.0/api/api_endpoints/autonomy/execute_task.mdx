@@ -42,7 +42,7 @@ class ExecuteTask(Node):
         return self.future.result()
 
 if __name__ == '__main__':
-    rclpy.init()
+    rclpy.init(args=args)
     execute_task_client = ExecuteTask()
     response = execute_task_client.send_request()
     if response.success:
