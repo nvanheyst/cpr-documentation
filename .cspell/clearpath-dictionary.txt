@@ -1,166 +1,302 @@
 # Clearpath Robotics Custom Dictionary
 # Add words one per line. Lines starting with # are comments.
+# Words are organized alphabetically within each section.
 
-# Company and Brand Names
+# =============================================================================
+# COMPANY AND BRAND NAMES
+# =============================================================================
+
+# Clearpath Robotics
 Clearpath
 clearpathrobotics
+
+# Sensor and Component Manufacturers
+Blackfly
+Blox
+Botic
+Brite
+Digikey
+Dremel
+Drylac
+Ewellix
+Firewire
+Fixposition
+Flaticon
+Freepik
+Futaba
+Greenlee
+Gurum
+Henryuan
+Hokuyo
+Icotek
+Inventus
+Jetson
+Kartech
+Kimtech
+Kinova
+Knipex
+Littelfuse
+Loctite
+Luxonis
+Microhard
+Microstrain
 Misumi
 Molex
-Icotek
-Littelfuse
-Inventus
-Kinova
-Jetson
-Microhard
-Peplink
+Movella
 Murata
-Traco
-Numato
-Wurth
-Elektronik
-Franka
-Robotiq
-Ewellix
-Gurum
-Seyond
-Phidgets
-Realsense
 Netgear
+Numato
+Olfa
 Omron
-Microstrain
-Hokuyo
-Loctite
-Blackfly
+Panduit
+Panduits
+Peplink
+Phidgets
+Piksi
+Powerpole
+Realsense
+Robotiq
+Schrader
+SEVCON
+Seyond
+Stereolabs
+Swiftnav
+Telegrey
+Traco
+Tyco
+Vette
+Wiha
+Wurth
+Xsens
 
-# Robot Platforms
+# =============================================================================
+# ROBOT PLATFORMS
+# =============================================================================
+Boxer
+Dingo
 Husky
 Jackal
-Dingo
-Warthog
 Ridgeback
-Boxer
+Ridgebacks
 TurtleBot
+Warthog
 
-# ROS Terms
-ROS
-rosdep
-rosdistro
-roslaunch
-rosrun
-roscore
-rosnode
-rostopic
-rosbag
-roscpp
-rospy
-rqt
-rviz
+# =============================================================================
+# ROS AND ROBOTICS SOFTWARE
+# =============================================================================
+
+# ROS Distributions
+Humble
+Jazzy
+Kinetic
+Melodic
+Noetic
+
+# ROS Tools and Commands
+ament
 catkin
 colcon
-ament
-urdf
-xacro
-tf2
-Jazzy
-Humble
-Noetic
-Melodic
-Kinetic
+distros
+Nav2
 ros2
 ros2launch
 ros2run
-pinout
+ROS
+rosbag
+rosbags
+roscpp
+roscore
+rosdep
+rosdistro
+roslaunch
+rosnode
 rosout
-distros
-submessages
-srvs
+rospy
+rosrun
+rosserial
 rosservices
+rostopic
 rostopics
-datasheet
-Bringup
-devel
-netplan
+rqt
+rviz
+srvs
+submessages
+tf2
+urdf
+xacro
 
-# Technical Terms
-MCU
-GPIO
-UART
-USB
-SPI
-I2C
-TCP
-UDP
-IP
-DHCP
-NTP
-SSH
-WiFi
-ethernet
-LiDAR
-lidar
-CMOS
-PYTHONPATH
-candump
-gmapping
-openni
-kinect
-madgwick
-mymap
-airlab
-SLAM
-IMU
-GNSS
-GPS
-RTK
-odometry
-odom
-localization
-AMCL
-Nav2
-costmap
-pointcloud
-velodyne
-teleop
-teleoperate
-teleoperation
-teleoperating
-joystick
-gamepad
-DualShock
-UGV
-UGVs
-VBAT
-PCAN
-PCBA
-BLDC
-CANbus
-busbar
-busbars
-sflash
-sulfation
-AHRS
-undock
-Liftkit
-Zenoh
-Atel
-contactor
-contactors
+# =============================================================================
+# TECHNICAL TERMS
+# =============================================================================
+
+# Steering and Motion
+Ackermann
+driveable
+gearhead
+gearheads
 gearmotor
 gearmotors
-Mbit
-Gbit
-bgna
-microcontroller's
-MIMO
-Eurorack
-keyswitch
-oneof
-UNCONFIGURED
-CTCR
-CHRG
-VSTBY
+mecanum
+Sideslope
+teleoperate
+teleoperated
+teleoperation
+teleoperating
+teleop
+Wheelspeed
 
-# GPS NMEA Message Types
+# Electrical and Electronics
+bootloader
+bootup
+brushless
+busbar
+busbars
+CANbus
+candump
+Chargeport
+Chipset
+contactor
+contactors
+DCDC
+Electroless
+ETSI
+keyswitch
+Lifepo
+lifepo
+microcontroller
+microcontrollers
+microcontroller's
+nanophosphate
+opto
+overcurrent
+overdischarge
+PCBA
+RFID
+sulfation
+VRLA
+
+# Sensors and Perception
+AHRS
+AMCL
+costmap
+gmapping
+GNSS
+GPS
+IMU
+kinect
+LiDAR
+lidar
+localization
+madgwick
+mosaicing
+NAVSAT
+navsat
+oakd
+odometry
+odom
+openni
+pointcloud
+RSSI
+RTK
+SBAS
+SLAM
+velodyne
+
+# Networking and Communication
+bgna
+BLDC
+CMOS
+DDS
+DHCP
+ethernet
+FastDDS
+Gbit
+Gbps
+GPIO
+I2C
+IP
+Mbit
+Mbps
+MCU
+MIMO
+multicast
+NTP
+PCAN
+rmw
+SPI
+SSH
+TCP
+UART
+UDP
+USB
+VBAT
+WiFi
+Zenoh
+
+# Manufacturing and Hardware
+Aluminium
+Deburring
+Georeference
+hardpoint
+Minesweeping
+Obround
+obround
+Pinouts
+pinouts
+Sidecutters
+zipties
+
+# Software and Configuration
+Bringup
+config
+configs
+codeowners
+datasheet
+devel
+diagnosability
+filebrowser
+filemode
+firmware
+hostname
+hrtac
+jstest
+localhost
+lsusb
+machineid
+mcap
+mymap
+namespace
+namespaces
+netplan
+oneof
+preconfigured
+PYTHONPATH
+quaternion
+replugging
+repo
+repos
+screensize
+sflash
+strobing
+swappable
+Tagout
+tagout
+timestamp
+timestamps
+UNCONFIGURED
+undock
+Unpowered
+unpowered
+
+# User Interface
+DualShock
+gamepad
+joystick
+thumbstick
+
+# =============================================================================
+# GPS NMEA MESSAGE TYPES
+# =============================================================================
 Gpgga
 Gpgsa
 Gpgst
@@ -169,219 +305,112 @@ Gprmc
 Gpvtg
 Gpzda
 
-# OS and Linux Terms
-Ubuntu
-Debian
-debian
+# =============================================================================
+# OPERATING SYSTEMS AND LINUX
+# =============================================================================
 APT
 apt
-systemd
-udev
-sudo
 bash
+Debian
+debian
+sudo
+systemd
+Ubuntu
+udev
 zsh
 
-# Clearpath Specific
+# =============================================================================
+# CLEARPATH SPECIFIC TERMS
+# =============================================================================
+
+# Products and Features
+IndoorNav
+Liftkit
 MiniITX
 OutdoorNav
-IndoorNav
 PACS
-protoncpp
-protonc
-libprotonc
-Protobuf
-protobuf
-protobufs
-nanopb
-microcontrollers
 
-# Networking
-FastDDS
-DDS
-rmw
-multicast
-
-# File Extensions and Technical Names
-mdx
-tsx
-yaml
-yml
-YAML
-JSON
-json
-XML
-xml
-
-# Common Abbreviations
-config
-configs
-repo
-repos
-PC
-PCs
-etc
-sudo
-
-# Misc Technical
-firmware
-namespace
-namespaces
-hostname
-localhost
-timestamp
-timestamps
-waypoint
-waypoints
-quaternion
-strobing
-microcontroller's
-
-# Canadian English Variants (accepted)
-behaviour
-colour
-favourite
-
-# Part Numbers and Model Numbers (add as needed)
-# These are specific product codes that should not be flagged
-HNTASN
-SHNTP
-SHNTAP
-HATLSN
-WXNV
-FTDI
-Penetrox
-APWR
-DCDC
-FEPO
-LPBK
-PFLT
-PXCN
-SPWR
-UPWR
-XPWR
-ZXNV
-
-# Additional Company/Brand Names
-Blox
-Botic
-Brite
-Digikey
-Dozzle
-Dremel
-Drylac
-Fixposition
-Flaticon
-Freepik
-Futaba
-Greenlee
-Henryuan
-Kartech
-Kimtech
-Knipex
-Luxonis
-Movella
-Olfa
-Panduit
-Panduits
-Piksi
-Powerpole
-Schrader
-SEVCON
-Stereolabs
-Swiftnav
-Telegrey
-Tyco
-Vette
-Wiha
-Xsens
-
-# Technical Terms (Additional)
-Ackermann
-Aluminium
-bootloader
-bootup
-brushless
-Chargeport
-Chipset
-DCDC
-Deburring
-diagnosability
-driveable
-Electroless
-ETSI
-gearhead
-gearheads
-Georeference
-hardpoint
-hrtac
-jstest
-Lifepo
-lifepo
-lsusb
-machineid
-Mbps
-Gbps
-mcap
-mecanum
-microcontroller
-microcontrollers
-MICROTRAIN
-Minesweeping
-mosaicing
-nanophosphate
-NAVSAT
-navsat
-oakd
-Obround
-obround
-onav
-opto
-overcurrent
-overdischarge
-Pinouts
-pinouts
-preconfigured
-replugging
-RFID
-Ridgebacks
-rosbags
-rosserial
-RSSI
-SBAS
-screensize
-Sidecutters
-Sideslope
-swappable
-Tagout
-tagout
-teleoperated
-thumbstick
-Unpowered
-unpowered
-VRLA
-Wheelspeed
-zipties
-
-# OutdoorNav Terms
+# OutdoorNav Navigation
 Autocharge
 autocharge
 Goalpoint
 goalpoint
 Goalpoints
-Viapoint
 Goalpoint's
+onav
+Viapoint
 
-# File/Code Terms
-codeowners
-filebrowser
-filemode
+# Proton Protocol
+libprotonc
+nanopb
+Protobuf
+protobuf
+protobufs
+protonc
+protoncpp
 
-# Canadian English Variants (accepted)
+# Internal Part Numbers and Codes
+APWR
+CTCR
+CHRG
+FEPO
+FTDI
+HATLSN
+HNTASN
+LPBK
+MICROTRAIN
+Penetrox
+PFLT
+PXCN
+SHNTAP
+SHNTP
+SPWR
+UPWR
+VSTBY
+WXNV
+XPWR
+ZXNV
+
+# =============================================================================
+# FILE FORMATS
+# =============================================================================
+JSON
+json
+mdx
+tsx
+XML
+xml
+YAML
+yaml
+yml
+
+# =============================================================================
+# COMMON ABBREVIATIONS
+# =============================================================================
+airlab
+Atel
+Dozzle
+Elektronik
+etc
+Eurorack
+Franka
+PC
+PCs
+UGV
+UGVs
+waypoint
+waypoints
+
+# =============================================================================
+# CANADIAN ENGLISH VARIANTS
+# =============================================================================
+behaviour
+colour
 Colours
 colours
 favourite
 jewellery
 manoeuvre
+norlab's
 travelled
 travelling
-norlab's
