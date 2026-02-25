@@ -1318,7 +1318,7 @@ class DeleteDock(Node):
         try:
             response = future.result()
             if response.success:
-                self.get_logger().info(f'[{LOGGING_NAME}] Deleted dock succesfully!')
+                self.get_logger().info(f'[{LOGGING_NAME}] Deleted dock successfully!')
             else:
                 self.get_logger().error(f'[{LOGGING_NAME}] Failed to delete dock!')
         except Exception as e:
@@ -1449,7 +1449,7 @@ class ExportDock(Node):
         try:
             response = future.result()
             if response.success:
-                self.get_logger().info(f'[{LOGGING_NAME}] Exported dock succesfully!')
+                self.get_logger().info(f'[{LOGGING_NAME}] Exported dock successfully!')
             else:
                 self.get_logger().error(f'[{LOGGING_NAME}] Failed to export dock info!')
         except Exception as e:
@@ -1576,7 +1576,7 @@ class ExportDock(Node):
         try:
             response = future.result()
             if response.success:
-                self.get_logger().info(f'[{LOGGING_NAME}] Exported dock data succesfully!')
+                self.get_logger().info(f'[{LOGGING_NAME}] Exported dock data successfully!')
             else:
                 self.get_logger().error(f'[{LOGGING_NAME}] Failed to export dock data!')
         except Exception as e:
@@ -1703,7 +1703,7 @@ class GetDockDatabase(Node):
         try:
             response = future.result()
             if response.success:
-                self.get_logger().info(f'[{LOGGING_NAME}] Retrieved dock database succesfully!')
+                self.get_logger().info(f'[{LOGGING_NAME}] Retrieved dock database successfully!')
             else:
                 self.get_logger().error(f'[{LOGGING_NAME}] Failed to retrieve dock database!')
         except Exception as e:
@@ -1834,7 +1834,7 @@ class ImportDock(Node):
         try:
             response = future.result()
             if response.success:
-                self.get_logger().info(f'[{LOGGING_NAME}] Imported dock succesfully!')
+                self.get_logger().info(f'[{LOGGING_NAME}] Imported dock successfully!')
             else:
                 self.get_logger().error(f'[{LOGGING_NAME}] Failed to import dock!')
         except Exception as e:
@@ -1973,7 +1973,7 @@ class UpdateDock(Node):
         try:
             response = future.result()
             if response.success:
-                self.get_logger().info(f'[{LOGGING_NAME}] Updated dock succesfully!')
+                self.get_logger().info(f'[{LOGGING_NAME}] Updated dock successfully!')
             else:
                 self.get_logger().error(f'[{LOGGING_NAME}] Failed to update dock!')
         except Exception as e:
@@ -2116,7 +2116,7 @@ class AddDockCurrentPose(Node):
         try:
             response = future.result()
             if response.success:
-                self.get_logger().info(f'[{LOGGING_NAME}] Added dock succesfully!')
+                self.get_logger().info(f'[{LOGGING_NAME}] Added dock successfully!')
             else:
                 self.get_logger().error(f'[{LOGGING_NAME}] Failed to add dock!')
         except Exception as e:
@@ -2249,7 +2249,7 @@ class GetDockPoses(Node):
         try:
             response = future.result()
             if response.success:
-                self.get_logger().info(f'[{LOGGING_NAME}] Retrieved dock poses succesfully!')
+                self.get_logger().info(f'[{LOGGING_NAME}] Retrieved dock poses successfully!')
             else:
                 self.get_logger().error(f'[{LOGGING_NAME}] Failed to retriee dock poses!')
         except Exception as e:
@@ -2384,7 +2384,7 @@ class ConvertLatLonToCartesian(Node):
         try:
             response = future.result()
             if response.success:
-                self.get_logger().info(f'[{LOGGING_NAME}] Converted lat/lon to xy succesfully!')
+                self.get_logger().info(f'[{LOGGING_NAME}] Converted lat/lon to xy successfully!')
             else:
                 self.get_logger().error(f'[{LOGGING_NAME}] Failed to convert lat/lon to xy!')
         except Exception as e:
@@ -2455,7 +2455,7 @@ int main(int argc, char **argv)
   {
     if (result.get()->success)
     {
-      RCLCPP_INFO(rclcpp::get_logger("convert_latlon_client"), "Converted lat/lon to xy succesfully!");
+      RCLCPP_INFO(rclcpp::get_logger("convert_latlon_client"), "Converted lat/lon to xy successfully!");
     }
     else
     {
@@ -2527,7 +2527,7 @@ class ConvertLatLonToCartesianArray(Node):
         try:
             response = future.result()
             if response.success:
-                self.get_logger().info(f'[{LOGGING_NAME}] Converted lat/lon to xy succesfully!')
+                self.get_logger().info(f'[{LOGGING_NAME}] Converted lat/lon to xy successfully!')
             else:
                 self.get_logger().error(f'[{LOGGING_NAME}] Failed to convert lat/lon to xy!')
         except Exception as e:
@@ -2603,7 +2603,7 @@ int main(int argc, char **argv)
   {
     if (result.get()->success)
     {
-      RCLCPP_INFO(rclcpp::get_logger("convert_latlon_client"), "Converted lat/lon to xy succesfully!");
+      RCLCPP_INFO(rclcpp::get_logger("convert_latlon_client"), "Converted lat/lon to xy successfully!");
     }
     else
     {
@@ -2674,7 +2674,7 @@ class ConvertCartesianToLatLon(Node):
         try:
             response = future.result()
             if response.success:
-                self.get_logger().info(f'[{LOGGING_NAME}] Converted xy to lat/lon succesfully!')
+                self.get_logger().info(f'[{LOGGING_NAME}] Converted xy to lat/lon successfully!')
             else:
                 self.get_logger().error(f'[{LOGGING_NAME}] Failed to convert xy to lat/lon!')
         except Exception as e:
@@ -2745,7 +2745,7 @@ int main(int argc, char **argv)
   {
     if (result.get()->success)
     {
-      RCLCPP_INFO(rclcpp::get_logger("convert_xy_client"), "Converted xy to lat/lon succesfully!");
+      RCLCPP_INFO(rclcpp::get_logger("convert_xy_client"), "Converted xy to lat/lon successfully!");
     }
     else
     {
@@ -2825,7 +2825,7 @@ class ConvertCartesianToLatLonArray(Node):
         try:
             response = future.result()
             if response.success:
-                self.get_logger().info(f'[{LOGGING_NAME}] Converted xy to lat/lon succesfully!')
+                self.get_logger().info(f'[{LOGGING_NAME}] Converted xy to lat/lon successfully!')
             else:
                 self.get_logger().error(f'[{LOGGING_NAME}] Failed to convert xy to lat/lon!')
         except Exception as e:
@@ -2902,7 +2902,7 @@ int main(int argc, char **argv)
   {
     if (result.get()->success)
     {
-      RCLCPP_INFO(rclcpp::get_logger("convert_xy_client"), "Converted xy to lat/lon succesfully!");
+      RCLCPP_INFO(rclcpp::get_logger("convert_xy_client"), "Converted xy to lat/lon successfully!");
     }
     else
     {
