@@ -19,7 +19,7 @@ Digikey
 Dremel
 Drylac
 Ewellix
-Firewire
+FireWire
 Fixposition
 Flaticon
 Freepik
@@ -45,6 +45,7 @@ Molex
 Movella
 Murata
 Netgear
+Norlab's
 Numato
 Olfa
 Omron
@@ -73,13 +74,19 @@ Xsens
 # ROBOT PLATFORMS
 # =============================================================================
 Boxer
+Boxers
 Dingo
+Dingos
 Husky
+Huskys
 Jackal
+Jackals
 Ridgeback
 Ridgebacks
 TurtleBot
+TurtleBots
 Warthog
+Warthogs
 
 # =============================================================================
 # ROS AND ROBOTICS SOFTWARE
@@ -208,7 +215,6 @@ BLDC
 CMOS
 DDS
 DHCP
-ethernet
 FastDDS
 Gbit
 Gbps
@@ -402,15 +408,7 @@ waypoint
 waypoints
 
 # =============================================================================
-# CANADIAN ENGLISH VARIANTS
+# AMERICAN SPELLING (ROS MESSAGE STANDARDS)
 # =============================================================================
-behaviour
-colour
-Colours
-colours
-favourite
-jewellery
-manoeuvre
-norlab's
-travelled
-travelling
+color
+colors
