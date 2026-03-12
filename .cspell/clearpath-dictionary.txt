@@ -1,0 +1,414 @@
+# Clearpath Robotics Custom Dictionary
+# Add words one per line. Lines starting with # are comments.
+# Words are organized alphabetically within each section.
+
+# =============================================================================
+# COMPANY AND BRAND NAMES
+# =============================================================================
+
+# Clearpath Robotics
+Clearpath
+clearpathrobotics
+
+# Sensor and Component Manufacturers
+Blackfly
+Blox
+Botic
+Brite
+Digikey
+Dremel
+Drylac
+Ewellix
+FireWire
+Fixposition
+Flaticon
+Freepik
+Futaba
+Greenlee
+Gurum
+Henryuan
+Hokuyo
+Icotek
+Inventus
+Jetson
+Kartech
+Kimtech
+Kinova
+Knipex
+Littelfuse
+Loctite
+Luxonis
+Microhard
+Microstrain
+Misumi
+Molex
+Movella
+Murata
+Netgear
+Norlab's
+Numato
+Olfa
+Omron
+Panduit
+Panduits
+Peplink
+Phidgets
+Piksi
+Powerpole
+Realsense
+Robotiq
+Schrader
+SEVCON
+Seyond
+Stereolabs
+Swiftnav
+Telegrey
+Traco
+Tyco
+Vette
+Wiha
+Wurth
+Xsens
+
+# =============================================================================
+# ROBOT PLATFORMS
+# =============================================================================
+Boxer
+Boxers
+Dingo
+Dingos
+Husky
+Huskys
+Jackal
+Jackals
+Ridgeback
+Ridgebacks
+TurtleBot
+TurtleBots
+Warthog
+Warthogs
+
+# =============================================================================
+# ROS AND ROBOTICS SOFTWARE
+# =============================================================================
+
+# ROS Distributions
+Humble
+Jazzy
+Kinetic
+Melodic
+Noetic
+
+# ROS Tools and Commands
+ament
+catkin
+colcon
+distros
+Nav2
+ros2
+ros2launch
+ros2run
+ROS
+rosbag
+rosbags
+roscpp
+roscore
+rosdep
+rosdistro
+roslaunch
+rosnode
+rosout
+rospy
+rosrun
+rosserial
+rosservices
+rostopic
+rostopics
+rqt
+rviz
+srvs
+submessages
+tf2
+urdf
+xacro
+
+# =============================================================================
+# TECHNICAL TERMS
+# =============================================================================
+
+# Steering and Motion
+Ackermann
+driveable
+gearhead
+gearheads
+gearmotor
+gearmotors
+mecanum
+Sideslope
+teleoperate
+teleoperated
+teleoperation
+teleoperating
+teleop
+Wheelspeed
+
+# Electrical and Electronics
+bootloader
+bootup
+brushless
+busbar
+busbars
+CANbus
+candump
+Chargeport
+Chipset
+contactor
+contactors
+DCDC
+Electroless
+ETSI
+keyswitch
+Lifepo
+lifepo
+microcontroller
+microcontrollers
+microcontroller's
+nanophosphate
+opto
+overcurrent
+overdischarge
+PCBA
+RFID
+sulfation
+VRLA
+
+# Sensors and Perception
+AHRS
+AMCL
+costmap
+gmapping
+GNSS
+GPS
+IMU
+kinect
+LiDAR
+lidar
+localization
+madgwick
+mosaicing
+NAVSAT
+navsat
+oakd
+odometry
+odom
+openni
+pointcloud
+RSSI
+RTK
+SBAS
+SLAM
+velodyne
+
+# Networking and Communication
+bgna
+BLDC
+CMOS
+DDS
+DHCP
+FastDDS
+Gbit
+Gbps
+GPIO
+I2C
+IP
+Mbit
+Mbps
+MCU
+MIMO
+multicast
+NTP
+PCAN
+rmw
+SPI
+SSH
+TCP
+UART
+UDP
+USB
+VBAT
+Wi-Fi
+Zenoh
+
+# Manufacturing and Hardware
+Aluminium
+Deburring
+Georeference
+hardpoint
+Minesweeping
+Obround
+obround
+Pinouts
+pinouts
+Sidecutters
+zipties
+
+# Software and Configuration
+Bringup
+config
+configs
+codeowners
+datasheet
+devel
+diagnosability
+filebrowser
+filemode
+firmware
+hostname
+hrtac
+jstest
+localhost
+lsusb
+machineid
+mcap
+mymap
+namespace
+namespaces
+netplan
+oneof
+preconfigured
+PYTHONPATH
+quaternion
+replugging
+repo
+repos
+screensize
+sflash
+strobing
+swappable
+Tagout
+tagout
+timestamp
+timestamps
+UNCONFIGURED
+undock
+Unpowered
+unpowered
+
+# User Interface
+DualShock
+gamepad
+joystick
+thumbstick
+
+# =============================================================================
+# GPS NMEA MESSAGE TYPES
+# =============================================================================
+Gpgga
+Gpgsa
+Gpgst
+Gpgsv
+Gprmc
+Gpvtg
+Gpzda
+
+# =============================================================================
+# OPERATING SYSTEMS AND LINUX
+# =============================================================================
+APT
+apt
+bash
+Debian
+debian
+sudo
+systemd
+Ubuntu
+udev
+zsh
+
+# =============================================================================
+# CLEARPATH SPECIFIC TERMS
+# =============================================================================
+
+# Products and Features
+IndoorNav
+Liftkit
+MiniITX
+OutdoorNav
+PACS
+
+# OutdoorNav Navigation
+Autocharge
+autocharge
+Goalpoint
+goalpoint
+Goalpoints
+Goalpoint's
+onav
+Viapoint
+
+# Proton Protocol
+libprotonc
+nanopb
+Protobuf
+protobuf
+protobufs
+protonc
+protoncpp
+
+# Internal Part Numbers and Codes
+APWR
+CTCR
+CHRG
+FEPO
+FTDI
+HATLSN
+HNTASN
+LPBK
+MICROTRAIN
+Penetrox
+PFLT
+PXCN
+SHNTAP
+SHNTP
+SPWR
+UPWR
+VSTBY
+WXNV
+XPWR
+ZXNV
+
+# =============================================================================
+# FILE FORMATS
+# =============================================================================
+JSON
+json
+mdx
+tsx
+XML
+xml
+YAML
+yaml
+yml
+
+# =============================================================================
+# COMMON ABBREVIATIONS
+# =============================================================================
+airlab
+Atel
+Dozzle
+Elektronik
+etc
+Eurorack
+Franka
+PC
+PCs
+UGV
+UGVs
+waypoint
+waypoints
+
+# =============================================================================
+# AMERICAN SPELLING (ROS MESSAGE STANDARDS)
+# =============================================================================
+color
+colors
