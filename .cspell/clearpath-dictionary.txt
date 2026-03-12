@@ -236,7 +236,7 @@ UART
 UDP
 USB
 VBAT
-WiFi
+Wi-Fi
 Zenoh
 
 # Manufacturing and Hardware
