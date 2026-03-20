@@ -12,7 +12,7 @@ toc_max_heading_level: 4
 
 ## Core functionality
 
-**protoncpp** utilises the Protobuf compiler to generate C++ classes for the Bundle and Signal protobufs. Then, much like **protonc**, it wraps these classes with the `BundleHandle` and `SignalHandle` classes.
+**protoncpp** utilizes the Protobuf compiler to generate C++ classes for the Bundle and Signal protobufs. Then, much like **protonc**, it wraps these classes with the `BundleHandle` and `SignalHandle` classes.
 These classes add Proton specific functionality, such as Bundle IDs and names, as well as C++ features such as templating and data structures for ease of use.
 
 **protoncpp** also implements the `Node` class, with node state machine and peer connection management.
@@ -91,7 +91,7 @@ Now, the **protoncpp** library is available to use:
 
 ## Usage
 
-### Initialise the Node
+### Initialize the Node
 
 To start using **protoncpp**, first create a `Node` object, and pass it your YAML configuration file, and target node:
 
@@ -115,7 +115,7 @@ node.registerCallback("log", log_bundle_callback);
 
 The `Node` object acts as a `BundleManager`, meaning that it exposes getter and setter functions for the Bundle and Signal handles.
 
-To get a reference to a Bundle, simply use the `getBundle` function, and the Bundles name:
+To get a reference to a Bundle, simply use the `getBundle` function, and the Bundle's name:
 
 ```cpp
 auto& log_bundle = node.getBundle("log_bundle");

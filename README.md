@@ -30,7 +30,7 @@
 3.  Open the folder
 4.  In a terminal, navigate to the root of the project folder and run `npm install`
 5.  Start the local server by running `npm run start`
-6.  A new tab should open in your prefered web browser once the site is running.
+6.  A new tab should open in your preferred web browser once the site is running.
     Your terminal session should show the port the webpage is running on.
     The default address is http://localhost:3000/ but this may change if you are already using that port for another site.
 7.  If you want to test something on a mobile screensize; you can do this within your desktop's Chrome browser.
@@ -53,7 +53,7 @@
 2.  Create a branch from development with a name indicating the purpose, such as _feature_xxxxxx_
 3.  Make changes to the relevant files.
 4.  Test using your local server, using the steps mentioned [Steps to run this on your computer locally](#steps-to-run-this-on-your-computer-locally)
-5.  When ready, enter `ctrl-c` in your terminal to stop the server. Then run `npm run build` to test that the site builds corretly.
+5.  When ready, enter `ctrl-c` in your terminal to stop the server. Then run `npm run build` to test that the site builds correctly.
 6.  Resolve any errors that the terminal reports, and rerun the command `npm run build`.
 7.  Finally, check that your updates adhere to our code formatting standard, by running the command `npm run format-check`.
     The terminal will either report:
@@ -76,14 +76,18 @@
       git config --global core.filemode false
       git config --global core.autocrlf false
 
-8.  When ready, publish your branch on GitHub, and submit a Pull Request to merge your changes into the _development_ branch.
+8.  Run the spell checker to catch any spelling errors by running `npm run spellcheck`.
+    If there are spelling errors, correct them in the source files. If you encounter a valid word that is flagged
+    (such as a technical term, brand name, or Canadian English spelling), add it to `.cspell/clearpath-dictionary.txt`.
+
+9.  When ready, publish your branch on GitHub, and submit a Pull Request to merge your changes into the _development_ branch.
     Pull Requests to the _production_ branch will not merged.
     Also note that this GitHub repository has branch protection rules, that prevent you from committing directly to _production_ and _development_.
     The Pull Request will automatically request reviews from people listed in the codeowners file, but you can also add more reviewers.
 
     <img src="/static/img/readme_images/readme_github_1.png" width="467"/>
 
-9.  The administrators of this documentation will review the website for any functional issues,
+10. The administrators of this documentation will review the website for any functional issues,
     and will periodically merge the latest commits in the _development_ branch into the _production_ branch.
 
 ## Workflow for publishing OutdoorNav User Manual updates

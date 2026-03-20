@@ -154,11 +154,11 @@ from <pkg_name>.action import <action_type>
 ## Terminal Command-line
 
 In order to command the robot from the command-line, you will need to run the
-following command, where the `--feedack` argument will allow the user to view
-the action feedbacks message:
+following command, where the `--feedback` argument will allow the user to view
+the action feedback message:
 
 ```bash
 ros2 action send_goal <action_name> <action_type> <values> --feedback
 ```
 
-The `values` are based on the actions message type.
+The `values` are based on the action's message type.

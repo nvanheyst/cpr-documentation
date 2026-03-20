@@ -14,8 +14,13 @@ const config = {
   url: "https://docs.clearpathrobotics.com",
   baseUrl: "/",
   onBrokenLinks: "throw",
-  onBrokenMarkdownLinks: "throw",
   onBrokenAnchors: "throw",
+  markdown: {
+    mermaid: true,
+    hooks: {
+      onBrokenMarkdownLinks: "throw",
+    },
+  },
   favicon: "img/website_images/favicon.ico",
 
   i18n: {
@@ -233,9 +238,6 @@ const config = {
       },
       mermaid: {
         theme: {light: "default", dark: 'dark'},
-      },
-      markdown: {
-        mermaid: true,
       },
       algolia: {
         // The application ID provided by Algolia

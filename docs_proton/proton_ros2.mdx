@@ -291,7 +291,7 @@ Launch the node with `ros2` CLI:
 ros2 launch proton_ros2 proton_ros2.launch.py config_file:=/path/to/config.yaml target:=target_node namespace:=/my_namespace
 ```
 
-The launched node with automatically spin up a ROS 2 and Proton node, connect to Proton peers, and create ROS 2 publishers, subscribers, services, and clients as defined in the configuration file.
+The launched node will automatically spin up a ROS 2 and Proton node, connect to Proton peers, and create ROS 2 publishers, subscribers, services, and clients as defined in the configuration file.
 
 ## Supported messages
 
@@ -538,7 +538,7 @@ If you encounter errors while building, it may suggest that the generator was no
 ## Custom mapping
 
 Generator mappings can be customized through a configuration YAML file specific to the message or service package. To create a configuration file,
-create a `.yaml` file with the same name as your message package underneat the `config/messages` or `config/services` folder in **proton_ros2**. Inside the file,
+create a `.yaml` file with the same name as your message package underneath the `config/messages` or `config/services` folder in **proton_ros2**. Inside the file,
 add a `package:` entry with the name of your package. Then, add a `messages:` or `services:` entry. Under this section, you will add a list of each message that you want to modify:
 
 ```yaml
