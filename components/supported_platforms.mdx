@@ -1,41 +1,83 @@
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## Supported Platforms {#supported-platforms}
 
-| Platform  | Platform code | Humble (`amd64`) | Humble (`arm64`) | Jazzy (`amd64`) | Jazzy (`arm64`) |
-|:--------- |:------------- |:---------------- |:---------------- |:--------------- |:--------------- |
-| Husky     | A200          | Yes (as of 0.1)  | No               | Yes (as of 2.0) | Coming Soon     |
-|           | A300          | No               | No               | Yes (as of 2.0) | Coming Soon     |
-| Jackal    | J100          | Yes (as of 0.1)  | Source           | Yes (as of 2.3) | Coming Soon     |
-| Warthog   | W200          | Yes (as of 0.2)  | No               | Yes (as of 2.6) | Coming Soon     |
-| Dingo     | DD100         | Yes (as of 0.3)  | Source           | Yes (as of 2.3) | Coming Soon     |
-|           | DO100         | Yes (as of 1.0)  | Source           | Yes (as of 2.3) | Coming Soon     |
-|           | DD150         | Yes (as of 0.3)  | Source           | Yes (as of 2.3) | Coming Soon     |
-|           | DO150         | Yes (as of 1.0)  | Source           | Yes (as of 2.3) | Coming Soon     |
-| Ridgeback | R100          | Yes (as of 0.3)  | Source           | Yes (as of 2.3) | Coming Soon     |
-| Boxer     | B250          | No               | No               | No              | No              |
+
+<Tabs defaultValue={props.rosVersion || 'jazzy'}>
+	<TabItem value="humble" label="ROS 2 Humble">
+
+| Platform  | Platform code | amd64           | arm64           |
+|:--------- |:------------- |:----------------|:----------------|
+| Husky     | A200          | Yes (as of 0.1) | No              |
+|           | A300          | No              | No              |
+| Jackal    | J100          | Yes (as of 0.1) | Source          |
+| Warthog   | W200          | Yes (as of 0.2) | No              |
+| Dingo     | DD100         | Yes (as of 0.3) | Source          |
+|           | DO100         | Yes (as of 1.0) | Source          |
+|           | DD150         | Yes (as of 0.3) | Source          |
+|           | DO150         | Yes (as of 1.0) | Source          |
+| Ridgeback | R100          | Yes (as of 0.3) | Source          |
+| Boxer     | B250          | No              | No              |
+
+	</TabItem>
+	<TabItem value="jazzy" label="ROS 2 Jazzy">
+
+| Platform  | Platform code | amd64           | arm64        |
+|:--------- |:------------- |:----------------|:-------------|
+| Husky     | A200          | Yes (as of 2.0) | Coming Soon  |
+|           | A300          | Yes (as of 2.0) | Coming Soon  |
+| Jackal    | J100          | Yes (as of 2.3) | Coming Soon  |
+| Warthog   | W200          | Yes (as of 2.6) | Coming Soon  |
+| Dingo     | DD100         | Yes (as of 2.3) | Coming Soon  |
+|           | DO100         | Yes (as of 2.3) | Coming Soon  |
+|           | DD150         | Yes (as of 2.3) | Coming Soon  |
+|           | DO150         | Yes (as of 2.3) | Coming Soon  |
+| Ridgeback | R100          | Yes (as of 2.3) | Coming Soon  |
+| Boxer     | B250          | No              | No           |
+
+	</TabItem>
+</Tabs>
 
 ## Supported ROS 2 Middleware {#supported-middleware}
 
 :::note
-
 If you need your Clearpath robot to interact with systems that rely on unsupported middleware, please
 refer to [ROS' middleware documentation](https://docs.ros.org/en/jazzy/Concepts/Intermediate/About-Different-Middleware-Vendors.html)
 for information on cross-vendor communication.
-
 :::
 
 
+<Tabs defaultValue={props.rosVersion || 'jazzy'}>
+	<TabItem value="humble" label="ROS 2 Humble">
 
-| Platform  | Platform code | Fast DDS | CycloneDDS                                        | Connext DDS | GurumDDS | Zenoh                                             |
-|:--------- |:------------- |:-------- |:------------------------------------------------- |:----------- |:-------- |:------------------------------------------------- |
-| Husky     | A200          | Yes      | Yes                                               | No          | No       | Yes                                               |
-|           | A300          | Yes      | <a href="#proton-requirement">Yes (as of 2.9)</a> | No          | No       | <a href="#proton-requirement">Yes (as of 2.9)</a> |
-| Jackal    | J100          | Yes      | <a href="#proton-requirement">Yes (as of 2.9)</a> | No          | No       | <a href="#proton-requirement">Yes (as of 2.9)</a> |
-| Warthog   | W200          | Yes      | <a href="#proton-requirement">Yes (as of 2.9)</a> | No          | No       | <a href="#proton-requirement">Yes (as of 2.9)</a> |
-| Dingo     | DD100         | Yes      | <a href="#proton-requirement">Yes (as of 2.9)</a> | No          | No       | <a href="#proton-requirement">Yes (as of 2.9)</a> |
-|           | DO100         | Yes      | <a href="#proton-requirement">Yes (as of 2.9)</a> | No          | No       | <a href="#proton-requirement">Yes (as of 2.9)</a> |
-|           | DD150         | Yes      | <a href="#proton-requirement">Yes (as of 2.9)</a> | No          | No       | <a href="#proton-requirement">Yes (as of 2.9)</a> |
-|           | DO150         | Yes      | <a href="#proton-requirement">Yes (as of 2.9)</a> | No          | No       | <a href="#proton-requirement">Yes (as of 2.9)</a> |
-| Ridgeback | R100          | Yes      | <a href="#proton-requirement">Yes (as of 2.9)</a> | No          | No       | <a href="#proton-requirement">Yes (as of 2.9)</a> |
+| Platform  | Platform code | Fast DDS | CycloneDDS | Zenoh | Connext DDS | GurumDDS |
+|:--------- |:------------- |:-------- |:---------- |:------|:----------- |:-------- |
+| Husky     | A200          | Yes      | No         | No    | No          | No       |
+|           | A300          | Yes      | No         | No    | No          | No       |
+| Jackal    | J100          | Yes      | No         | No    | No          | No       |
+| Warthog   | W200          | Yes      | No         | No    | No          | No       |
+| Dingo     | DD100         | Yes      | No         | No    | No          | No       |
+|           | DO100         | Yes      | No         | No    | No          | No       |
+|           | DD150         | Yes      | No         | No    | No          | No       |
+|           | DO150         | Yes      | No         | No    | No          | No       |
+| Ridgeback | R100          | Yes      | No         | No    | No          | No       |
+
+	</TabItem>
+	<TabItem value="jazzy" label="ROS 2 Jazzy">
+
+| Platform  | Platform code | Fast DDS | CycloneDDS                                        | Zenoh                                             | Connext DDS | GurumDDS |
+|:--------- |:------------- |:-------- |:------------------------------------------------- |:------------------------------------------------- |:----------- |:-------- |
+| Husky     | A200          | Yes      | Yes                                               | Yes                                               | No          | No       |
+|           | A300          | Yes      | <a href="#proton-requirement">Yes (as of 2.9)</a> | <a href="#proton-requirement">Yes (as of 2.9)</a> | No          | No       |
+| Jackal    | J100          | Yes      | <a href="#proton-requirement">Yes (as of 2.9)</a> | <a href="#proton-requirement">Yes (as of 2.9)</a> | No          | No       |
+| Warthog   | W200          | Yes      | <a href="#proton-requirement">Yes (as of 2.9)</a> | <a href="#proton-requirement">Yes (as of 2.9)</a> | No          | No       |
+| Dingo     | DD100         | Yes      | <a href="#proton-requirement">Yes (as of 2.9)</a> | <a href="#proton-requirement">Yes (as of 2.9)</a> | No          | No       |
+|           | DO100         | Yes      | <a href="#proton-requirement">Yes (as of 2.9)</a> | <a href="#proton-requirement">Yes (as of 2.9)</a> | No          | No       |
+|           | DD150         | Yes      | <a href="#proton-requirement">Yes (as of 2.9)</a> | <a href="#proton-requirement">Yes (as of 2.9)</a> | No          | No       |
+|           | DO150         | Yes      | <a href="#proton-requirement">Yes (as of 2.9)</a> | <a href="#proton-requirement">Yes (as of 2.9)</a> | No          | No       |
+| Ridgeback | R100          | Yes      | <a href="#proton-requirement">Yes (as of 2.9)</a> | <a href="#proton-requirement">Yes (as of 2.9)</a> | No          | No       |
 
 <div id="proton-requirement" class="anchor-target">
 :::warning[Proton Requirement]
@@ -44,3 +86,6 @@ Middleware support other than Fast DDS requires `clearpath_firmware` version `3.
 
 :::
 </div>
+
+	</TabItem>
+</Tabs>
