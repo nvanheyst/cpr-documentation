@@ -84,6 +84,8 @@
     Pull Requests to the _production_ branch will not merged.
     Also note that this GitHub repository has branch protection rules, that prevent you from committing directly to _production_ and _development_.
     The Pull Request will automatically request reviews from people listed in the codeowners file, but you can also add more reviewers.
+    PRs opened by organization members are automatically assigned to the author.
+    PRs from external contributors are automatically assigned to the code owners.
 
     <img src="/static/img/readme_images/readme_github_1.png" width="467"/>
 
