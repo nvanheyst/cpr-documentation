@@ -61,29 +61,9 @@ platform:
 ```
 
   </TabItem>
-  <TabItem value="J100" label="J100">
+  <TabItem value="D1X0-D" label="D1X0-D">
 
-**J100 Jackal Controller Defaults:**
-```yaml
-platform:
-  extras:
-    ros_parameters:
-      platform_velocity_controller:
-        wheel_radius: 0.098
-        linear.x.max_velocity: 2.0
-        linear.x.min_velocity: -2.0
-        linear.x.max_acceleration: 20.0
-        linear.x.min_acceleration: -20.0
-        angular.z.max_velocity: 4.0
-        angular.z.min_velocity: -4.0
-        angular.z.max_acceleration: 25.0
-        angular.z.min_acceleration: -25.0
-```
-
-  </TabItem>
-  <TabItem value="D100" label="D100">
-
-**D100 Dingo-D Controller Defaults:**
+**D1X0-D Dingo-D Controller Defaults:**
 ```yaml
 platform:
   extras:
@@ -101,9 +81,9 @@ platform:
 ```
 
   </TabItem>
-  <TabItem value="D150" label="D150">
+  <TabItem value="D1X0-O" label="D1X0-O">
 
-**D150 Dingo-O Controller Defaults:**
+**D1X0-O Dingo-O Controller Defaults:**
 ```yaml
 platform:
   extras:
@@ -122,6 +102,26 @@ platform:
         angular.z.min_velocity: -4.0
         angular.z.max_acceleration: 2.0
         angular.z.min_acceleration: -2.0
+```
+
+  </TabItem>
+  <TabItem value="J100" label="J100">
+
+**J100 Jackal Controller Defaults:**
+```yaml
+platform:
+  extras:
+    ros_parameters:
+      platform_velocity_controller:
+        wheel_radius: 0.098
+        linear.x.max_velocity: 2.0
+        linear.x.min_velocity: -2.0
+        linear.x.max_acceleration: 20.0
+        linear.x.min_acceleration: -20.0
+        angular.z.max_velocity: 4.0
+        angular.z.min_velocity: -4.0
+        angular.z.max_acceleration: 25.0
+        angular.z.min_acceleration: -25.0
 ```
 
   </TabItem>
