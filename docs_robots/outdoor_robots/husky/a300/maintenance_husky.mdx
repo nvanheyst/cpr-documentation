@@ -270,7 +270,7 @@ be reviewed to confirm a successful update.
 
 **Feedback (during the update)**
 
-While the update is in progress, the action publishes a `Feedback` message containing a `progress` array — one
+While the update is in progress, the action publishes a `Feedback` message containing a `progress` array, with one
 entry per motor controller (front-left, front-right, rear-left, rear-right). Each value is the percentage of the
 firmware image that has been transferred to that controller (0.0 - 100.0). A typical feedback block looks like:
 
@@ -288,11 +288,11 @@ successfully. It is normal to see one controller briefly lag behind the others.
 
 **Result (when the update finishes)**
 
-When the action completes, a `Result` message is printed with a `success` array — again one entry per motor
+When the action completes, a `Result` message is printed with a `success` array, again with one entry per motor
 controller, in the same order as the feedback `progress` array. A `true` value means that controller was
 re-flashed with the new firmware; a `false` value means that controller was already running the target firmware
 version (or did not need to be updated) and was therefore skipped. The action itself reports
-`Goal finished with status: SUCCEEDED` in both cases — `false` entries are **not** an error.
+`Goal finished with status: SUCCEEDED` in both cases; `false` entries are **not** an error.
 
 ```
 Result:
