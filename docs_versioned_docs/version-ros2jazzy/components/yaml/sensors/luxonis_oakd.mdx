@@ -61,10 +61,60 @@ in `clearpath_sensors`.
 
 #### Device Type
 
-The `device_type` parameter specified what specific model of OAK-D camera is used. Supported types are:
+The `device_type` parameter specifies what specific model of OAK-D camera is used. Supported types are:
 - `pro`: the [OAK-D Pro](https://shop.luxonis.com/products/oak-d-pro) (default);
 - `lite`: the [OAK-D Lite](https://shop.luxonis.com/products/oak-d-lite-1); and
 - `pro_w_poe`: the [OAK-D Pro W PoE](https://shop.luxonis.com/products/oak-d-pro-w-poe)
+
+#### Pipeline Types
+
+The `camera.i_pipeline_type` parameter controls what data the camera produces. The following pipeline types are supported:
+
+| Pipeline Type | Description |
+| :------------ | :---------- |
+| `RGB`         | RGB camera only (no depth or stereo output) |
+| `RGBD`        | RGB camera with stereo depth (default) |
+| `RGBStereo`   | RGB camera with stereo pair |
+| `Stereo`      | Stereo pair only (no RGB) |
+| `Depth`       | Depth output only |
+| `DepthToF`    | Depth output using Time-of-Flight |
+| `StereoToF`   | Stereo pair using Time-of-Flight |
+
+#### Point Clouds
+
+When using a depth-capable pipeline type (`RGBD`, `RGBStereo`, `Stereo`, `Depth`, `DepthToF`, or `StereoToF`),
+a `PointCloudXyzNode` from the `depth_image_proc` package is automatically launched alongside the camera driver.
+This node converts the stereo depth image into a `sensor_msgs/msg/PointCloud2` message.
+
+The point cloud is generated from the `stereo/image` and `stereo/camera_info` topics and is published
+on the `points` topic under the camera's namespace.
+
+To enable point clouds, set the pipeline type to `RGBD` (or another depth pipeline) in your robot configuration:
+
+```yaml
+camera:
+- model: luxonis_oakd
+  urdf_enabled: true
+  launch_enabled: true
+  parent: top_plate_front_mount
+  xyz: [0.0, 0.0, 0.0]
+  rpy: [0.0, 0.0, 0.0]
+  ros_parameters:
+    luxonis_oakd:
+      device_type: pro_w_poe
+      camera:
+        i_pipeline_type: RGBD
+      stereo:
+        i_fps: 30.0
+        i_height: 720
+        i_width: 1280
+```
+
+If you do not need point clouds and only require an RGB image stream, set `i_pipeline_type` to `RGB`.
+
+:::note
+Point clouds are not generated when using the `RGB` pipeline type.
+:::
 
 #### Multiple Cameras
 
